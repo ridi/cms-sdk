@@ -20,7 +20,7 @@ class AdminUserService_getAdminUserTag_result {
   static $_TSPEC;
 
   /**
-   * @var \Ridibooks\Cms\Thrift\AdminTag\AdminTag[]
+   * @var int[]
    */
   public $success = null;
   /**
@@ -38,10 +38,9 @@ class AdminUserService_getAdminUserTag_result {
         0 => array(
           'var' => 'success',
           'type' => TType::LST,
-          'etype' => TType::STRUCT,
+          'etype' => TType::I32,
           'elem' => array(
-            'type' => TType::STRUCT,
-            'class' => '\Ridibooks\Cms\Thrift\AdminTag\AdminTag',
+            'type' => TType::I32,
             ),
           ),
         1 => array(
@@ -97,8 +96,7 @@ class AdminUserService_getAdminUserTag_result {
             for ($_i11 = 0; $_i11 < $_size7; ++$_i11)
             {
               $elem12 = null;
-              $elem12 = new \Ridibooks\Cms\Thrift\AdminTag\AdminTag();
-              $xfer += $elem12->read($input);
+              $xfer += $input->readI32($elem12);
               $this->success []= $elem12;
             }
             $xfer += $input->readListEnd();
@@ -141,11 +139,11 @@ class AdminUserService_getAdminUserTag_result {
       }
       $xfer += $output->writeFieldBegin('success', TType::LST, 0);
       {
-        $output->writeListBegin(TType::STRUCT, count($this->success));
+        $output->writeListBegin(TType::I32, count($this->success));
         {
           foreach ($this->success as $iter13)
           {
-            $xfer += $iter13->write($output);
+            $xfer += $output->writeI32($iter13);
           }
         }
         $output->writeListEnd();

@@ -37,16 +37,14 @@ interface AdminUserServiceIf {
   public function getUser($userId);
   /**
    * @param string $userId
-   * @return \Ridibooks\Cms\Thrift\AdminTag\AdminTag[] AdminTagCollection 엔티티
-   * 
+   * @return int[]
    * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
   public function getAdminUserTag($userId);
   /**
    * @param string $userId
-   * @return \Ridibooks\Cms\Thrift\AdminMenu\AdminMenu[] AdminMenuCollection 엔티티
-   * 
+   * @return int[]
    * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */

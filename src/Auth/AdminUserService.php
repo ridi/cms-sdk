@@ -36,8 +36,7 @@ class AdminUserService
 
 	public static function getAdminUserTag($user_id)
 	{
-		$tags = self::getTClient()->getAdminUserTag($user_id);
-		return ThriftService::convertTagCollectionToArray($tags);
+		return self::getTClient()->getAdminUserTag($user_id);
 	}
 
 	public static function getAdminUserMenu($user_id)

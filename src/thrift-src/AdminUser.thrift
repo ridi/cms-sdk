@@ -38,14 +38,14 @@ service AdminUserService {
         2: Errors.SystemException systemException
     ),
 
-    AdminTag.AdminTagCollection getAdminUserTag(
+    list<i32> getAdminUserTag(
         1: string userId,
     ) throws (
         1: Errors.UserException userException,
         2: Errors.SystemException systemException
     ),
 
-    AdminMenu.AdminMenuCollection getAdminUserMenu(
+    list<i32> getAdminUserMenu(
         1: string userId,
     ) throws (
         1: Errors.UserException userException,

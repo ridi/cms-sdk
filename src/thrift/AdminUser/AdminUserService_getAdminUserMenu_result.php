@@ -20,7 +20,7 @@ class AdminUserService_getAdminUserMenu_result {
   static $_TSPEC;
 
   /**
-   * @var \Ridibooks\Cms\Thrift\AdminMenu\AdminMenu[]
+   * @var int[]
    */
   public $success = null;
   /**
@@ -38,10 +38,9 @@ class AdminUserService_getAdminUserMenu_result {
         0 => array(
           'var' => 'success',
           'type' => TType::LST,
-          'etype' => TType::STRUCT,
+          'etype' => TType::I32,
           'elem' => array(
-            'type' => TType::STRUCT,
-            'class' => '\Ridibooks\Cms\Thrift\AdminMenu\AdminMenu',
+            'type' => TType::I32,
             ),
           ),
         1 => array(
@@ -97,8 +96,7 @@ class AdminUserService_getAdminUserMenu_result {
             for ($_i18 = 0; $_i18 < $_size14; ++$_i18)
             {
               $elem19 = null;
-              $elem19 = new \Ridibooks\Cms\Thrift\AdminMenu\AdminMenu();
-              $xfer += $elem19->read($input);
+              $xfer += $input->readI32($elem19);
               $this->success []= $elem19;
             }
             $xfer += $input->readListEnd();
@@ -141,11 +139,11 @@ class AdminUserService_getAdminUserMenu_result {
       }
       $xfer += $output->writeFieldBegin('success', TType::LST, 0);
       {
-        $output->writeListBegin(TType::STRUCT, count($this->success));
+        $output->writeListBegin(TType::I32, count($this->success));
         {
           foreach ($this->success as $iter20)
           {
-            $xfer += $iter20->write($output);
+            $xfer += $output->writeI32($iter20);
           }
         }
         $output->writeListEnd();
