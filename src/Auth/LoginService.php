@@ -31,17 +31,17 @@ class LoginService
 		self::setSessions($id);
 	}
 
-	public static function doAzureLoginAction($id)
+	public static function doCmsLoginAction($id)
 	{
 		$user = AdminUserService::getUser($id);
 		if (!$user || $user['is_use'] != '1') {
-			throw new \Exception('Azure id와 일치하는 계정이 없습니다. 관리자에게 문의하세요.');
+			throw new \Exception('ID와 일치하는 계정이 없습니다. 관리자에게 문의하세요.');
 		}
 
 		self::setSessions($id);
 	}
 
-	public static function getCmsLoginEndPoint($login_endpoint, $callback_path, $return_path)
+	public static function getLoginPageUrl($login_endpoint, $callback_path, $return_path)
 	{
 		$scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
 		$host = $_SERVER['HTTP_HOST'];

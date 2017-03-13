@@ -17,8 +17,7 @@ class LoginControllerProvider implements ControllerProviderInterface
 		$controller_collection->get('/', [$this, 'index']);
 		$controller_collection->get('/welcome', [$this, 'getWelcomePage']);
 		$controller_collection->get('/login', [$this, 'getLoginPage']);
-		$controller_collection->post('/login', [$this, 'loginWithCms']);
-		$controller_collection->get('/login.azure', [$this, 'loginWithAzure']);
+		$controller_collection->get('/login.cms', [$this, 'loginFromCms']);
 		$controller_collection->get('/logout', [$this, 'logout']);
 		return $controller_collection;
 	}
@@ -39,11 +38,12 @@ class LoginControllerProvider implements ControllerProviderInterface
 
 		$cms = $app['cms'];
 		$login_endpoint = $cms['url'] . $cms['login_path'];
-		$callback_path = '/login.azure';
+		$callback_path = '/login.cms';
 		$return_path = $request->get('return_url');
 
-		$end_point = LoginService::getCmsLoginEndPoint($login_endpoint, $callback_path, $return_path);
-		return $app->render('login.twig', ['azure_login' => $end_point]);
+		$end_point = LoginService::getLoginPageUrl($login_endpoint, $callback_path, $return_path);
+
+		return $app->redirect($end_point);
 	}
 
 	public function loginWithCms(Request $request, CmsApplication $app)
@@ -69,14 +69,19 @@ class LoginControllerProvider implements ControllerProviderInterface
 		return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $nonce);
 	}
 
-	public function loginWithAzure(Request $request, CmsApplication $app)
+	public function loginFromCms(Request $request, CmsApplication $app)
 	{
 		$resource = $request->get('resource');
+		if (!$resource) {
+			return $app->redirect('/');
+		}
+
+		$resource = urldecode($resource);
 		$return_url = $request->get('return_url', '/welcome');
-		$id = $this->decodeResource(urldecode($resource), $app['login_encrypt_key']);
+		$id = $this->decodeResource($resource, $app['login_encrypt_key']);
 
 		try {
-			LoginService::doAzureLoginAction($id);
+			LoginService::doCmsLoginAction($id);
 			return RedirectResponse::create($return_url);
 		} catch (\Exception $e) {
 			return UrlHelper::printAlertRedirect('/login?return_url=' . urlencode($return_url), $e->getMessage());
