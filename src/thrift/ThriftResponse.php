@@ -4,7 +4,7 @@ namespace Ridibooks\Cms\Thrift;
 
 use Ridibooks\Cms\Service\AdminMenuService;
 use Ridibooks\Cms\Service\AdminTagService;
-use Ridibooks\Cms\Server\Service\AdminUserService;
+use Ridibooks\Cms\Service\AdminUserService;
 use Ridibooks\Cms\Thrift\AdminMenu\AdminMenuServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminTag\AdminTagServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminUser\AdminUserServiceProcessor;
