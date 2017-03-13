@@ -1,9 +1,6 @@
-.PHONY: all server client thrift
+.PHONY: all client thrift
 
-all: server client thrift
-
-server:
-	make -C server
+all: client thrift
 
 client:
 	composer update --no-dev --optimize-autoloader
