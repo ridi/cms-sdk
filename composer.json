@@ -1,5 +1,5 @@
 {
-  "name": "ridibooks/cms",
+  "name": "ridibooks/cms-sdk",
   "description": "Ridibooks CMS SDK",
   "license": "MIT",
   "authors": [
@@ -36,7 +36,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Ridibooks\\Platform\\Cms\\": "src"
+      "Ridibooks\\Platform\\Cms\\": "src",
+      "Ridibooks\\Cms\\Thrift\\": "src/thrift"
     }
   }
 }

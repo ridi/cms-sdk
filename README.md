@@ -2,7 +2,7 @@
 
 To install with Composer, run next command:
 ```
-composer require ridibooks/cms dev-master
+composer require ridibooks/cms-sdk dev-master
 ```
 
-[![Packagist](https://img.shields.io/packagist/v/ridibooks/cms.svg)](https://packagist.org/packages/ridibooks/cms)
+[![Packagist](https://img.shields.io/packagist/v/ridibooks/cmscms-sdk.svg)](https://packagist.org/packages/ridibooks/cms-sdk)
