@@ -52,7 +52,7 @@ class LoginService
             $return_path = '/' . $return_path;
         }
         $callback_path = $scheme . '://' . $host . $callback_path;
-        return $login_endpoint . '?callback=' . urlencode($callback_path) . '&return_url=' . urlencode($return_path);
+        return $login_endpoint . '?callback=' . $callback_path . '&return_url=' . $return_path;
     }
 
     /**
