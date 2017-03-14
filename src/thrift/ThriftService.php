@@ -5,7 +5,6 @@ namespace Ridibooks\Cms\Thrift;
 use Thrift\Protocol\TJSONProtocol;
 use Thrift\Protocol\TMultiplexedProtocol;
 use Thrift\Transport\TBufferedTransport;
-use Thrift\Transport\THttpClient;
 use Thrift\Transport\TSocket;
 
 class ThriftService
@@ -25,7 +24,7 @@ class ThriftService
 
 	public static function getHttpClient($thrift_name)
 	{
-		$transport = new THttpClient(self::$host, self::$port, self::$path, self::$scheme);
+		$transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
 		$protocol = new TJSONProtocol($transport);
 		$multiplexed_protocol = new TMultiplexedProtocol($protocol, $thrift_name);
 		return self::getClient($thrift_name, $multiplexed_protocol);
