@@ -13,193 +13,193 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CmsApplication extends Application
 {
-	use TwigTrait;
+    use TwigTrait;
 
-	public function __construct(array $values = [])
-	{
-		parent::__construct($values);
+    public function __construct(array $values = [])
+    {
+        parent::__construct($values);
 
-		$this->setDefaultErrorHandler();
-		$this->registerTwigServiceProvider();
-		$this->registerSessionServiceProvider();
-		$this->setThriftService();
-		$this->setRoutes();
-	}
+        $this->setDefaultErrorHandler();
+        $this->registerTwigServiceProvider();
+        $this->registerSessionServiceProvider();
+        $this->setThriftService();
+        $this->setRoutes();
+    }
 
-	private function setDefaultErrorHandler()
-	{
-		$this['debug'] = \Config::$UNDER_DEV;
-		$this->error(function (\Exception $e) {
-			if ($this['debug']) {
-				return null;
-			}
+    private function setDefaultErrorHandler()
+    {
+        $this['debug'] = \Config::$UNDER_DEV;
+        $this->error(function (\Exception $e) {
+            if ($this['debug']) {
+                return null;
+            }
 
-			if ($e instanceof HttpException) {
-				return Response::create($e->getMessage(), $e->getStatusCode(), $e->getHeaders());
-			}
+            if ($e instanceof HttpException) {
+                return Response::create($e->getMessage(), $e->getStatusCode(), $e->getHeaders());
+            }
 
-			throw $e;
-		});
-	}
+            throw $e;
+        });
+    }
 
-	private function registerTwigServiceProvider()
-	{
-		$this->register(
-			new TwigServiceProvider(),
-			[
-				'twig.env.globals' => [],
-				'twig.options' => [
-					'cache' => sys_get_temp_dir() . '/twig_cache_v12',
-					'auto_reload' => true,
-					// TwigServiceProvider에서 기본으로 $this['debug']와 같게 설정되어 있는데 true 일경우
-					// if xxx is defined로 변수를 일일이 체크해줘야 하는 문제가 있어서 override 함
-					'strict_variables' => false
-				]
-			]
-		);
+    private function registerTwigServiceProvider()
+    {
+        $this->register(
+            new TwigServiceProvider(),
+            [
+                'twig.env.globals' => [],
+                'twig.options' => [
+                    'cache' => sys_get_temp_dir() . '/twig_cache_v12',
+                    'auto_reload' => true,
+                    // TwigServiceProvider에서 기본으로 $this['debug']와 같게 설정되어 있는데 true 일경우
+                    // if xxx is defined로 변수를 일일이 체크해줘야 하는 문제가 있어서 override 함
+                    'strict_variables' => false
+                ]
+            ]
+        );
 
-		// see http://silex.sensiolabs.org/doc/providers/twig.html#customization
-		$this['twig'] = $this->extend(
-			'twig',
-			function (\Twig_Environment $twig) {
-				$globals = array_merge($this->getTwigGlobalVariables(), $this['twig.env.globals']);
-				foreach ($globals as $k => $v) {
-					$twig->addGlobal($k, $v);
-				}
+        // see http://silex.sensiolabs.org/doc/providers/twig.html#customization
+        $this['twig'] = $this->extend(
+            'twig',
+            function (\Twig_Environment $twig) {
+                $globals = array_merge($this->getTwigGlobalVariables(), $this['twig.env.globals']);
+                foreach ($globals as $k => $v) {
+                    $twig->addGlobal($k, $v);
+                }
 
-				foreach ($this->getTwigGlobalFilters() as $filter) {
-					$twig->addFilter($filter);
-				}
+                foreach ($this->getTwigGlobalFilters() as $filter) {
+                    $twig->addFilter($filter);
+                }
 
-				return $twig;
-			}
-		);
+                return $twig;
+            }
+        );
 
-		$this['twig.loader.filesystem'] = $this->extend(
-			'twig.loader.filesystem',
-			function (\Twig_Loader_Filesystem $loader) {
-				$loader->addPath(__DIR__ . '/../views/');
+        $this['twig.loader.filesystem'] = $this->extend(
+            'twig.loader.filesystem',
+            function (\Twig_Loader_Filesystem $loader) {
+                $loader->addPath(__DIR__ . '/../views/');
 
-				return $loader;
-			}
-		);
-	}
+                return $loader;
+            }
+        );
+    }
 
-	private function getTwigGlobalVariables()
-	{
-		$cms = $this['cms'];
+    private function getTwigGlobalVariables()
+    {
+        $cms = $this['cms'];
 
-		$globals = [
-			'FRONT_URL' => 'http://' . \Config::$DOMAIN,
-			'STATIC_URL' => '/admin/static',
-			'BOWER_PATH' => $cms['url'] . '/static/bower_components',
+        $globals = [
+            'FRONT_URL' => 'http://' . \Config::$DOMAIN,
+            'STATIC_URL' => '/admin/static',
+            'BOWER_PATH' => $cms['url'] . '/static/bower_components',
 
-			'MISC_URL' => \Config::$MISC_URL,
-			'BANNER_URL' => \Config::$ACTIVE_URL . '/ridibooks_banner/',
-			'ACTIVE_URL' => \Config::$ACTIVE_URL,
-			'DM_IMAGE_URL' => \Config::$ACTIVE_URL . '/ridibooks_dm/',
+            'MISC_URL' => \Config::$MISC_URL,
+            'BANNER_URL' => \Config::$ACTIVE_URL . '/ridibooks_banner/',
+            'ACTIVE_URL' => \Config::$ACTIVE_URL,
+            'DM_IMAGE_URL' => \Config::$ACTIVE_URL . '/ridibooks_dm/',
 
-			'PHP_SELF' => $_SERVER['PHP_SELF'],
-			'REQUEST_URI' => $_SERVER['REQUEST_URI'],
+            'PHP_SELF' => $_SERVER['PHP_SELF'],
+            'REQUEST_URI' => $_SERVER['REQUEST_URI'],
 
-			"HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
-			"SSL_HOST_LINK" => \Config::$SSL_HOST_LINK,
+            "HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
+            "SSL_HOST_LINK" => \Config::$SSL_HOST_LINK,
 
-			'base_url' => \Config::$DOMAIN
-		];
+            'base_url' => \Config::$DOMAIN
+        ];
 
-		if (isset($_SESSION['session_user_menu'])) {
-			$globals['session_user_menu'] = $_SESSION['session_user_menu'];
-		}
+        if (isset($_SESSION['session_user_menu'])) {
+            $globals['session_user_menu'] = $_SESSION['session_user_menu'];
+        }
 
-		return $globals;
-	}
+        return $globals;
+    }
 
-	private function getTwigGlobalFilters()
-	{
-		return [
-			new \Twig_SimpleFilter('strtotime', 'strtotime')
-		];
-	}
+    private function getTwigGlobalFilters()
+    {
+        return [
+            new \Twig_SimpleFilter('strtotime', 'strtotime')
+        ];
+    }
 
-	private function registerSessionServiceProvider()
-	{
-		$this->register(
-			new SessionServiceProvider(),
-			[
-				'session.storage.handler' => null
-			]
-		);
+    private function registerSessionServiceProvider()
+    {
+        $this->register(
+            new SessionServiceProvider(),
+            [
+                'session.storage.handler' => null
+            ]
+        );
 
-		$this['flashes'] = $this->getFlashBag()->all();
-	}
+        $this['flashes'] = $this->getFlashBag()->all();
+    }
 
-	private function setRoutes()
-	{
-		$this->mount('/', new LoginControllerProvider());
-		$this->mount('/me', new UserControllerProvider());
+    private function setRoutes()
+    {
+        $this->mount('/', new LoginControllerProvider());
+        $this->mount('/me', new UserControllerProvider());
 
-		$this->get('comm/user_list.ajax', function () {
-			$result = [];
+        $this->get('comm/user_list.ajax', function () {
+            $result = [];
 
-			try {
-				$result['data'] = AdminUserService::getAllAdminUserArray();
-				$result['success'] = true;
-			} catch (\Exception $e) {
-				$result['success'] = false;
-				$result['msg'] = [$e->getMessage()];
-			}
+            try {
+                $result['data'] = AdminUserService::getAllAdminUserArray();
+                $result['success'] = true;
+            } catch (\Exception $e) {
+                $result['success'] = false;
+                $result['msg'] = [$e->getMessage()];
+            }
 
-			return $this->json((array)$result);
-		});
-	}
+            return $this->json((array)$result);
+        });
+    }
 
-	private function setThriftService()
-	{
-		if (!isset($this['cms'])) {
-			throw new \InvalidArgumentException('Provide a config for cms');
-		}
+    private function setThriftService()
+    {
+        if (!isset($this['cms'])) {
+            throw new \InvalidArgumentException('Provide a config for cms');
+        }
 
-		$cms = $this['cms'];
-		if ( !isset($cms['url']) || !isset($cms['login_path']) || !isset($cms['thrift_path'])) {
-			throw new \InvalidArgumentException('Provide a config for cms server end points');
-		}
+        $cms = $this['cms'];
+        if (!isset($cms['url']) || !isset($cms['login_path']) || !isset($cms['thrift_path'])) {
+            throw new \InvalidArgumentException('Provide a config for cms server end points');
+        }
 
-		$parsed = parse_url($cms['url']);
-		$host = $parsed['host'];
-		$port = $parsed['port'];
-		$scheme = $parsed['scheme'];
-		if (!$port) {
-			$port = ($scheme === 'https') ? 443 : 80;
-		}
+        $parsed = parse_url($cms['url']);
+        $host = $parsed['host'];
+        $port = $parsed['port'];
+        $scheme = $parsed['scheme'];
+        if (!$port) {
+            $port = ($scheme === 'https') ? 443 : 80;
+        }
 
-		$thrift_path = $cms['thrift_path'];
+        $thrift_path = $cms['thrift_path'];
 
-		ThriftService::init($host, $port, $thrift_path, $scheme);
-	}
+        ThriftService::init($host, $port, $thrift_path, $scheme);
+    }
 
-	public function addFlashInfo($message)
-	{
-		$this->getFlashBag()->add('info', $message);
-	}
+    public function addFlashInfo($message)
+    {
+        $this->getFlashBag()->add('info', $message);
+    }
 
-	public function addFlashSuccess($message)
-	{
-		$this->getFlashBag()->add('success', $message);
-	}
+    public function addFlashSuccess($message)
+    {
+        $this->getFlashBag()->add('success', $message);
+    }
 
-	public function addFlashWarning($message)
-	{
-		$this->getFlashBag()->add('warning', $message);
-	}
+    public function addFlashWarning($message)
+    {
+        $this->getFlashBag()->add('warning', $message);
+    }
 
-	public function addFlashError($message)
-	{
-		$this->getFlashBag()->add('danger', $message);
-	}
+    public function addFlashError($message)
+    {
+        $this->getFlashBag()->add('danger', $message);
+    }
 
-	public function getFlashBag(): FlashBag
-	{
-		return $this['session']->getFlashBag();
-	}
+    public function getFlashBag(): FlashBag
+    {
+        return $this['session']->getFlashBag();
+    }
 }

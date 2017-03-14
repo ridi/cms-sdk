@@ -11,86 +11,86 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LoginControllerProvider implements ControllerProviderInterface
 {
-	public function connect(Application $app)
-	{
-		$controller_collection = $app['controllers_factory'];
-		$controller_collection->get('/', [$this, 'index']);
-		$controller_collection->get('/welcome', [$this, 'getWelcomePage']);
-		$controller_collection->get('/login', [$this, 'getLoginPage']);
-		$controller_collection->get('/login.cms', [$this, 'loginFromCms']);
-		$controller_collection->get('/logout', [$this, 'logout']);
-		return $controller_collection;
-	}
+    public function connect(Application $app)
+    {
+        $controller_collection = $app['controllers_factory'];
+        $controller_collection->get('/', [$this, 'index']);
+        $controller_collection->get('/welcome', [$this, 'getWelcomePage']);
+        $controller_collection->get('/login', [$this, 'getLoginPage']);
+        $controller_collection->get('/login.cms', [$this, 'loginFromCms']);
+        $controller_collection->get('/logout', [$this, 'logout']);
+        return $controller_collection;
+    }
 
-	public function index(Request $request, CmsApplication $app)
-	{
-		return $app->redirect('/welcome');
-	}
+    public function index(Request $request, CmsApplication $app)
+    {
+        return $app->redirect('/welcome');
+    }
 
-	public function getWelcomePage(Request $request, CmsApplication $app)
-	{
-		return $app->render('welcome.twig');
-	}
+    public function getWelcomePage(Request $request, CmsApplication $app)
+    {
+        return $app->render('welcome.twig');
+    }
 
-	public function getLoginPage(Request $request, CmsApplication $app)
-	{
-		LoginService::resetSession();
+    public function getLoginPage(Request $request, CmsApplication $app)
+    {
+        LoginService::resetSession();
 
-		$cms = $app['cms'];
-		$login_endpoint = $cms['url'] . $cms['login_path'];
-		$callback_path = '/login.cms';
-		$return_path = $request->get('return_url');
+        $cms = $app['cms'];
+        $login_endpoint = $cms['url'] . $cms['login_path'];
+        $callback_path = '/login.cms';
+        $return_path = $request->get('return_url');
 
-		$end_point = LoginService::getLoginPageUrl($login_endpoint, $callback_path, $return_path);
+        $end_point = LoginService::getLoginPageUrl($login_endpoint, $callback_path, $return_path);
 
-		return $app->redirect($end_point);
-	}
+        return $app->redirect($end_point);
+    }
 
-	public function loginWithCms(Request $request, CmsApplication $app)
-	{
-		$id = $request->get('id');
-		$passwd = $request->get('passwd');
-		$return_url = $request->get('return_url', '/welcome');
+    public function loginWithCms(Request $request, CmsApplication $app)
+    {
+        $id = $request->get('id');
+        $passwd = $request->get('passwd');
+        $return_url = $request->get('return_url', '/welcome');
 
-		try {
-			LoginService::doLoginAction($id, $passwd);
-			return RedirectResponse::create($return_url);
-		} catch (\Exception $e) {
-			return UrlHelper::printAlertRedirect('/login?return_url=' . urlencode($return_url), $e->getMessage());
-		}
-	}
+        try {
+            LoginService::doLoginAction($id, $passwd);
+            return RedirectResponse::create($return_url);
+        } catch (\Exception $e) {
+            return UrlHelper::printAlertRedirect('/login?return_url=' . urlencode($return_url), $e->getMessage());
+        }
+    }
 
-	private function decodeResource($resource, $key)
-	{
-		$method = 'aes-256-ctr';
-		$nonceSize = openssl_cipher_iv_length($method);
-		$nonce = mb_substr($resource, 0, $nonceSize, '8bit');
-		$ciphertext = mb_substr($resource, $nonceSize, null, '8bit');
-		return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $nonce);
-	}
+    private function decodeResource($resource, $key)
+    {
+        $method = 'aes-256-ctr';
+        $nonceSize = openssl_cipher_iv_length($method);
+        $nonce = mb_substr($resource, 0, $nonceSize, '8bit');
+        $ciphertext = mb_substr($resource, $nonceSize, null, '8bit');
+        return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $nonce);
+    }
 
-	public function loginFromCms(Request $request, CmsApplication $app)
-	{
-		$resource = $request->get('resource');
-		if (!$resource) {
-			return $app->redirect('/');
-		}
+    public function loginFromCms(Request $request, CmsApplication $app)
+    {
+        $resource = $request->get('resource');
+        if (!$resource) {
+            return $app->redirect('/');
+        }
 
-		$resource = urldecode($resource);
-		$return_url = $request->get('return_url', '/welcome');
-		$id = $this->decodeResource($resource, $app['login_encrypt_key']);
+        $resource = urldecode($resource);
+        $return_url = $request->get('return_url', '/welcome');
+        $id = $this->decodeResource($resource, $app['login_encrypt_key']);
 
-		try {
-			LoginService::doCmsLoginAction($id);
-			return RedirectResponse::create($return_url);
-		} catch (\Exception $e) {
-			return UrlHelper::printAlertRedirect('/login?return_url=' . urlencode($return_url), $e->getMessage());
-		}
-	}
+        try {
+            LoginService::doCmsLoginAction($id);
+            return RedirectResponse::create($return_url);
+        } catch (\Exception $e) {
+            return UrlHelper::printAlertRedirect('/login?return_url=' . urlencode($return_url), $e->getMessage());
+        }
+    }
 
-	public function logout(Request $request, CmsApplication $app)
-	{
-		LoginService::resetSession();
-		return RedirectResponse::create('/');
-	}
+    public function logout(Request $request, CmsApplication $app)
+    {
+        LoginService::resetSession();
+        return RedirectResponse::create('/');
+    }
 }
