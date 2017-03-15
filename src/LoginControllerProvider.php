@@ -17,7 +17,7 @@ class LoginControllerProvider implements ControllerProviderInterface
         $controller_collection->get('/', [$this, 'index']);
         $controller_collection->get('/welcome', [$this, 'getWelcomePage']);
         $controller_collection->get('/login', [$this, 'getLoginPage']);
-        $controller_collection->get('/login.cms', [$this, 'loginFromCms']);
+        $controller_collection->get('/login-cms', [$this, 'loginFromCms']);
         $controller_collection->get('/logout', [$this, 'logout']);
         return $controller_collection;
     }
@@ -38,7 +38,7 @@ class LoginControllerProvider implements ControllerProviderInterface
 
         $cms = $app['cms'];
         $login_endpoint = $cms['url'] . $cms['login_path'];
-        $callback_path = '/login.cms';
+        $callback_path = '/login-cms';
         $return_path = $request->get('return_url');
 
         $end_point = LoginService::getLoginPageUrl($login_endpoint, $callback_path, $return_path);
