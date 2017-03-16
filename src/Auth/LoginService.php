@@ -41,18 +41,15 @@ class LoginService
         self::setSessions($id);
     }
 
-    public static function getLoginPageUrl($login_endpoint, $callback_path, $return_path)
+    public static function getLoginPageUrl($login_endpoint, $return_path)
     {
         $scheme = isset($_SERVER['HTTPS']) ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'];
-        if ($callback_path[0] != '/') {
-            $callback_path = '/' . $callback_path;
-        }
         if ($return_path[0] != '/') {
             $return_path = '/' . $return_path;
         }
-        $callback_path = $scheme . '://' . $host . $callback_path;
-        return $login_endpoint . '?callback=' . urlencode($callback_path) . '&return_url=' . urlencode($return_path);
+        $callback_path = $scheme . '://' . $host . $return_path;
+        return $login_endpoint . '?return_url=' . urlencode($callback_path);
     }
 
     /**

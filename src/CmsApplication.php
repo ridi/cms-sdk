@@ -161,7 +161,7 @@ class CmsApplication extends Application
         }
 
         $cms = $this['cms'];
-        if (!isset($cms['url']) || !isset($cms['login_path']) || !isset($cms['thrift_path'])) {
+        if (!isset($cms['url']) || !isset($cms['login_path']) || !isset($cms['rpc_path'])) {
             throw new \InvalidArgumentException('Provide a config for cms server end points');
         }
 
@@ -173,9 +173,9 @@ class CmsApplication extends Application
             $port = ($scheme === 'https') ? 443 : 80;
         }
 
-        $thrift_path = $cms['thrift_path'];
+		$rpc_path = $cms['rpc_path'];
 
-        ThriftService::init($host, $port, $thrift_path, $scheme);
+        ThriftService::init($host, $port, $rpc_path, $scheme);
     }
 
     public function addFlashInfo($message)
