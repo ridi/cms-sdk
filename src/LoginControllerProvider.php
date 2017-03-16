@@ -2,7 +2,6 @@
 
 namespace Ridibooks\Platform\Cms;
 
-use Ridibooks\Library\UrlHelper;
 use Ridibooks\Platform\Cms\Auth\LoginService;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
@@ -21,12 +20,12 @@ class LoginControllerProvider implements ControllerProviderInterface
         return $controller_collection;
     }
 
-    public function index(Request $request, CmsApplication $app)
+    public function index(CmsApplication $app)
     {
         return $app->redirect('/welcome');
     }
 
-    public function getWelcomePage(Request $request, CmsApplication $app)
+    public function getWelcomePage(CmsApplication $app)
     {
         return $app->render('welcome.twig');
     }
@@ -44,30 +43,7 @@ class LoginControllerProvider implements ControllerProviderInterface
         return $app->redirect($end_point);
     }
 
-    public function loginWithCms(Request $request, CmsApplication $app)
-    {
-        $id = $request->get('id');
-        $passwd = $request->get('passwd');
-        $return_url = $request->get('return_url', '/welcome');
-
-        try {
-            LoginService::doLoginAction($id, $passwd);
-            return RedirectResponse::create($return_url);
-        } catch (\Exception $e) {
-            return UrlHelper::printAlertRedirect('/login?return_url=' . urlencode($return_url), $e->getMessage());
-        }
-    }
-
-    private function decodeResource($resource, $key)
-    {
-        $method = 'aes-256-ctr';
-        $nonceSize = openssl_cipher_iv_length($method);
-        $nonce = mb_substr($resource, 0, $nonceSize, '8bit');
-        $ciphertext = mb_substr($resource, $nonceSize, null, '8bit');
-        return openssl_decrypt($ciphertext, $method, $key, OPENSSL_RAW_DATA, $nonce);
-    }
-
-    public function logout(Request $request, CmsApplication $app)
+    public function logout()
     {
         LoginService::resetSession();
         return RedirectResponse::create('/');
