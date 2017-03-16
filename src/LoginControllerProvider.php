@@ -15,7 +15,7 @@ class LoginControllerProvider implements ControllerProviderInterface
         $controller_collection = $app['controllers_factory'];
         $controller_collection->get('/', [$this, 'index']);
         $controller_collection->get('/welcome', [$this, 'getWelcomePage']);
-        $controller_collection->get('/login', [$this, 'getLoginPage']);
+        $controller_collection->get('/login', [$this, 'redirectToLogin']);
         $controller_collection->get('/logout', [$this, 'logout']);
         return $controller_collection;
     }
@@ -30,12 +30,12 @@ class LoginControllerProvider implements ControllerProviderInterface
         return $app->render('welcome.twig');
     }
 
-    public function getLoginPage(Request $request, CmsApplication $app)
+    public function redirectToLogin(Request $request, CmsApplication $app)
     {
         LoginService::resetSession();
 
         $cms = $app['cms'];
-        $login_endpoint = $cms['url'] . $cms['login_path'];
+        $login_endpoint = $cms['login_url'];
         $return_path = $request->get('return_url');
 
         $end_point = LoginService::getLoginPageUrl($login_endpoint, $return_path);
