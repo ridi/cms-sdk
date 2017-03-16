@@ -14,7 +14,7 @@ class ThriftService
 	private static $path;
 	private static $scheme;
 
-	public static function init($host, $port, $path = '', $scheme = 'http')
+	public static function setEndPoint($host, $port, $path = '', $scheme = 'http')
 	{
 		self::$host = $host;
 		self::$port = $port;

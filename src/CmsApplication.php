@@ -22,7 +22,7 @@ class CmsApplication extends Application
         $this->setDefaultErrorHandler();
         $this->registerTwigServiceProvider();
         $this->registerSessionServiceProvider();
-        $this->setThriftService();
+        $this->setRpcEndPoint();
         $this->setRoutes();
     }
 
@@ -92,7 +92,7 @@ class CmsApplication extends Application
         $globals = [
             'FRONT_URL' => 'http://' . \Config::$DOMAIN,
             'STATIC_URL' => '/admin/static',
-            'BOWER_PATH' => $cms['url'] . '/static/bower_components',
+            'BOWER_PATH' => $cms['bower_url'],
 
             'MISC_URL' => \Config::$MISC_URL,
             'BANNER_URL' => \Config::$ACTIVE_URL . '/ridibooks_banner/',
@@ -154,28 +154,27 @@ class CmsApplication extends Application
         });
     }
 
-    private function setThriftService()
+    private function setRpcEndPoint()
     {
         if (!isset($this['cms'])) {
             throw new \InvalidArgumentException('Provide a config for cms');
         }
 
         $cms = $this['cms'];
-        if (!isset($cms['url']) || !isset($cms['login_path']) || !isset($cms['rpc_path'])) {
+        if (!isset($cms['rpc_url']) || !isset($cms['login_url'])) {
             throw new \InvalidArgumentException('Provide a config for cms server end points');
         }
 
-        $parsed = parse_url($cms['url']);
-        $host = $parsed['host'];
-        $port = $parsed['port'];
-        $scheme = $parsed['scheme'];
+        $parsed = parse_url($cms['rpc_url']);
+        $host = isset($parsed['host'])? $parsed['host'] : 'localhost';
+        $port = isset($parsed['port'])? $parsed['port'] : null;
+        $scheme = isset($parsed['scheme'])? $parsed['scheme'] : 'http';
+        $path = isset($parsed['path'])? $parsed['path'] : '';
         if (!$port) {
             $port = ($scheme === 'https') ? 443 : 80;
         }
 
-		$rpc_path = $cms['rpc_path'];
-
-        ThriftService::init($host, $port, $rpc_path, $scheme);
+        ThriftService::setEndPoint($host, $port, $path, $scheme);
     }
 
     public function addFlashInfo($message)
