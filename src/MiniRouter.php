@@ -2,7 +2,6 @@
 namespace Ridibooks\Platform\Cms;
 
 use Ridibooks\Platform\Cms\Auth\AdminAuthService;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,10 +25,9 @@ class MiniRouter
 
     /**
      * @param Request $request
-     * @param bool $enable_ssl
      * @return Response
      */
-    public function route(Request $request, $enable_ssl = true)
+    public function route(Request $request)
     {
         $request_uri_wo_qs = self::getNormalizedUri($request->getRequestUri());
 
@@ -54,7 +52,7 @@ class MiniRouter
             $controller_path = substr($request_uri_wo_qs, strlen($this->prefix_uri));
         }
 
-        $response = self::shouldRedirectForLogin($request, $enable_ssl);
+        $response = self::shouldRedirectForLogin($request);
         if ($response) {
             return $response;
         }
@@ -77,48 +75,20 @@ class MiniRouter
 
     /**
      * @param Request $request
-     * @param bool $enable_ssl
      * @return null|Response
      */
-    public static function shouldRedirectForLogin(Request $request, $enable_ssl = true)
+    public static function shouldRedirectForLogin(Request $request)
     {
-        $response = self::conformAllowedProtocol($request, $enable_ssl);
-        if ($response) {
-            return $response;
-        }
-
         if (self::onLoginPage($request)) {
             return null;
         }
 
-        AdminAuthService::initSession();
         $login_required_response = AdminAuthService::authorize($request);
-
         if ($login_required_response !== null) {
             return $login_required_response;
         }
 
         return null;
-    }
-
-    private static function conformAllowedProtocol(Request $request, $enable_ssl)
-    {
-        if ($enable_ssl && !self::onHttps($request)) {
-            return RedirectResponse::create('https://' . $request->getHttpHost() . $request->getRequestUri());
-        } elseif (!$enable_ssl && self::onHttps($request)) {
-            return RedirectResponse::create('http://' . $request->getHttpHost() . $request->getRequestUri());
-        }
-
-        return null;
-    }
-
-    /**
-     * @param Request $request
-     * @return bool
-     */
-    private static function onHttps($request)
-    {
-        return $request->isSecure() || $request->server->get('HTTP_X_FORWARDED_PROTO') == 'https';
     }
 
     /**

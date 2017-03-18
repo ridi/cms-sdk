@@ -2,7 +2,6 @@
 namespace Ridibooks\Platform\Cms;
 
 use Ridibooks\Cms\Thrift\ThriftService;
-use Ridibooks\Platform\Cms\Auth\AdminUserService;
 use Silex\Application;
 use Silex\Application\TwigTrait;
 use Silex\Provider\SessionServiceProvider;
@@ -23,7 +22,6 @@ class CmsApplication extends Application
         $this->registerTwigServiceProvider();
         $this->registerSessionServiceProvider();
         $this->setRpcEndPoint();
-        $this->setRoutes();
     }
 
     private function setDefaultErrorHandler()
@@ -132,26 +130,6 @@ class CmsApplication extends Application
         );
 
         $this['flashes'] = $this->getFlashBag()->all();
-    }
-
-    private function setRoutes()
-    {
-        $this->mount('/', new LoginControllerProvider());
-        $this->mount('/me', new UserControllerProvider());
-
-        $this->get('comm/user_list.ajax', function () {
-            $result = [];
-
-            try {
-                $result['data'] = AdminUserService::getAllAdminUserArray();
-                $result['success'] = true;
-            } catch (\Exception $e) {
-                $result['success'] = false;
-                $result['msg'] = [$e->getMessage()];
-            }
-
-            return $this->json((array)$result);
-        });
     }
 
     private function setRpcEndPoint()
