@@ -139,7 +139,7 @@ class CmsApplication extends Application
         }
 
         $cms = $this['cms'];
-        if (!isset($cms['rpc_url']) || !isset($cms['login_url'])) {
+        if (!isset($cms['rpc_url']) || !isset($cms['bower_url'])) {
             throw new \InvalidArgumentException('Provide a config for cms server end points');
         }
 
