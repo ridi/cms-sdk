@@ -9,13 +9,22 @@ use Thrift\Transport\TSocket;
 
 class ThriftService
 {
-	private static $host;
-	private static $port;
-	private static $path;
-	private static $scheme;
+	private static $host = 'localhost';
+	private static $port = '80';
+	private static $path = '/';
+	private static $scheme = 'http';
 
-	public static function setEndPoint($host, $port, $path = '', $scheme = 'http')
+	public static function setEndPoint($end_point)
 	{
+		$parsed = parse_url($end_point);
+		$host = isset($parsed['host'])? $parsed['host'] : 'localhost';
+		$port = isset($parsed['port'])? $parsed['port'] : null;
+		$scheme = isset($parsed['scheme'])? $parsed['scheme'] : 'http';
+		$path = isset($parsed['path'])? $parsed['path'] : '';
+		if (!$port) {
+			$port = ($scheme === 'https') ? 443 : 80;
+		}
+
 		self::$host = $host;
 		self::$port = $port;
 		self::$path = $path;
