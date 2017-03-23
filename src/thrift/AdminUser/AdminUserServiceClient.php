@@ -311,16 +311,15 @@ class AdminUserServiceClient implements \Ridibooks\Cms\Thrift\AdminUser\AdminUse
     throw new \Exception("getAllMenuIds failed: unknown result");
   }
 
-  public function updateMyInfo($userId, $name, $team, $isUse, $passwd)
+  public function updateMyInfo($name, $team, $isUse, $passwd)
   {
-    $this->send_updateMyInfo($userId, $name, $team, $isUse, $passwd);
+    $this->send_updateMyInfo($name, $team, $isUse, $passwd);
     return $this->recv_updateMyInfo();
   }
 
-  public function send_updateMyInfo($userId, $name, $team, $isUse, $passwd)
+  public function send_updateMyInfo($name, $team, $isUse, $passwd)
   {
     $args = new \Ridibooks\Cms\Thrift\AdminUser\AdminUserService_updateMyInfo_args();
-    $args->userId = $userId;
     $args->name = $name;
     $args->team = $team;
     $args->isUse = $isUse;

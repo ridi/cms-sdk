@@ -22,10 +22,6 @@ class AdminUserService_updateMyInfo_args {
   /**
    * @var string
    */
-  public $userId = null;
-  /**
-   * @var string
-   */
   public $name = null;
   /**
    * @var string
@@ -44,31 +40,24 @@ class AdminUserService_updateMyInfo_args {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
-          'var' => 'userId',
-          'type' => TType::STRING,
-          ),
-        2 => array(
           'var' => 'name',
           'type' => TType::STRING,
           ),
-        3 => array(
+        2 => array(
           'var' => 'team',
           'type' => TType::STRING,
           ),
-        4 => array(
+        3 => array(
           'var' => 'isUse',
           'type' => TType::BOOL,
           ),
-        5 => array(
+        4 => array(
           'var' => 'passwd',
           'type' => TType::STRING,
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['userId'])) {
-        $this->userId = $vals['userId'];
-      }
       if (isset($vals['name'])) {
         $this->name = $vals['name'];
       }
@@ -105,33 +94,26 @@ class AdminUserService_updateMyInfo_args {
       {
         case 1:
           if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->userId);
+            $xfer += $input->readString($this->name);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
         case 2:
           if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->name);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 3:
-          if ($ftype == TType::STRING) {
             $xfer += $input->readString($this->team);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 4:
+        case 3:
           if ($ftype == TType::BOOL) {
             $xfer += $input->readBool($this->isUse);
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 5:
+        case 4:
           if ($ftype == TType::STRING) {
             $xfer += $input->readString($this->passwd);
           } else {
@@ -151,28 +133,23 @@ class AdminUserService_updateMyInfo_args {
   public function write($output) {
     $xfer = 0;
     $xfer += $output->writeStructBegin('AdminUserService_updateMyInfo_args');
-    if ($this->userId !== null) {
-      $xfer += $output->writeFieldBegin('userId', TType::STRING, 1);
-      $xfer += $output->writeString($this->userId);
-      $xfer += $output->writeFieldEnd();
-    }
     if ($this->name !== null) {
-      $xfer += $output->writeFieldBegin('name', TType::STRING, 2);
+      $xfer += $output->writeFieldBegin('name', TType::STRING, 1);
       $xfer += $output->writeString($this->name);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->team !== null) {
-      $xfer += $output->writeFieldBegin('team', TType::STRING, 3);
+      $xfer += $output->writeFieldBegin('team', TType::STRING, 2);
       $xfer += $output->writeString($this->team);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->isUse !== null) {
-      $xfer += $output->writeFieldBegin('isUse', TType::BOOL, 4);
+      $xfer += $output->writeFieldBegin('isUse', TType::BOOL, 3);
       $xfer += $output->writeBool($this->isUse);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->passwd !== null) {
-      $xfer += $output->writeFieldBegin('passwd', TType::STRING, 5);
+      $xfer += $output->writeFieldBegin('passwd', TType::STRING, 4);
       $xfer += $output->writeString($this->passwd);
       $xfer += $output->writeFieldEnd();
     }

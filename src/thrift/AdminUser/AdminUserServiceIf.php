@@ -57,7 +57,6 @@ interface AdminUserServiceIf {
    */
   public function getAllMenuIds($userId);
   /**
-   * @param string $userId
    * @param string $name
    * @param string $team
    * @param bool $isUse
@@ -66,7 +65,7 @@ interface AdminUserServiceIf {
    * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
-  public function updateMyInfo($userId, $name, $team, $isUse, $passwd);
+  public function updateMyInfo($name, $team, $isUse, $passwd);
   /**
    * @param string $userId
    * @param string $plainPassword

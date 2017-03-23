@@ -60,11 +60,10 @@ service AdminUserService {
     ),
 
     bool updateMyInfo(
-        1: string userId,
-        2: string name,
-        3: string team,
-        4: bool isUse,
-        5: string passwd,
+        1: string name,
+        2: string team,
+        3: bool isUse,
+        4: string passwd,
     ) throws (
         1: Errors.UserException userException,
         2: Errors.SystemException systemException

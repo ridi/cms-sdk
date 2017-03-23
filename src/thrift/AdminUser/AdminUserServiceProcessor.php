@@ -174,7 +174,7 @@ class AdminUserServiceProcessor {
     $input->readMessageEnd();
     $result = new \Ridibooks\Cms\Thrift\AdminUser\AdminUserService_updateMyInfo_result();
     try {
-      $result->success = $this->handler_->updateMyInfo($args->userId, $args->name, $args->team, $args->isUse, $args->passwd);
+      $result->success = $this->handler_->updateMyInfo($args->name, $args->team, $args->isUse, $args->passwd);
     } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
       $result->userException = $userException;
         } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
