@@ -26,8 +26,7 @@ interface AdminTagServiceIf {
   public function getAdminIdsFromTags(array $tag_ids);
   /**
    * @param int $tag_id
-   * @return \Ridibooks\Cms\Thrift\AdminMenu\AdminMenu[] AdminMenuCollection 엔티티
-   * 
+   * @return int[]
    * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */

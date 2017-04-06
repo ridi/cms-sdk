@@ -27,7 +27,7 @@ service AdminTagService {
         2: Errors.SystemException systemException
     ),
 
-    AdminMenu.AdminMenuCollection getAdminTagMenus(
+    list<i32> getAdminTagMenus(
         1: i32 tag_id
     ) throws (
         1: Errors.UserException userException,

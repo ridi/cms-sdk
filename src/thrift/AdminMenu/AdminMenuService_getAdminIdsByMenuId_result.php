@@ -20,7 +20,7 @@ class AdminMenuService_getAdminIdsByMenuId_result {
   static $_TSPEC;
 
   /**
-   * @var int[]
+   * @var string[]
    */
   public $success = null;
   /**
@@ -38,9 +38,9 @@ class AdminMenuService_getAdminIdsByMenuId_result {
         0 => array(
           'var' => 'success',
           'type' => TType::LST,
-          'etype' => TType::I32,
+          'etype' => TType::STRING,
           'elem' => array(
-            'type' => TType::I32,
+            'type' => TType::STRING,
             ),
           ),
         1 => array(
@@ -74,7 +74,7 @@ class AdminMenuService_getAdminIdsByMenuId_result {
 
   public function read($input)
   {
-    $xfer = 0;
+  	$xfer = 0;
     $fname = null;
     $ftype = 0;
     $fid = 0;
@@ -96,7 +96,7 @@ class AdminMenuService_getAdminIdsByMenuId_result {
             for ($_i39 = 0; $_i39 < $_size35; ++$_i39)
             {
               $elem40 = null;
-              $xfer += $input->readI32($elem40);
+              $xfer += $input->readString($elem40);
               $this->success []= $elem40;
             }
             $xfer += $input->readListEnd();
@@ -139,11 +139,11 @@ class AdminMenuService_getAdminIdsByMenuId_result {
       }
       $xfer += $output->writeFieldBegin('success', TType::LST, 0);
       {
-        $output->writeListBegin(TType::I32, count($this->success));
+        $output->writeListBegin(TType::STRING, count($this->success));
         {
           foreach ($this->success as $iter41)
           {
-            $xfer += $output->writeI32($iter41);
+            $xfer += $output->writeString($iter41);
           }
         }
         $output->writeListEnd();

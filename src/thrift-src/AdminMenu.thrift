@@ -59,7 +59,7 @@ service AdminMenuService {
         2: Errors.SystemException systemException
     ),
 
-    list<i32> getAdminIdsByMenuId(
+    list<string> getAdminIdsByMenuId(
         1: i32 menuId,
     ) throws (
         1: Errors.UserException userException,

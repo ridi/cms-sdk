@@ -51,7 +51,7 @@ interface AdminMenuServiceIf {
   public function getMenus(array $menuIds);
   /**
    * @param int $menuId
-   * @return int[]
+   * @return string[]
    * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
