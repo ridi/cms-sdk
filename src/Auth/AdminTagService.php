@@ -28,8 +28,7 @@ class AdminTagService
 
     public static function getAdminTagMenus($tag_id)
     {
-        $menus = self::getTClient()->getAdminTagMenus($tag_id);
-        return ThriftService::convertMenuCollectionToArray($menus);
+        return self::getTClient()->getAdminTagMenus($tag_id);
     }
 
     public function getMappedAdminMenuHashes($check_url, $tag_id)
