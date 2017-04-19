@@ -2,7 +2,7 @@
 
 namespace Ridibooks\Platform\Cms\Auth;
 
-use Ridibooks\Library\CouchbaseSessionHandler;
+use Ridibooks\Platform\Cms\Session\CouchbaseSessionHandler;
 
 class LoginService
 {
