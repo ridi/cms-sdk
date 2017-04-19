@@ -172,10 +172,11 @@
             "source": {
                 "type": "git",
                 "url": "git@gitlab.ridi.io:common/php-core.git",
-                "reference": "a911e5e56665f5fc5aca4875095d91de4f46954f"
+                "reference": "bfddbd87cc306f3d7afe791da0d69c223f4a31f9"
             },
             "require": {
                 "monolog/monolog": "^1.18.0",
+                "php": "^7.0",
                 "swiftmailer/swiftmailer": "^5.4.0"
             },
             "require-dev": {
@@ -186,7 +187,8 @@
                 "doctrine/cache": "Needed to use ApcuKeyValueStorage",
                 "mailgun/mailgun-php": "^2.1.2",
                 "mandrill/mandrill": "^1.0.0",
-                "sentry/sentry": "Needed to use SentryHelper"
+                "sentry/sentry": "Needed to use SentryHelper",
+                "symfony/yaml": "Needed to use \\Ridibooks\\Library\\DB\\Monitoring\\Replication\\SlaveServerListConverter"
             },
             "type": "library",
             "autoload": {
@@ -200,7 +202,7 @@
                 }
             },
             "description": "Ridibooks core PHP library",
-            "time": "2017-03-13 03:20:01"
+            "time": "2017-04-17 08:48:19"
         },
         {
             "name": "swiftmailer/swiftmailer",
