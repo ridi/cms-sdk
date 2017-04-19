@@ -3,6 +3,7 @@
 namespace Ridibooks\Platform\Cms\Auth;
 
 use Ridibooks\Library\Util;
+use Ridibooks\Platform\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -402,7 +403,7 @@ class AdminAuthService
     public static function authorize($request)
     {
         if (!\Config::$UNDER_DEV && !self::isValidIp()) {
-            return new Response(self::printAlertHistoryBack('허가된 IP가 아닙니다.'));
+            return new Response(UrlHelper::printAlertHistoryBack('허가된 IP가 아닙니다.'));
         }
 
         if (!self::isValidLogin() || !self::isValidUser()) {
@@ -423,22 +424,10 @@ class AdminAuthService
             if ($request->isXmlHttpRequest()) {
                 return new Response($e->getMessage());
             } else { //일반 페이지
-                return new Response(self::printAlertHistoryBack($e->getMessage()));
+                return new Response(UrlHelper::printAlertHistoryBack($e->getMessage()));
             }
         }
 
         return null;
-    }
-
-    private static function printAlertHistoryBack(string $msg): string
-    {
-        $html = '<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"></head><body><script>';
-        if (!empty($msg)) {
-            $html .= "alert(" . json_encode($msg) . ");";
-        }
-        $html .= "history.go(-1);";
-        $html .= "</script></body></html>\n";
-
-        return $html;
     }
 }

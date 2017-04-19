@@ -2,6 +2,7 @@
 
 namespace Ridibooks\Platform\Cms;
 
+use Ridibooks\Platform\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaginationHelper
@@ -29,7 +30,7 @@ class PaginationHelper
         $end_page = $end_page > $total_page ? $total_page : $end_page;
 
         $link = parse_url($request->server->get('REQUEST_URI'), PHP_URL_PATH);
-        $query_string = self::buildQuery(array_filter($request->query->all()), ['page' => null]);
+        $query_string = UrlHelper::buildQuery(array_filter($request->query->all()), ['page' => null]);
         if (empty($query_string)) {
             $link .= '?';
         } else {
@@ -59,24 +60,5 @@ class PaginationHelper
             'start' => $limit_start,
             'limit' => $rows_per_page
         ];
-    }
-
-    /**
-     * @param array $query_map
-     * @param array $replace
-     * @return string
-     */
-    private static function buildQuery($query_map, $replace)
-    {
-        foreach ($replace as $k => $v) {
-            $query_map[$k] = $v;
-        }
-
-        $query_string = http_build_query($query_map);
-        if (!empty($query_string)) {
-            $query_string = '?' . $query_string;
-        }
-
-        return $query_string;
     }
 }
