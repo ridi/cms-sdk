@@ -24,7 +24,12 @@ class CmsApplication extends Application
 
     private function setDefaultErrorHandler()
     {
-        $this['debug'] = \Config::$UNDER_DEV;
+        if (class_exists('Config')) {
+            $this['debug'] = \Config::$UNDER_DEV;
+        } else {
+            $this['debug'] = $_ENV['debug'];
+        }
+
         $this->error(function (\Exception $e) {
             if ($this['debug']) {
                 return null;
@@ -83,24 +88,45 @@ class CmsApplication extends Application
 
     private function getTwigGlobalVariables()
     {
-        $globals = [
-            'FRONT_URL' => 'http://' . \Config::$DOMAIN,
-            'STATIC_URL' => '/admin/static',
-			'BOWER_PATH' => '/static/bower_components',
+        if (class_exists('Config')) {
+            $globals = [
+                'FRONT_URL' => 'http://' . \Config::$DOMAIN,
+                'STATIC_URL' => '/admin/static',
+                'BOWER_PATH' => '/static/bower_components',
 
-            'MISC_URL' => \Config::$MISC_URL,
-            'BANNER_URL' => \Config::$ACTIVE_URL . '/ridibooks_banner/',
-            'ACTIVE_URL' => \Config::$ACTIVE_URL,
-            'DM_IMAGE_URL' => \Config::$ACTIVE_URL . '/ridibooks_dm/',
+                'MISC_URL' => \Config::$MISC_URL,
+                'BANNER_URL' => \Config::$ACTIVE_URL . '/ridibooks_banner/',
+                'ACTIVE_URL' => \Config::$ACTIVE_URL,
+                'DM_IMAGE_URL' => \Config::$ACTIVE_URL . '/ridibooks_dm/',
 
-            'PHP_SELF' => $_SERVER['PHP_SELF'],
-            'REQUEST_URI' => $_SERVER['REQUEST_URI'],
+                'PHP_SELF' => $_SERVER['PHP_SELF'],
+                'REQUEST_URI' => $_SERVER['REQUEST_URI'],
 
-            "HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
-            "SSL_HOST_LINK" => \Config::$SSL_HOST_LINK,
+                "HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
+                "SSL_HOST_LINK" => \Config::$SSL_HOST_LINK,
 
-            'base_url' => \Config::$DOMAIN
-        ];
+                'base_url' => \Config::$DOMAIN
+            ];
+        } else {
+            $globals = [
+                'FRONT_URL' => 'http://' . $_ENV['DOMAIN'],
+                'STATIC_URL' => '/admin/static',
+                'BOWER_PATH' => '/static/bower_components',
+
+                'MISC_URL' => $_ENV['MISC_URL'],
+                'BANNER_URL' => $_ENV['ACTIVE_URL'] . '/ridibooks_banner/',
+                'ACTIVE_URL' => $_ENV['ACTIVE_URL'],
+                'DM_IMAGE_URL' => $_ENV['ACTIVE_URL'] . '/ridibooks_dm/',
+
+                'PHP_SELF' => $_SERVER['PHP_SELF'],
+                'REQUEST_URI' => $_SERVER['REQUEST_URI'],
+
+                "HTTP_HOST_LINK" => $_ENV['HTTP_HOST_LINK'],
+                "SSL_HOST_LINK" => $_ENV['SSL_HOST_LINK'],
+
+                'base_url' => $_ENV['DOMAIN']
+            ];
+        }
 
         if (isset($_SESSION['session_user_menu'])) {
             $globals['session_user_menu'] = $_SESSION['session_user_menu'];

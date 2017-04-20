@@ -44,7 +44,13 @@ class AdminAuthService
             $menu_id_array[] = $menuid;
         }
 
-        if (\Config::$UNDER_DEV) {
+        if (class_exists('Config')) {
+            $is_dev = \Config::$UNDER_DEV;
+        } else {
+            $is_dev = $_ENV['DEBUG'];
+        }
+
+        if ($is_dev) {
             //개발 모드일 경우 모든 메뉴 id array 가져온다.
             $menuids_owned = $menu_id_array;
         } else {
@@ -278,7 +284,13 @@ class AdminAuthService
      */
     public static function hasUrlAuth($method = null, $check_url = null)
     {
-        if (!self::hasHashAuth($method, $check_url) && !\Config::$UNDER_DEV) {
+        if (class_exists('Config')) {
+            $is_dev = \Config::$UNDER_DEV;
+        } else {
+            $is_dev = $_ENV['DEBUG'];
+        }
+
+        if (!self::hasHashAuth($method, $check_url) && !$is_dev) {
             throw new \Exception("해당 권한이 없습니다.");
         }
     }
