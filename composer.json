@@ -20,15 +20,8 @@
       "email": "kt.kang@ridi.com"
     }
   ],
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "git@gitlab.ridi.io:common/php-core.git"
-    }
-  ],
   "require": {
-    "apache/thrift": "^0.10.0",
-    "ridibooks/core": "dev-master"
+    "apache/thrift": "^0.10.0"
   },
   "suggest": {
     "silex/silex": "^2.0",
