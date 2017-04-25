@@ -2,7 +2,6 @@
 
 namespace Ridibooks\Platform\Cms\Auth;
 
-use Ridibooks\Library\Util;
 use Ridibooks\Platform\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -350,14 +349,6 @@ class AdminAuthService
         return $hash_array;
     }
 
-    /**적합한 IP인지 검사한다.
-     * @return bool
-     */
-    public static function isValidIp()
-    {
-        return Util::isRidiIP();
-    }
-
     /**적합한 로그인 상태인지 검사한다.
      * @return bool
      */
@@ -402,10 +393,6 @@ class AdminAuthService
      */
     public static function authorize($request)
     {
-        if (!\Config::$UNDER_DEV && !self::isValidIp()) {
-            return new Response(UrlHelper::printAlertHistoryBack('허가된 IP가 아닙니다.'));
-        }
-
         if (!self::isValidLogin() || !self::isValidUser()) {
             $login_url = '/login';
             $request_uri = $request->getRequestUri();
