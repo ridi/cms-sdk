@@ -76,6 +76,7 @@ class LoginService
 
     /**
      * Cron에서 사용이 예상되면 isSessionableEnviroment() 호출하여 체크 후, 다른 이름을 사용해야한다.
+	 * @return string|null
      */
     public static function GetAdminID()
     {
