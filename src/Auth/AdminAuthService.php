@@ -150,7 +150,7 @@ class AdminAuthService
 
     /**url에 #태그 확인하여 권한을 반환한다.
      * @param $menu_url
-     * @return null
+     * @return string|null
      */
     private static function makeMenuAuth($menu_url)
     {
