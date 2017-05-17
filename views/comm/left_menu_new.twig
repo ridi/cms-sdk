@@ -28,7 +28,7 @@
         {% endif %}
       {% endif %}
 
-      {% if REQUEST_URI == menu.menu_url %}
+      {% if REQUEST_URI starts with menu.menu_url %}
         <li class="active">
       {% else %}
         <li
@@ -42,7 +42,7 @@
       {% endif %}
 
       {% if menu.menu_url == '#' %}
-        <h5><a class="collapsed" data-toggle="collapse" data-target="#drilldown-{{menu.id}}">{{ menu.menu_title }}</a></h5>
+        <h5 style="margin: 10px 15px;"><a class="collapsed" data-toggle="collapse" data-target="#drilldown-{{menu.id}}">{{ menu.menu_title }}</a></h5>
       {% else %}
         <a href="{{ menu.menu_url }}" {% if menu.is_newtab %}target="_blank"{% endif %}>{{ menu.menu_title }}</a>
       {% endif %}
@@ -58,7 +58,7 @@
   {% endfor %}
   {% endif %}
   <ul class="nav nav-pills nav-stacked" style="padding-left: 15px;">
-    {% if REQUEST_URI == '/me' %}
+    {% if REQUEST_URI starts with '/me' %}
     <li class="active">
   {% else %}
     <li>
@@ -66,7 +66,7 @@
       <a href="/me">개인정보 수정</a>
     </li>
 
-    {% if REQUEST_URI == '/logout' %}
+    {% if REQUEST_URI starts with '/logout' %}
     <li class="active">
       {% else %}
     <li>
