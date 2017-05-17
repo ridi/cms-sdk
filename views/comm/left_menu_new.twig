@@ -10,14 +10,15 @@
       {% endif %}
     {% endfor %}
   </select>
-  <ul class="nav nav-stacked">
+
+  <ul class="nav nav-pills nav-stacked">
     {% set pre_menu = '' %}
     {% for menu in session_user_menu %}
 
       {% if pre_menu.menu_deep is defined %}
         {% if pre_menu.menu_deep < menu.menu_deep %}
           {% for d in 1..(menu.menu_deep - pre_menu.menu_deep) %}
-            <ul id="drilldown-{{pre_menu.id}}" class="nav nav-stacked collapse" style="padding-left: 15px;">
+            <ul id="drilldown-{{pre_menu.id}}" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
           {% endfor %}
         {% elseif pre_menu.menu_deep > menu.menu_deep %}
           {% for d in 1..(pre_menu.menu_deep - menu.menu_deep) %}
