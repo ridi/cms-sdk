@@ -27,7 +27,7 @@ class CmsApplication extends Application
         if (class_exists('Config')) {
             $this['debug'] = \Config::$UNDER_DEV;
         } else {
-            $this['debug'] = $_ENV['debug'];
+            $this['debug'] = $_ENV['DEBUG'];
         }
 
         $this->error(function (\Exception $e) {
