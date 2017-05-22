@@ -18,7 +18,7 @@
       {% if pre_menu.menu_deep is defined %}
         {% if pre_menu.menu_deep < menu.menu_deep %}
           {% for d in 1..(menu.menu_deep - pre_menu.menu_deep) %}
-            <ul id="drilldown-{{pre_menu.id}}" class="nav nav-pills nav-stacked collapse" style="padding-left: 15px;">
+            <ul id="drilldown-{{pre_menu.id}}" class="nav nav-pills nav-stacked collapse in" style="padding-left: 15px;">
           {% endfor %}
         {% elseif pre_menu.menu_deep > menu.menu_deep %}
           {% for d in 1..(pre_menu.menu_deep - menu.menu_deep) %}
@@ -42,7 +42,7 @@
       {% endif %}
 
       {% if menu.menu_url == '#' %}
-        <h5 style="margin: 10px 15px;"><a class="collapsed" data-toggle="collapse" data-target="#drilldown-{{menu.id}}">{{ menu.menu_title }}</a></h5>
+        <h5 style="margin: 10px 15px;"><a data-toggle="collapse" data-target="#drilldown-{{menu.id}}">{{ menu.menu_title }}</a></h5>
       {% else %}
         <a href="{{ menu.menu_url }}" {% if menu.is_newtab %}target="_blank"{% endif %}>{{ menu.menu_title }}</a>
       {% endif %}
