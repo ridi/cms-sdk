@@ -23,7 +23,7 @@
         {% elseif pre_menu.menu_deep > menu.menu_deep %}
           {% for d in 1..(pre_menu.menu_deep - menu.menu_deep) %}
             </ul>
-            {% if menu.menu_deep = 0 %}
+            {% if menu.menu_deep == 0 %}
               <hr style="margin: 0;"/>
             {% endif %}
           {% endfor %}
