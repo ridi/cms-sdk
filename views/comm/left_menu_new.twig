@@ -10,29 +10,70 @@
       {% endif %}
     {% endfor %}
   </select>
+
   <ul class="nav nav-pills nav-stacked">
+    {% set pre_menu = '' %}
     {% for menu in session_user_menu %}
-      {% if menu.menu_deep == 0 %}
-        <li><h5>{{ menu.menu_title }}</h5></li>
-      {% else %}
-        {% if REQUEST_URI == menu.menu_url %}
-          <li class="active">
-        {% else %}
-          <li
-          {# TODO AuthService refactoring 할때 고려할 것(실제로 menu에 사용되는 data만 내려줄 것) #}
-          {% for ajax in menu.ajax_array %}
-            {% if REQUEST_URI starts with ajax.ajax_url %}
-              class="active"
-            {% endif %}
+
+      {% if pre_menu.menu_deep is defined %}
+        {% if pre_menu.menu_deep < menu.menu_deep %}
+          {% for d in 1..(menu.menu_deep - pre_menu.menu_deep) %}
+            <ul id="drilldown-{{pre_menu.id}}" class="nav nav-pills nav-stacked collapse in" style="padding-left: 15px;">
           {% endfor %}
-          >
+        {% elseif pre_menu.menu_deep > menu.menu_deep %}
+          {% for d in 1..(pre_menu.menu_deep - menu.menu_deep) %}
+            </ul>
+            <hr style="margin: 0;"/>
+          {% endfor %}
         {% endif %}
-        <a href="{{ menu.menu_url }}" {% if menu.is_newtab %}target="_blank"{% endif %}>{{ menu.menu_title }}</a>
-        </li>
       {% endif %}
+
+      {% if REQUEST_URI starts with menu.menu_url %}
+        <li class="active">
+      {% else %}
+        <li
+        {# TODO AuthService refactoring 할때 고려할 것(실제로 menu에 사용되는 data만 내려줄 것) #}
+        {% for ajax in menu.ajax_array %}
+          {% if REQUEST_URI starts with ajax.ajax_url %}
+            class="active"
+          {% endif %}
+        {% endfor %}
+        >
+      {% endif %}
+
+      {% if menu.menu_url == '#' %}
+        <h5 style="margin: 10px 15px;"><a data-toggle="collapse" data-target="#drilldown-{{menu.id}}">{{ menu.menu_title }}</a></h5>
+      {% else %}
+        <a href="{{ menu.menu_url }}" {% if menu.is_newtab %}target="_blank"{% endif %}>{{ menu.menu_title }}</a>
+      {% endif %}
+
+      {% set pre_menu = menu %}
+      </li>
     {% endfor %}
-    <li><a href="/me">개인정보 수정</a></li>
-    <li><a href="/logout">Logout</a></li>
+
+    {% if pre_menu.menu_deep > 0 %}
+    {% for d in 1..pre_menu.menu_deep %}
+  </ul>
+<hr style="margin: 0;"/>
+  {% endfor %}
+  {% endif %}
+  <ul class="nav nav-pills nav-stacked" style="padding-left: 15px;">
+    {% if REQUEST_URI starts with '/me' %}
+    <li class="active">
+  {% else %}
+    <li>
+      {% endif %}
+      <a href="/me">개인정보 수정</a>
+    </li>
+
+    {% if REQUEST_URI starts with '/logout' %}
+    <li class="active">
+      {% else %}
+    <li>
+      {% endif %}
+      <a href="/logout">Logout</a>
+    </li>
+  </ul>
   </ul>
 </div>
 <div class="hidden-lg">{#타블렛, 핸드폰 사이즈#}
