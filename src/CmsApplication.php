@@ -60,7 +60,7 @@ class CmsApplication extends Application
         );
 
         // see http://silex.sensiolabs.org/doc/providers/twig.html#customization
-        $this['twig'] = $this->extend(
+        $this->extend(
             'twig',
             function (\Twig_Environment $twig) {
                 $globals = array_merge($this->getTwigGlobalVariables(), $this['twig.env.globals']);
@@ -76,7 +76,7 @@ class CmsApplication extends Application
             }
         );
 
-        $this['twig.loader.filesystem'] = $this->extend(
+        $this->extend(
             'twig.loader.filesystem',
             function (\Twig_Loader_Filesystem $loader) {
                 $loader->addPath(__DIR__ . '/../views/');
