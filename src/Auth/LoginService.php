@@ -15,6 +15,17 @@ class LoginService
      */
     public static function doLoginAction($id, $passwd)
     {
+        self::checkUserPassword($id, $passwd);
+        self::setSessions($id);
+    }
+
+    /**
+     * @param string $id
+     * @param string $passwd
+     * @throws \Exception
+     */
+    public static function checkUserPassword($id, $passwd)
+    {
         $user = AdminUserService::getUser($id);
         if (!$user || $user['is_use'] != '1') {
             throw new \Exception('잘못된 계정정보입니다.');
@@ -27,8 +38,6 @@ class LoginService
         if (PasswordService::needsRehash($user['passwd'])) {
             AdminUserService::updatePassword($id, $passwd);
         }
-
-        self::setSessions($id);
     }
 
     public static function doCmsLoginAction($id)
