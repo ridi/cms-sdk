@@ -30,13 +30,13 @@
         {% endif %}
       {% endif %}
 
-      {% if PATH_INFO == menu.menu_url %}
+      {% if REQUEST_PATH == menu.menu_url %}
         <li class="active">
       {% else %}
         <li
         {# TODO AuthService refactoring 할때 고려할 것(실제로 menu에 사용되는 data만 내려줄 것) #}
         {% for ajax in menu.ajax_array %}
-          {% if PATH_INFO == ajax.ajax_url %}
+          {% if REQUEST_PATH == ajax.ajax_url %}
             class="active"
           {% endif %}
         {% endfor %}
@@ -60,7 +60,7 @@
   {% endfor %}
   {% endif %}
   <ul class="nav nav-pills nav-stacked" style="padding-left: 15px;">
-    {% if PATH_INFO == '/me' %}
+    {% if REQUEST_PATH == '/me' %}
     <li class="active">
   {% else %}
     <li>
@@ -68,7 +68,7 @@
       <a href="/me">개인정보 수정</a>
     </li>
 
-    {% if PATH_INFO == '/logout' %}
+    {% if REQUEST_PATH == '/logout' %}
     <li class="active">
       {% else %}
     <li>
