@@ -100,7 +100,7 @@ class CmsApplication extends Application
                 'DM_IMAGE_URL' => \Config::$ACTIVE_URL . '/ridibooks_dm/',
 
                 'PHP_SELF' => $_SERVER['PHP_SELF'],
-                'PATH_INFO' => strtok($_SERVER["REQUEST_URI"],'?'),
+                'PATH_INFO' => explode('?', $_SERVER['REQUEST_URI'])[0],
                 'REQUEST_URI' => $_SERVER['REQUEST_URI'],
 
                 "HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
@@ -120,7 +120,7 @@ class CmsApplication extends Application
                 'DM_IMAGE_URL' => $_ENV['ACTIVE_URL'] . '/ridibooks_dm/',
 
                 'PHP_SELF' => $_SERVER['PHP_SELF'],
-                'PATH_INFO' => strtok($_SERVER["REQUEST_URI"],'?'),
+                'PATH_INFO' => explode('?', $_SERVER['REQUEST_URI'])[0],
                 'REQUEST_URI' => $_SERVER['REQUEST_URI'],
 
                 "HTTP_HOST_LINK" => $_ENV['HTTP_HOST_LINK'],
