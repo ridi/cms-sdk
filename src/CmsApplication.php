@@ -101,6 +101,7 @@ class CmsApplication extends Application
 
                 'PHP_SELF' => $_SERVER['PHP_SELF'],
                 'REQUEST_URI' => $_SERVER['REQUEST_URI'],
+                'REQUEST_PATH' => explode('?', $_SERVER['REQUEST_URI'])[0],
 
                 "HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
                 "SSL_HOST_LINK" => \Config::$SSL_HOST_LINK,
@@ -120,6 +121,7 @@ class CmsApplication extends Application
 
                 'PHP_SELF' => $_SERVER['PHP_SELF'],
                 'REQUEST_URI' => $_SERVER['REQUEST_URI'],
+                'REQUEST_PATH' => explode('?', $_SERVER['REQUEST_URI'])[0],
 
                 "HTTP_HOST_LINK" => $_ENV['HTTP_HOST_LINK'],
                 "SSL_HOST_LINK" => $_ENV['SSL_HOST_LINK'],
