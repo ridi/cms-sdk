@@ -56,6 +56,13 @@ interface AdminMenuServiceIf {
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
   public function getAdminIdsByMenuId($menuId);
+  /**
+   * @param int $menuId
+   * @return string[]
+   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   */
+  public function getAllUserIds($menuId);
 }
 
 

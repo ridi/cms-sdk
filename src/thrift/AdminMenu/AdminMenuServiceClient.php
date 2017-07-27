@@ -310,6 +310,63 @@ class AdminMenuServiceClient implements \Ridibooks\Cms\Thrift\AdminMenu\AdminMen
     throw new \Exception("getAdminIdsByMenuId failed: unknown result");
   }
 
+  public function getAllUserIds($menuId)
+  {
+    $this->send_getAllUserIds($menuId);
+    return $this->recv_getAllUserIds();
+  }
+
+  public function send_getAllUserIds($menuId)
+  {
+    $args = new \Ridibooks\Cms\Thrift\AdminMenu\AdminMenuService_getAllUserIds_args();
+    $args->menuId = $menuId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'getAllUserIds', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('getAllUserIds', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_getAllUserIds()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminMenu\AdminMenuService_getAllUserIds_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Ridibooks\Cms\Thrift\AdminMenu\AdminMenuService_getAllUserIds_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->userException !== null) {
+      throw $result->userException;
+    }
+    if ($result->systemException !== null) {
+      throw $result->systemException;
+    }
+    throw new \Exception("getAllUserIds failed: unknown result");
+  }
+
 }
 
 

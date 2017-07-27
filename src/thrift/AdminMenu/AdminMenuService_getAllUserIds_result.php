@@ -16,7 +16,7 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class AdminMenuService_getAdminIdsByMenuId_result {
+class AdminMenuService_getAllUserIds_result {
   static $_TSPEC;
 
   /**
@@ -69,7 +69,7 @@ class AdminMenuService_getAdminIdsByMenuId_result {
   }
 
   public function getName() {
-    return 'AdminMenuService_getAdminIdsByMenuId_result';
+    return 'AdminMenuService_getAllUserIds_result';
   }
 
   public function read($input)
@@ -90,14 +90,14 @@ class AdminMenuService_getAdminIdsByMenuId_result {
         case 0:
           if ($ftype == TType::LST) {
             $this->success = array();
-            $_size35 = 0;
-            $_etype38 = 0;
-            $xfer += $input->readListBegin($_etype38, $_size35);
-            for ($_i39 = 0; $_i39 < $_size35; ++$_i39)
+            $_size42 = 0;
+            $_etype45 = 0;
+            $xfer += $input->readListBegin($_etype45, $_size42);
+            for ($_i46 = 0; $_i46 < $_size42; ++$_i46)
             {
-              $elem40 = null;
-              $xfer += $input->readString($elem40);
-              $this->success []= $elem40;
+              $elem47 = null;
+              $xfer += $input->readString($elem47);
+              $this->success []= $elem47;
             }
             $xfer += $input->readListEnd();
           } else {
@@ -132,7 +132,7 @@ class AdminMenuService_getAdminIdsByMenuId_result {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('AdminMenuService_getAdminIdsByMenuId_result');
+    $xfer += $output->writeStructBegin('AdminMenuService_getAllUserIds_result');
     if ($this->success !== null) {
       if (!is_array($this->success)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
@@ -141,9 +141,9 @@ class AdminMenuService_getAdminIdsByMenuId_result {
       {
         $output->writeListBegin(TType::STRING, count($this->success));
         {
-          foreach ($this->success as $iter41)
+          foreach ($this->success as $iter48)
           {
-            $xfer += $output->writeString($iter41);
+            $xfer += $output->writeString($iter48);
           }
         }
         $output->writeListEnd();
