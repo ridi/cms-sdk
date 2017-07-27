@@ -65,4 +65,11 @@ service AdminMenuService {
         1: Errors.UserException userException,
         2: Errors.SystemException systemException
     ),
+
+    list<string> getAllUserIds(
+        1: i32 menuId,
+    ) throws (
+        1: Errors.UserException userException,
+        2: Errors.SystemException systemException
+    ),
 }

@@ -42,4 +42,9 @@ class AdminMenuService
     {
         return self::getTClient()->getAdminIdsByMenuId($menu_id);
     }
+
+    public static function getAllUserIds($menu_id)
+    {
+        return self::getTClient()->getAllUserIds($menu_id);
+    }
 }

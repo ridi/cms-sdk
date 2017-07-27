@@ -168,4 +168,29 @@ class AdminMenuServiceProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_getAllUserIds($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminMenu\AdminMenuService_getAllUserIds_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminMenu\AdminMenuService_getAllUserIds_result();
+    try {
+      $result->success = $this->handler_->getAllUserIds($args->menuId);
+    } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
+      $result->userException = $userException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'getAllUserIds', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('getAllUserIds', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
 }
