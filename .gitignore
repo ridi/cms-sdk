@@ -1,2 +1,5 @@
 .idea
+*.bak
+bootstrap/couchbase/lib
+bootstrap/custom/*
 vendor

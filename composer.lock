@@ -4,7 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "94ef26380b04d44b4d1994fdfff5afda",
+    "hash": "85654f679675cfb85144dc9dc6a936bc",
+    "content-hash": "25edc157bdab7b81abc3894cd858c53b",
     "packages": [
         {
             "name": "apache/thrift",
@@ -39,86 +40,10 @@
             ],
             "description": "Apache Thrift RPC system",
             "homepage": "http://thrift.apache.org/",
-            "time": "2016-04-04T18:25:03+00:00"
-        },
-        {
-            "name": "monolog/monolog",
-            "version": "1.22.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "reference": "1e044bc4b34e91743943479f1be7a1d5eb93add0",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0",
-                "psr/log": "~1.0"
-            },
-            "provide": {
-                "psr/log-implementation": "1.0.0"
-            },
-            "require-dev": {
-                "aws/aws-sdk-php": "^2.4.9 || ^3.0",
-                "doctrine/couchdb": "~1.0@dev",
-                "graylog2/gelf-php": "~1.0",
-                "jakub-onderka/php-parallel-lint": "0.9",
-                "php-amqplib/php-amqplib": "~2.4",
-                "php-console/php-console": "^3.1.3",
-                "phpunit/phpunit": "~4.5",
-                "phpunit/phpunit-mock-objects": "2.3.0",
-                "ruflin/elastica": ">=0.90 <3.0",
-                "sentry/sentry": "^0.13",
-                "swiftmailer/swiftmailer": "~5.3"
-            },
-            "suggest": {
-                "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
-                "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
-                "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-                "ext-mongo": "Allow sending log messages to a MongoDB server",
-                "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
-                "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
-                "php-console/php-console": "Allow sending log messages to Google Chrome",
-                "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "sentry/sentry": "Allow sending log messages to a Sentry server"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Monolog\\": "src/Monolog"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jordi Boggiano",
-                    "email": "j.boggiano@seld.be",
-                    "homepage": "http://seld.be"
-                }
-            ],
-            "description": "Sends your logs to files, sockets, inboxes, databases and various web services",
-            "homepage": "http://github.com/Seldaek/monolog",
-            "keywords": [
-                "log",
-                "logging",
-                "psr-3"
-            ],
-            "time": "2017-03-13T07:08:03+00:00"
-        },
+            "time": "2016-04-04 18:25:03"
+        }
+    ],
+    "packages-dev": [
         {
             "name": "psr/log",
             "version": "1.0.2",
@@ -164,76 +89,57 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2016-10-10 12:19:37"
         },
         {
-            "name": "ridibooks/core",
-            "version": "dev-master",
+            "name": "symfony/console",
+            "version": "v3.3.6",
             "source": {
                 "type": "git",
-                "url": "git@gitlab.ridi.io:common/php-core.git",
-                "reference": "bfddbd87cc306f3d7afe791da0d69c223f4a31f9"
-            },
-            "require": {
-                "monolog/monolog": "^1.18.0",
-                "php": "^7.0",
-                "swiftmailer/swiftmailer": "^5.4.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^6.0",
-                "symfony/http-foundation": "^2.8.0"
-            },
-            "suggest": {
-                "doctrine/cache": "Needed to use ApcuKeyValueStorage",
-                "mailgun/mailgun-php": "^2.1.2",
-                "mandrill/mandrill": "^1.0.0",
-                "sentry/sentry": "Needed to use SentryHelper",
-                "symfony/yaml": "Needed to use \\Ridibooks\\Library\\DB\\Monitoring\\Replication\\SlaveServerListConverter"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Ridibooks\\Library\\": "Library"
-                }
-            },
-            "autoload-dev": {
-                "psr-4": {
-                    "Ridibooks\\Tests\\Library\\": "tests/Library"
-                }
-            },
-            "description": "Ridibooks core PHP library",
-            "time": "2017-04-17 08:48:19"
-        },
-        {
-            "name": "swiftmailer/swiftmailer",
-            "version": "v5.4.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e"
+                "url": "https://github.com/symfony/console.git",
+                "reference": "b0878233cb5c4391347e5495089c7af11b8e6201"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
-                "reference": "81fdccfaf8bdc5d5d7a1ef6bb3a61bbb1a6c4a3e",
+                "url": "https://api.github.com/repos/symfony/console/zipball/b0878233cb5c4391347e5495089c7af11b8e6201",
+                "reference": "b0878233cb5c4391347e5495089c7af11b8e6201",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.5.9",
+                "symfony/debug": "~2.8|~3.0",
+                "symfony/polyfill-mbstring": "~1.0"
+            },
+            "conflict": {
+                "symfony/dependency-injection": "<3.3"
             },
             "require-dev": {
-                "mockery/mockery": "~0.9.1",
-                "symfony/phpunit-bridge": "~3.2"
+                "psr/log": "~1.0",
+                "symfony/config": "~3.3",
+                "symfony/dependency-injection": "~3.3",
+                "symfony/event-dispatcher": "~2.8|~3.0",
+                "symfony/filesystem": "~2.8|~3.0",
+                "symfony/http-kernel": "~2.8|~3.0",
+                "symfony/process": "~2.8|~3.0"
+            },
+            "suggest": {
+                "psr/log": "For using the console logger",
+                "symfony/event-dispatcher": "",
+                "symfony/filesystem": "",
+                "symfony/process": ""
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.4-dev"
+                    "dev-master": "3.3-dev"
                 }
             },
             "autoload": {
-                "files": [
-                    "lib/swift_required.php"
+                "psr-4": {
+                    "Symfony\\Component\\Console\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -242,29 +148,137 @@
             ],
             "authors": [
                 {
-                    "name": "Chris Corbyn"
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
                 },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-07-29 21:27:59"
+        },
+        {
+            "name": "symfony/debug",
+            "version": "v3.3.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/debug.git",
+                "reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+                "reference": "7c13ae8ce1e2adbbd574fc39de7be498e1284e13",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9",
+                "psr/log": "~1.0"
+            },
+            "conflict": {
+                "symfony/http-kernel": ">=2.3,<2.3.24|~2.4.0|>=2.5,<2.5.9|>=2.6,<2.6.2"
+            },
+            "require-dev": {
+                "symfony/http-kernel": "~2.8|~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Debug\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
                 {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Swiftmailer, free feature-rich PHP mailer",
-            "homepage": "http://swiftmailer.org",
-            "keywords": [
-                "email",
-                "mail",
-                "mailer"
+            "description": "Symfony Debug Component",
+            "homepage": "https://symfony.com",
+            "time": "2017-07-28 15:27:31"
+        },
+        {
+            "name": "symfony/polyfill-mbstring",
+            "version": "v1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-mbstring.git",
+                "reference": "f29dca382a6485c3cbe6379f0c61230167681937"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/f29dca382a6485c3cbe6379f0c61230167681937",
+                "reference": "f29dca382a6485c3cbe6379f0c61230167681937",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "suggest": {
+                "ext-mbstring": "For best performance"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Mbstring\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
             ],
-            "time": "2017-02-13T07:52:53+00:00"
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill for the Mbstring extension",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "mbstring",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2017-06-09 14:24:12"
         }
     ],
-    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ridibooks/core": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

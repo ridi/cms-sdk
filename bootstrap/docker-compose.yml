@@ -1,0 +1,56 @@
+version: '2'
+
+services:
+  haproxy:
+    image: haproxy:1.7
+    volumes:
+      - ./haproxy/config:/usr/local/etc/haproxy
+    ports:
+      - 80:80
+    networks:
+      front-tier:
+        aliases:
+          - haproxy
+      back-tier:
+
+  couchbase:
+    image: couchbase:latest
+    volumes:
+      - ./couchbase:/opt/couchbase/var
+    ports:
+      - 8091-8094:8091-8094
+      - 11207:11207
+      - 11210:11210
+      - 11211:11211
+    networks:
+      back-tier:
+        aliases:
+          - couchbase
+
+  main:
+    image: ridibooks/cms:latest
+    ports:
+      - 800:80
+    env_file:
+      - cms/.env
+    networks:
+      back-tier:
+        aliases:
+          - cms_main
+
+# CUSTOM SERVICES START
+
+# CUSTOM SERVICES END
+
+
+networks:
+  front-tier:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.16.0.0/24
+  back-tier:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 172.16.1.0/24

@@ -1,0 +1,17 @@
+{
+  "name": "ridibooks/cms-boilerplate",
+  "description": "Ridibooks CMS Server Aplication",
+  "license": "MIT",
+  "require": {
+    "illuminate/database": "^5.2",
+    "ridibooks/cms-sdk": "^1.0.0",
+    "silex/silex": "^2.0",
+    "twig/twig": "^2.0.0",
+    "vlucas/phpdotenv": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ridibooks\\Cms\\Test\\": "src"
+    }
+  }
+}

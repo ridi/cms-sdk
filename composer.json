@@ -23,14 +23,21 @@
   "require": {
     "apache/thrift": "^0.10.0"
   },
+  "require-dev": {
+    "symfony/console": "^3.3"
+  },
   "suggest": {
     "silex/silex": "^2.0",
-    "twig/twig": "^1.0.0"
+    "twig/twig": "^2.0.0"
   },
+  "bin": [
+    "bin/cms-bootstrap"
+  ],
   "autoload": {
     "psr-4": {
       "Ridibooks\\Platform\\Cms\\": "src",
-      "Ridibooks\\Cms\\Thrift\\": "src/thrift"
+      "Ridibooks\\Cms\\Thrift\\": "src/thrift",
+      "Ridibooks\\Cms\\Console\\": "src/Console"
     }
   }
 }

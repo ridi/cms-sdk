@@ -36,7 +36,6 @@ class UrlHelper
         return $html;
     }
 
-
     /**
      * @param array $query_map
      * @param array $replace
