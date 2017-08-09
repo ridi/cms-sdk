@@ -21,9 +21,7 @@
     }
   ],
   "require": {
-    "apache/thrift": "^0.10.0"
-  },
-  "require-dev": {
+    "apache/thrift": "^0.10.0",
     "symfony/console": "^3.3"
   },
   "suggest": {

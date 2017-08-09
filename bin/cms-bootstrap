@@ -3,7 +3,7 @@
 
 use Ridibooks\Cms\Console\Command;
 
-$autoloader = require_once __DIR__ . '/../vendor/autoload.php';
+$autoloader = require_once __DIR__ . '/../../../autoload.php';
 
 if (!$autoloader) {
     die(
