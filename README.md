@@ -26,8 +26,6 @@ cms-sdk
 │   ├── cms
 │   ├── haproxy
 │   ├── couchbase
-│   ├── custom
-│   │   └── (... your services here ...)
 │   ├── template
 │   ├── example
 │   └── docker-compose.yml
