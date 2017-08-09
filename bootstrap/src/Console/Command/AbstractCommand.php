@@ -15,12 +15,18 @@ class AbstractCommand extends Command
     public function __construct($name = null)
     {
         parent::__construct($name);
-        $this->package_dir = realpath(__DIR__ . '/../../..');
-        $this->project_dir = realpath($this->package_dir . '/../../..');
-        $this->bootstrap_dir = $this->package_dir . '/bootstrap';
+        $this->package_dir = realpath(__DIR__ . '/../../../..');
 
+        // Check stand-alone package,
+        if (file_exists($this->package_dir . '/vendor/autoload.php')) {
+            $this->project_dir = $this->package_dir;
+        } else {
+            $this->project_dir = realpath($this->package_dir . '/../../..');
+        }
+
+        $this->bootstrap_dir = $this->package_dir . '/bootstrap';
         $this->docker_config = $this->bootstrap_dir . '/docker-compose.yml';
-        $this->haproxy_config = $this->bootstrap_dir . '/haproxy/config/haproxy.cfg';
+        $this->haproxy_config = $this->bootstrap_dir . '/service/haproxy/config/haproxy.cfg';
     }
 
     protected function getServices()
@@ -49,15 +55,15 @@ class AbstractCommand extends Command
     protected function addService($service, $path, $dir)
     {
         shell_exec("cp $this->docker_config $this->docker_config.bak");
-        $create_service_cmd = "sed -e 's|{SERVICE_NAME}|$service|g' -e 's|{SERVICE_DIR}|$dir|g' $this->bootstrap_dir/template/docker-compose-service.yml.tpl";
+        $create_service_cmd = "sed -e 's|{SERVICE_NAME}|$service|g' -e 's|{SERVICE_DIR}|$dir|g' $this->bootstrap_dir/template/docker-compose-service.tpl";
         $append_service_cmd = "sed $'/CUSTOM SERVICES START/r/dev/stdin' $this->docker_config.bak";
         shell_exec("$create_service_cmd | $append_service_cmd > $this->docker_config");
 
         shell_exec("cp $this->haproxy_config $this->haproxy_config.bak");
-        $create_acl_cmd = "sed -e 's|{SERVICE_NAME}|$service|g' -e 's|{SUB_PATH}|$path|g' $this->bootstrap_dir/template/haproxy-acl.cfg.tpl";
+        $create_acl_cmd = "sed -e 's|{SERVICE_NAME}|$service|g' -e 's|{SUB_PATH}|$path|g' $this->bootstrap_dir/template/haproxy-acl.tpl";
         $append_acl_cmd = "sed $'/ACL LIST/r/dev/stdin' $this->haproxy_config.bak";
         shell_exec($create_acl_cmd . ' | ' . $append_acl_cmd . ' > ' . "$this->haproxy_config.tmp");
-        $create_backend_cmd = "sed 's|{SERVICE_NAME}|$service|g' $this->bootstrap_dir/template/haproxy-backend.cfg.tpl";
+        $create_backend_cmd = "sed 's|{SERVICE_NAME}|$service|g' $this->bootstrap_dir/template/haproxy-backend.tpl";
         $append_backend_cmd = "sed $'/BACKEND LIST/r/dev/stdin' $this->haproxy_config.tmp";
         shell_exec("$create_backend_cmd | $append_backend_cmd > $this->haproxy_config ; rm $this->haproxy_config.tmp");
 

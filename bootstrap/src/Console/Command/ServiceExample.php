@@ -26,14 +26,14 @@ class ServiceExample extends AbstractCommand
     {
         $service_list = $this->getServices();
         if (empty($service_list)) {
-            $output->writeln('There is no service.');
+            $output->writeln("There is no service. Create service with 'service:add' first");
             return 1;
         }
 
         $service = $input->getArgument('service');
         $helper = $this->getHelper('question');
         if (!isset($service)) {
-            $question = new ChoiceQuestion('Please select service', $service_list);
+            $question = new ChoiceQuestion('Please select service to add example code.', $service_list);
             $question->setAutocompleterValues($service_list);
             $question->setErrorMessage('Wrong select.');
             $service = $helper->ask($input, $output, $question);
@@ -52,8 +52,14 @@ class ServiceExample extends AbstractCommand
             return 0;
         }
 
-        shell_exec("rsync --progress -r $this->bootstrap_dir/example/ $service_dir/");
-        shell_exec("composer install -d=$service_dir");
+        if ($this->project_dir === $service_dir) {
+            shell_exec("rsync --progress -r $this->bootstrap_dir/example/ $service_dir/ --exclude='composer.*'");
+            shell_exec("composer require -d=$service_dir illuminate/database:^5.2 silex/silex:^2.0 twig/twig:^2.0 vlucas/phpdotenv:^2.4");
+        } else {
+            shell_exec("rsync --progress -r $this->bootstrap_dir/example/ $service_dir/");
+            shell_exec("composer install -d=$service_dir");
+        }
+
         $output->writeln("Example is created at $service_dir.");
         return 0;
     }

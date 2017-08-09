@@ -10,7 +10,7 @@ class ServiceList extends AbstractCommand
     protected function configure()
     {
         $this->setName('service:list')
-            ->setDescription('List services configured in docker-composer file.');
+            ->setDescription('List services configured in docker-compose file.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

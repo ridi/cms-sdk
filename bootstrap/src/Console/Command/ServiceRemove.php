@@ -32,7 +32,7 @@ class ServiceRemove extends AbstractCommand
         $service = $input->getArgument('service');
         $helper = $this->getHelper('question');
         if (!isset($service)) {
-            $question = new ChoiceQuestion('Please select service', $service_list);
+            $question = new ChoiceQuestion('Please select service to remove.', $service_list);
             $question->setAutocompleterValues($service_list);
             $question->setErrorMessage('Wrong select.');
             $service = $helper->ask($input, $output, $question);

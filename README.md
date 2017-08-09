@@ -14,7 +14,7 @@ php composer.phar require ridibooks/cms-sdk
 ## cms-bootstrap
 
 cms-sdk has a command line tool, `cms-bootstrap`.
-It helps building local dev environment using `docker-composer`. (should be installed)
+It helps building local dev environment using `docker-compose`. (should be installed)
 See [docker-compose.yml](bootstrap/docker-compose.yml) for detail.
 
 #### Directory
@@ -34,7 +34,7 @@ cms-sdk
 
 Run cms-bootstrap from your project:
 ```
-vendor/bin/cms-bootstap list
+vendor/bin/cms-bootstrap list
 ```
 
 
@@ -56,25 +56,25 @@ Assume that you set an alias `admin.dev.ridi.com` for localhost. (For example, w
     MYSQL_DATABASE=<mysql db>
     ```
 
-2. Write your service at the docker-composer.yml and haproxy.cfg.
+2. Write your service at the docker-compose.yml and haproxy.cfg.
     ```
-    vendor/bin/cms-bootstap service:add my-service test
+    vendor/bin/cms-bootstrap service:add my-service test
     ```
     When prompted, set a service directory with the default value. (It's the path of your project.)
 
 3. You can check if the command succeed. 
     ```
-    vendor/bin/cms-bootstap service:list
+    vendor/bin/cms-bootsrtap service:list
     ```
 
 4. Copy example codes to the service.
     ```
-    vendor/bin/cms-bootstap service:example
+    vendor/bin/cms-bootsrtap service:example
     ```
 
 5. Run docker-compose.
     ```
-    vendor/bin/cms-bootstap docker:up
+    vendor/bin/cms-bootstrap docker:up -d
     ```
 
 6. Setup Couchbase (**Only first time**)
@@ -82,7 +82,7 @@ Assume that you set an alias `admin.dev.ridi.com` for localhost. (For example, w
     - Create `session` bucket. 
     - See https://developer.couchbase.com/documentation/server/4.5/install/init-setup.html
 
-7. Open `http://admin.dev.ridi.com` with a browser.
+7. Open `http://admin.dev.ridi.com/test/home` with a browser.
 
 8. Clean docker containers and networks.
     ```

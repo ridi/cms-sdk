@@ -35,7 +35,7 @@
     "psr-4": {
       "Ridibooks\\Platform\\Cms\\": "src",
       "Ridibooks\\Cms\\Thrift\\": "src/thrift",
-      "Ridibooks\\Cms\\Console\\": "src/Console"
+      "Ridibooks\\Cms\\Console\\": "bootstrap/src/Console"
     }
   }
 }
