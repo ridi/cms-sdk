@@ -22,6 +22,7 @@ services:
       - 11207:11207
       - 11210:11210
       - 11211:11211
+    entrypoint: /opt/couchbase/var/entrypoint.sh
     networks:
       back-tier:
         aliases:

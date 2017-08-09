@@ -77,14 +77,9 @@ Assume that you set an alias `admin.dev.ridi.com` for localhost. (For example, w
     vendor/bin/cms-bootstrap docker:up -d
     ```
 
-6. Setup Couchbase (**Only first time**)
-    - Configure Couchbase at http://admin.dev.ridi.com:8091.
-    - Create `session` bucket. 
-    - See https://developer.couchbase.com/documentation/server/4.5/install/init-setup.html
+6. Open `http://admin.dev.ridi.com/test/home` with a browser.
 
-7. Open `http://admin.dev.ridi.com/test/home` with a browser.
-
-8. Clean docker containers and networks.
+7. Clean docker containers and networks.
     ```
     vendor/bin/cms-bootstrap docker:down
     ```

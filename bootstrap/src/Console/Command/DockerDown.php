@@ -15,6 +15,6 @@ class DockerDown extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        shell_exec("docker-compose -f $this->docker_config down");
+        shell_exec("COMPOSE_PROJECT_NAME=cms docker-compose -f $this->docker_config down");
     }
 }

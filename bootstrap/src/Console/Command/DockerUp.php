@@ -24,6 +24,6 @@ class DockerUp extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $detached_option = $input->getOption('detached') ? '-d' : '';
-        shell_exec("docker-compose -f $this->docker_config up $detached_option");
+        shell_exec("COMPOSE_PROJECT_NAME=cms docker-compose -f $this->docker_config up $detached_option");
     }
 }
