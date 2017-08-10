@@ -158,9 +158,6 @@
             window.location.href = event.choice.id;
           });
 
-          {#glyphicon-question-sign popover 설정#}
-          $(".glyphicon-question-sign").popover({trigger: "hover", container: "body", html: "true"});
-
           var collapseList = $('li.active').closest('ul');
           collapseList.addClass('in');
         });
