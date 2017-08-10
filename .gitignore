@@ -1,2 +1,4 @@
 .idea
+*.bak
+bootstrap/service/couchbase/lib
 vendor
