@@ -1,8 +1,8 @@
 <?php
 
-namespace Ridibooks\Platform\Cms\Auth;
+namespace Ridibooks\Cms\Auth;
 
-use Ridibooks\Platform\Cms\Session\CouchbaseSessionHandler;
+use Ridibooks\Cms\Session\CouchbaseSessionHandler;
 
 class LoginService
 {

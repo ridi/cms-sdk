@@ -1,5 +1,5 @@
 <?php
-namespace Ridibooks\Platform\Cms;
+namespace Ridibooks\Cms;
 
 use Silex\Application;
 use Silex\Application\TwigTrait;

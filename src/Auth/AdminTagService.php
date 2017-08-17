@@ -1,5 +1,5 @@
 <?php
-namespace Ridibooks\Platform\Cms\Auth;
+namespace Ridibooks\Cms\Auth;
 
 use Ridibooks\Cms\Thrift\ThriftService;
 

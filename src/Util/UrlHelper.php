@@ -1,5 +1,5 @@
 <?php
-namespace Ridibooks\Platform\Cms\Util;
+namespace Ridibooks\Cms\Util;
 
 class UrlHelper
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Ridibooks\Platform\Cms\Session;
+namespace Ridibooks\Cms\Session;
 
 class CouchbaseSessionHandler implements \SessionHandlerInterface
 {

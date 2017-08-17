@@ -1,8 +1,8 @@
 <?php
 
-namespace Ridibooks\Platform\Cms\Auth;
+namespace Ridibooks\Cms\Auth;
 
-use Ridibooks\Platform\Cms\Util\UrlHelper;
+use Ridibooks\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

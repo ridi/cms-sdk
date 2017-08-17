@@ -1,8 +1,8 @@
 <?php
 
-namespace Ridibooks\Platform\Cms;
+namespace Ridibooks\Cms;
 
-use Ridibooks\Platform\Cms\Util\UrlHelper;
+use Ridibooks\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\Request;
 
 class PaginationHelper

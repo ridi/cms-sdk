@@ -1,6 +1,6 @@
 <?php
 
-namespace Ridibooks\Platform\Cms\Auth;
+namespace Ridibooks\Cms\Auth;
 
 class PasswordService
 {
