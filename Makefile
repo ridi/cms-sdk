@@ -1,10 +1,10 @@
-.PHONY: all client thrift
+.PHONY: all thrift
 
-all: client thrift
-
-client:
-	composer install --no-dev --optimize-autoloader
+all: thrift
 
 thrift:
-	make -C src/thrift-src
-
+	thrift -r --gen php:server,psr4 src/Thrift/AdminMenu.thrift
+	thrift -r --gen php:server,psr4 src/Thrift/AdminTag.thrift
+	thrift -r --gen php:server,psr4 src/Thrift/AdminUser.thrift
+	cp -r gen-php/Ridibooks/Cms/Thrift/* src/Thrift/
+	rm -rf gen-php
