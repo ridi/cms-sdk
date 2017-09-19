@@ -1,0 +1,6 @@
+{
+  "extends": "@ridi",
+  "rules": {
+    "import/prefer-default-export": "off"
+  }
+}

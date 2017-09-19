@@ -23,11 +23,6 @@ cms-sdk
 ...
 ```
 
-## Install
-```
-composer require ridibooks/cms-sdk
-```
-
 ## Dependencies
 To make RPC client, you should install Apache Thrift.
 ```
@@ -35,15 +30,12 @@ To make RPC client, you should install Apache Thrift.
 brew install thrift
 ```
 
-## Usage
-
-To communicate with CMS auth server, write the following at the beginning of your project.
-```
-ThriftService::setEndPoint('https://cms.auth.server');
-```
-atfer then, you can call the methods in Ridibooks/Cms/Auth classes.
-
+## Generate code
 To generate thrift code, please run:
 ```
 make thrift
 ```
+
+## Usage
+- [PHP](./lib/php/README.md)
+- [Node.js](./lib/nodejs/README.md)

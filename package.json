@@ -1,0 +1,35 @@
+{
+  "name": "ridibooks-cms-sdk",
+  "version": "2.1.0",
+  "description": "RIDI CMS Service Develop Kit",
+  "main": "lib/nodejs/dist",
+  "dependencies": {
+    "thrift": "^0.10.0"
+  },
+  "devDependencies": {
+    "@ridi/eslint-config": "^3.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "eslint": "^4.7.1"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js lib/nodejs/src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel lib/nodejs/src --out-dir lib/nodejs/dist --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ridibooks/cms-sdk.git"
+  },
+  "keywords": [
+    "javascript",
+    "ridi",
+    "ridibooks"
+  ],
+  "bugs": {
+    "url": "https://github.com/ridibooks/cms-sdk/issues"
+  },
+  "homepage": "https://github.com/ridibooks/cms-sdk#readme",
+  "author": "kt.kang@ridi.com",
+  "license": "MIT"
+}
