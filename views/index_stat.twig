@@ -69,7 +69,7 @@
             .split(tmpColDelim).join(colDelim) + '</td></tr></table>';
 
         // Data URI
-        var xlsData = 'data:application/xls;charset=utf-8,' + encodeURIComponent(csv);
+        var xlsData = 'data:application/xls;charset=utf-8,%EF%BB%BF' + encodeURIComponent(csv);
 
         $(this)
           .attr({
