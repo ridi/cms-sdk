@@ -32,7 +32,7 @@
   "scripts": {
     "lint": "eslint --ext .js lib/javascript/src",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel lib/javascript/src --out-dir lib/javascript/dist --ignore ./node_modules,./.babelrc,./package.json,./npm-debug.log --copy-files"
+    "build": "babel lib/javascript/src -d lib/javascript/dist"
   },
   "repository": {
     "type": "git",
