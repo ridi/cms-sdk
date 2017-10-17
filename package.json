@@ -2,9 +2,14 @@
   "name": "@ridibooks/cms-sdk",
   "version": "2.1.0",
   "description": "RIDI CMS Service Develop Kit",
-  "main": "lib/javascript/dist",
+  "main": "./lib/js/dist/index.js",
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-beta",
+    "connect-couchbase": "^0.2.10",
+    "couchbase": "^2.4.1",
+    "express": "^4.13.3",
+    "express-session": "^1.15.6",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-select": "^1.0.0-rc.10",
@@ -30,9 +35,9 @@
     "webpack-manifest-plugin": "^1.3.2"
   },
   "scripts": {
-    "lint": "eslint --ext .js lib/javascript/src",
+    "lint": "eslint --ext .js lib/js/lib",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel lib/javascript/src -d lib/javascript/dist"
+    "build": "babel lib/js/lib -d lib/js/dist"
   },
   "repository": {
     "type": "git",
