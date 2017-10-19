@@ -10,14 +10,14 @@ const cbStore = new couchbaseStore({
     bucket: "session",
 });
 
-const { CmsClient, UserAuth } = require('../../lib/js/dist');
+const { CmsClient, UserMenu } = require('../../lib/js/dist');
 
 const cmsRpcUrl = 'http://localhost:8000';
 const client = new CmsClient(cmsRpcUrl);
-const userAuth = new UserAuth();
+const userMenu = new UserMenu();
 
 async function readAuth(userId, sessionId) {
-    return await userAuth.readUserAuth(client, userId, true);
+    return await userMenu.readUserAuth(client, userId, true);
 }
 
 async function authorizer(req, res, next) {
@@ -26,12 +26,12 @@ async function authorizer(req, res, next) {
         return;
     }
 
-    const auth = req.session.userAuth;
-    if (!auth) {
+    const userMenus = req.session.userMenu;
+    if (!userMenus) {
         res.redirect(`/login`);
         return;
     }
-    const hasAuth = await userAuth.hasUrlAuth(auth, req.method, req.url);
+    const hasAuth = await userMenu.hasUrlAuth(userMenus, req.method, req.url);
     console.log(`hasAuth: ${req.url}, ${hasAuth}`);
     if (!hasAuth) {
         res.sendStatus(403);
@@ -51,14 +51,15 @@ app.use(authorizer);
 
 app.get('/', function (req, res) {
     // send menu items for the user.
-    res.json(req.session.userAuth.menus);
+    res.json(req.session.userMenu.menus);
 });
 
 app.get('/login', function (req, res) {
     console.log('Login');
-    readAuth('admin', req.session.id).then(function(data) {
-        req.session.userAuth = data;
-        res.redirect('/');
+    readAuth('admin', req.session.id)
+        .then(function(data) {
+            req.session.userMenu = data;
+            res.redirect('/');
     });
 });
 
