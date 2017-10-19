@@ -22,7 +22,7 @@ npm install ridibooks-cms-sdk
 
 ## Usage
 ```
-const { Client } = require('ridibooks-cms-sdk');
+const { CmsClient } = require('@ridibooks/cms-sdk');
 
 const client = new Client('http://localhost:8000');
 
