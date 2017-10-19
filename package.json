@@ -6,7 +6,6 @@
   "dependencies": {
     "babel-polyfill": "^6.26.0",
     "bootstrap": "4.0.0-beta",
-    "connect-couchbase": "^0.2.10",
     "couchbase": "^2.4.1",
     "select2": "^4.0.4",
     "thrift": "^0.10.0"
@@ -19,10 +18,13 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
+    "connect-couchbase": "^0.2.10",
     "css-loader": "^0.28.7",
     "eslint": "^4.7.1",
     "eslint-config-ridibooks": "^2.0.1",
     "eslint-loader": "^1.9.0",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "file-loader": "^0.11.2",
     "mocha": "^4.0.1",
     "style-loader": "^0.18.2",
