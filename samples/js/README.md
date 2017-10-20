@@ -5,7 +5,7 @@
 This example requires cms and couchbase servers. There is prebuilt docker environments for these servers.
 
 ### Run prebuilt docker environments locally(cms, couchbase)
-- Clone cms-bootstrap('https://gitlab.ridi.io/performance/cms-bootstrap').
+- Clone cms-bootstrap('https://github.com/ridibooks/cms-bootstrap').
 - Run ```docker-compose up``` in the cloned directory.
 
 ### Run the example
