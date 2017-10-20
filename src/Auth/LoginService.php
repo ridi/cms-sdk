@@ -6,7 +6,7 @@ use Ridibooks\Platform\Cms\Session\CouchbaseSessionHandler;
 
 class LoginService
 {
-    const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
+    const SESSION_TIMEOUT_SEC = 60 * 60 * 12; // 12hours
 
     /**
      * @param string $id
