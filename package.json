@@ -38,6 +38,12 @@
     "test-unit": "NODE_ENV=test mocha --compilers js:babel-core/register 'lib/js/dist/**/*.spec.js'",
     "build": "babel lib/js/lib -d lib/js/dist"
   },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "README.md",
+    "lib/js/dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ridibooks/cms-sdk.git"
