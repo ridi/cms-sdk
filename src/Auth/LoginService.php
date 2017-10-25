@@ -102,14 +102,16 @@ class LoginService
 
     public static function startSession()
     {
-        session_set_cookie_params(self::SESSION_TIMEOUT_SEC, '/', $_SERVER['SERVER_NAME']);
+        $session_lifetime = defined('\Config::SESSION_TIMEOUT_SEC') ? \Config::SESSION_TIMEOUT_SEC : self::SESSION_TIMEOUT_SEC;
+        session_set_cookie_params($session_lifetime, '/', $_SERVER['SERVER_NAME']);
         session_start();
     }
 
     public static function startCouchbaseSession($server_hosts)
     {
+        $session_lifetime = defined('\Config::SESSION_TIMEOUT_SEC') ? \Config::SESSION_TIMEOUT_SEC : self::SESSION_TIMEOUT_SEC;
         session_set_save_handler(
-            new CouchbaseSessionHandler(implode(',', $server_hosts), 'session', self::SESSION_TIMEOUT_SEC),
+            new CouchbaseSessionHandler(implode(',', $server_hosts), 'session', $session_lifetime),
             true
         );
 
