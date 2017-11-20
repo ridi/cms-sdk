@@ -9,6 +9,8 @@ use Thrift\Transport\TSocket;
 
 class ThriftService
 {
+	const HTTP_TIMEOUT_SECS = 60;
+
 	private static $host = 'localhost';
 	private static $port = '80';
 	private static $path = '/';
@@ -34,6 +36,7 @@ class ThriftService
 	public static function getHttpClient($thrift_name)
 	{
 		$transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
+		$transport->setTimeoutSecs(self::HTTP_TIMEOUT_SECS);
 		$protocol = new TJSONProtocol($transport);
 		$multiplexed_protocol = new TMultiplexedProtocol($protocol, $thrift_name);
 		return self::getClient($thrift_name, $multiplexed_protocol);
