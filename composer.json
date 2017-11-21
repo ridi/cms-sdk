@@ -1,25 +1,8 @@
 {
   "name": "ridibooks/cms-sdk",
   "description": "Ridibooks CMS SDK",
+  "type": "library",
   "license": "MIT",
-  "authors": [
-    {
-      "name": "김범준",
-      "email": "bj.kim@ridi.com"
-    },
-    {
-      "name": "박주현",
-      "email": "blu@ridi.com"
-    },
-    {
-      "name": "이영규",
-      "email": "younggyu.lee@ridi.com"
-    },
-    {
-      "name": "강기태",
-      "email": "kt.kang@ridi.com"
-    }
-  ],
   "require": {
     "apache/thrift": "^0.10.0"
   },
