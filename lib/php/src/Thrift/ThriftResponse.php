@@ -16,30 +16,30 @@ use Thrift\Transport\TMemoryBuffer;
 
 class ThriftResponse
 {
-	public static function create(Request $request)
-	{
-		$processor = new TMultiplexedProcessor();
-		$menu_processor = new AdminMenuServiceProcessor(new AdminMenuService());
-		$processor->registerProcessor('AdminMenu', $menu_processor);
-		$user_processor = new AdminUserServiceProcessor(new AdminUserService());
-		$processor->registerProcessor('AdminUser', $user_processor);
-		$tag_processor = new AdminTagServiceProcessor(new AdminTagService());
-		$processor->registerProcessor('AdminTag', $tag_processor);
+    public static function create(Request $request)
+    {
+        $processor = new TMultiplexedProcessor();
+        $menu_processor = new AdminMenuServiceProcessor(new AdminMenuService());
+        $processor->registerProcessor('AdminMenu', $menu_processor);
+        $user_processor = new AdminUserServiceProcessor(new AdminUserService());
+        $processor->registerProcessor('AdminUser', $user_processor);
+        $tag_processor = new AdminTagServiceProcessor(new AdminTagService());
+        $processor->registerProcessor('AdminTag', $tag_processor);
 
-		$readTransport = new TMemoryBuffer($request->getContent(false));
-		$writeTransport = new TMemoryBuffer();
-		$readProtocol = new TJSONProtocol($readTransport);
-		$writeProtocol = new TJSONProtocol($writeTransport);
+        $readTransport = new TMemoryBuffer($request->getContent(false));
+        $writeTransport = new TMemoryBuffer();
+        $readProtocol = new TJSONProtocol($readTransport);
+        $writeProtocol = new TJSONProtocol($writeTransport);
 
-		$readTransport->open();
-		$writeTransport->open();
-		$processor->process($readProtocol, $writeProtocol);
-		$readTransport->close();
-		$writeTransport->close();
+        $readTransport->open();
+        $writeTransport->open();
+        $processor->process($readProtocol, $writeProtocol);
+        $readTransport->close();
+        $writeTransport->close();
 
-		$content = $writeTransport->getBuffer();
-		return Response::create($content, 200, [
-			'Content-Type' => 'application/x-thrift'
-		]);
-	}
+        $content = $writeTransport->getBuffer();
+        return Response::create($content, 200, [
+            'Content-Type' => 'application/x-thrift'
+        ]);
+    }
 }
