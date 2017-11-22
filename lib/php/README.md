@@ -1,7 +1,7 @@
 # Ridibooks CMS SDK - PHP
 
 ## Install
-```
+```sh
 composer require ridibooks/cms-sdk
 ```
 
@@ -17,7 +17,7 @@ composer require ridibooks/cms-sdk
 
 ## Usage
 To communicate with CMS auth server, write the following at the beginning of your project.
-```
+```php
 ThriftService::setEndPoint('https://cms.auth.server');
 ```
 atfer then, you can call the methods in Ridibooks/Cms/Auth classes.

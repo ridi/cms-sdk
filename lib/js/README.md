@@ -1,7 +1,7 @@
 # Ridibooks CMS SDK - javascript
 
 ## Install
-```
+```sh
 npm install @ridibooks/cms-sdk
 ```
 
@@ -20,7 +20,7 @@ npm install @ridibooks/cms-sdk
 ```
 
 ## Usage
-```
+```js
 const { CmsClient } = require('@ridibooks/cms-sdk');
 
 const client = new Client('http://localhost:8000');
