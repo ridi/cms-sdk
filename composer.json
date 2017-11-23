@@ -4,9 +4,8 @@
   "type": "library",
   "license": "MIT",
   "require": {
-    "apache/thrift": "^0.10.0"
-  },
-  "suggest": {
+    "apache/thrift": "^0.10.0",
+    "ext-couchbase": "*",
     "silex/silex": "^2.0",
     "twig/twig": "^2.0"
   },
