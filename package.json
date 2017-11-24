@@ -5,7 +5,9 @@
   "main": "./lib/js/dist/index.js",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "couchbase": "^2.4.1",
+    "cookies": "^0.7.1",
+    "couchbase": "^2.4.2",
+    "php-unserialize": "0.0.1",
     "thrift": "^0.10.0"
   },
   "devDependencies": {

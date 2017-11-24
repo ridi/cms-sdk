@@ -1,73 +1,56 @@
 require('babel-polyfill')
 const express = require('express')
-const session = require('express-session');
-const couchbaseStore = require('connect-couchbase')(session);
-const { CmsClient, UserMenu } = require('../../lib/js/dist');
+const Cookies = require('cookies');
+const { CmsSdk, CmsSession } = require('../../lib/js/dist');
 
-const cmsRpcUrl = 'http://localhost:8000';
-const client = new CmsClient(cmsRpcUrl);
-const userMenu = new UserMenu();
+const sdk = new CmsSdk({
+  cmsRpcUrl: 'http://admin.dev.ridi.com',
+  couchbaseUri: '127.0.0.1',
+});
 
-const isDev = true; // process.env.NODE_ENV || 'dev'
-const USER_ID = 'admin';
-
-async function readUserMenus(userId) {
-  return userMenu.readUserMenus(client, userId, isDev);
+function authorizer(req, res, next) {
+  console.log(req.url)
+  // check login
+  const loginId = req.session.getLoginId();
+  if (loginId == null) {
+    const loginUrl = sdk.getLoginPageUrl(req.url);
+    res.redirect(req.baseUrl + loginUrl);
+    return
+  }
+  sdk.accessMenu(loginI, req.method, req.url).then(allowed => {
+    if (allowed) {
+      console.log(`access allowed: ${req.url}`);
+      next();
+    } else {
+      res.sendStatus(403);
+    }
+  });
 }
 
-async function authorizer(req, res, next) {
-  if (req.path === '/login') {
+function cmsSession(req, res, next) {
+  const cookies = new Cookies(req, null);
+  const sessionId = cookies.get('PHPSESSID');
+  req.session = new CmsSession(sessionId, sdk);
+  req.session.load().then(session => {
     next();
-    return;
-  }
-
-  const userMenus = req.session.userMenu;
-  if (!userMenus) {
-    res.redirect('/login');
-    return;
-  }
-  const hasAuth = await userMenu.hasUrlAuth(userMenus, req.method, req.url);
-  console.log(`hasAuth: ${req.url}, ${hasAuth}`);
-  if (!hasAuth) {
-    res.sendStatus(403);
-    return;
-  }
-  next();
+  });
 }
 
 const app = express();
 
-app.use(session({
-  // use the default PHP session cookie name
-  name: 'PHPSESSID',
-  secret: 'example',
-  store: new couchbaseStore({
-    bucket: 'session',
-  }),
-}));
+app.use(cmsSession);
 
 app.use(authorizer);
 
-app.get('/', (req, res) => {
-  // show menu items allowed for the user.
-  res.json(req.session.userMenu.menus);
+app.get('/example/home', function (req, res) {
+  res.json(req.session.getUserMenus());
 });
 
-app.get('/login', (req, res) => {
-  console.log('Login');
-  readUserMenus(USER_ID)
-    .then((data) => {
-      // save user menu info in session.
-      req.session.userMenu = data;
-      res.redirect('/');
-    });
+// forbiden
+app.get('/example/', function (req, res) {
+  res.send(req.session.getLoginId());
 });
 
-// this route path is listed in the user menu list.
-app.get('/super/logs', (req, res) => {
-  res.send('Restricted page');
-});
-
-app.listen(8080, () => {
-  console.log('Example app listening on port 8080!');
+app.listen(8080, function () {
+  console.log('Example app listening on port 8080!')
 });
