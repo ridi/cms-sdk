@@ -11,7 +11,7 @@
     "thrift": "^0.10.0"
   },
   "devDependencies": {
-    "@ridi/eslint-config": "^3.0.0",
+    "@ridi/eslint-config": "^3.1.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -20,7 +20,7 @@
     "chai": "^4.1.2",
     "connect-couchbase": "^0.2.10",
     "css-loader": "^0.28.7",
-    "eslint": "^4.7.1",
+    "eslint": "^4.12.0",
     "eslint-config-ridibooks": "^2.0.1",
     "eslint-loader": "^1.9.0",
     "express": "^4.16.2",
@@ -33,7 +33,7 @@
     "webpack-manifest-plugin": "^1.3.2"
   },
   "scripts": {
-    "lint": "eslint --ext .js lib/js/lib",
+    "lint": "eslint --ext .js --ignore-pattern 'lib/js/lib/CmsClient/thrift/*' lib/js/lib",
     "test": "npm run build && npm run test-unit",
     "test-unit": "NODE_ENV=test mocha --compilers js:babel-core/register 'lib/js/dist/**/*.spec.js'",
     "build": "babel lib/js/lib -d lib/js/dist"

@@ -18,7 +18,7 @@ async function authorizer(req, res, next) {
     return;
   }
 
-  const allowed = await req.session.accessMenu(req.method, req.url);
+  const allowed = await req.session.authorizeUrl(req.method, req.url);
   if (allowed) {
     console.log(`access allowed: ${req.url}`);
     next();
