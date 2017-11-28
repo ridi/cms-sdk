@@ -1,5 +1,5 @@
-require('babel-polyfill')
-const express = require('express')
+require('babel-polyfill');
+const express = require('express');
 const Cookies = require('cookies');
 const { CmsSdk, CmsSession } = require('../../lib/js/dist');
 
@@ -9,7 +9,7 @@ const sdk = new CmsSdk({
 });
 
 async function authorizer(req, res, next) {
-  console.log(req.url)
+  console.log(req.url);
 
   const login = req.session && await req.session.isLogin();
   if (!login) {
@@ -46,15 +46,15 @@ app.use(cmsSession);
 
 app.use(authorizer);
 
-app.get('/example/home', function (req, res) {
+app.get('/example/home', (req, res) => {
   res.json(req.session.getUserMenus());
 });
 
 // forbiden
-app.get('/example/', function (req, res) {
+app.get('/example/', (req, res) => {
   res.send(req.session.getLoginId());
 });
 
-app.listen(8080, function () {
-  console.log('Example app listening on port 8080!')
+app.listen(8080, () => {
+  console.log('Example app listening on port 8080!');
 });
