@@ -1,4 +1,4 @@
-# Ridibooks CMS SDK sample - Node.js
+# Ridibooks CMS SDK sample - PHP
 
 ## Setup
 
@@ -8,5 +8,5 @@
   - `make cms-up`
 - In the previouse console, migrate the sample DB.
   - `cd cms-bootstrap && make migrate-samples`
-- Run the example: `node index.js`
+- Run the example: `php -S 127.0.0.1:8080 -t web/`
 - `open http://admin.dev.ridi.com/example/home`
