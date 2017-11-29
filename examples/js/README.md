@@ -7,6 +7,6 @@
 - Open a new console and run CMS server on Docker
   - `make cms-up`
 - In the previouse console, migrate the sample DB.
-  - `cd cms-bootstrap && make migrate-samples`
+  - `make -C cms-bootstrap migrate-samples`
 - Run the example: `node index.js`
 - `open http://admin.dev.ridi.com/example/home`
