@@ -34,7 +34,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js --ignore-pattern 'lib/js/lib/CmsClient/thrift/*' lib/js/lib",
-    "test": "NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill 'lib/js/lib/**/*.spec.js'",
+    "test": "NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill 'lib/js/test/**/*.spec.js'",
     "build": "babel lib/js/lib -d lib/js/dist"
   },
   "files": [
