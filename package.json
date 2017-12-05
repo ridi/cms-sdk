@@ -1,11 +1,10 @@
 {
-  "name": "@ridibooks/cms-sdk",
-  "version": "2.1.0",
+  "name": "@ridi/cms-sdk",
+  "version": "2.0.0",
   "description": "Ridibooks CMS SDK",
   "main": "./lib/js/dist/index.js",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "cookies": "^0.7.1",
     "couchbase": "^2.4.2",
     "php-unserialize": "0.0.1",
     "thrift": "^0.10.0"
@@ -18,13 +17,11 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
-    "connect-couchbase": "^0.2.10",
     "css-loader": "^0.28.7",
     "eslint": "^4.12.0",
     "eslint-config-ridibooks": "^2.0.1",
     "eslint-loader": "^1.9.0",
     "express": "^4.16.2",
-    "express-session": "^1.15.6",
     "file-loader": "^0.11.2",
     "mocha": "^4.0.1",
     "style-loader": "^0.18.2",
@@ -45,7 +42,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ridibooks/cms-sdk.git"
+    "url": "git+https://github.com/ridi/cms-sdk.git"
   },
   "keywords": [
     "javascript",
@@ -53,8 +50,8 @@
     "ridibooks"
   ],
   "bugs": {
-    "url": "https://github.com/ridibooks/cms-sdk/issues"
+    "url": "https://github.com/ridi/cms-sdk/issues"
   },
-  "homepage": "https://github.com/ridibooks/cms-sdk#readme",
+  "homepage": "https://github.com/ridi/cms-sdk#readme",
   "license": "MIT"
 }
