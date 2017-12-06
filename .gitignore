@@ -1,3 +1,7 @@
 .idea
+.vscode
 composer.lock
+node_modules
+package-lock.json
 vendor
+yarn.lock

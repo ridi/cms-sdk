@@ -1,0 +1,57 @@
+{
+  "name": "@ridi/cms-sdk",
+  "version": "2.0.0",
+  "description": "Ridibooks CMS SDK",
+  "main": "./lib/js/dist/index.js",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "couchbase": "^2.4.2",
+    "php-unserialize": "0.0.1",
+    "thrift": "^0.10.0"
+  },
+  "devDependencies": {
+    "@ridi/eslint-config": "^3.1.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "chai": "^4.1.2",
+    "css-loader": "^0.28.7",
+    "eslint": "^4.12.0",
+    "eslint-config-ridibooks": "^2.0.1",
+    "eslint-loader": "^1.9.0",
+    "express": "^4.16.2",
+    "file-loader": "^0.11.2",
+    "mocha": "^4.0.1",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.9",
+    "webpack": "^3.6.0",
+    "webpack-manifest-plugin": "^1.3.2"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js --ignore-pattern 'lib/js/lib/CmsClient/thrift/*' lib/js/lib lib/js/test",
+    "test": "NODE_ENV=test mocha --compilers js:babel-register --require babel-polyfill 'lib/js/test/**/*.spec.js'",
+    "build": "babel lib/js/lib -d lib/js/dist"
+  },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "README.md",
+    "lib/js/dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ridi/cms-sdk.git"
+  },
+  "keywords": [
+    "javascript",
+    "ridi",
+    "ridibooks"
+  ],
+  "bugs": {
+    "url": "https://github.com/ridi/cms-sdk/issues"
+  },
+  "homepage": "https://github.com/ridi/cms-sdk#readme",
+  "license": "MIT"
+}
