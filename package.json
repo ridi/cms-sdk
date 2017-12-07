@@ -38,7 +38,8 @@
     "LICENSE",
     "HISTORY.md",
     "README.md",
-    "lib/js/dist"
+    "lib/js/dist",
+    "lib/js/lib"
   ],
   "repository": {
     "type": "git",
