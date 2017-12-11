@@ -2,6 +2,7 @@
 
 namespace Ridibooks\Cms\Auth;
 
+use Ridibooks\Cms\Thrift\ThriftService;
 use Ridibooks\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -428,5 +429,16 @@ class AdminAuthService
         }
 
         return null;
+    }
+
+    /**
+     * @param string $user_id
+     * @param string $request_url
+     * @return bool
+     */
+    public static function authorizeRequest($user_id, $request_url)
+    {
+        $client = ThriftService::getHttpClient('AdminAuth');
+        return $client->authorizeRequest($user_id, $request_url);
     }
 }

@@ -2,6 +2,7 @@
 namespace Ridibooks\Cms;
 
 use Ridibooks\Cms\Auth\AdminAuthService;
+use Ridibooks\Cms\Auth\LoginService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -83,7 +84,8 @@ class MiniRouter
             return null;
         }
 
-        $login_required_response = AdminAuthService::authorize($request);
+        $admin_id = LoginService::GetAdminID();
+        $login_required_response = AdminAuthService::authorizeRequest($admin_id, $request->getRequestUri());
         if ($login_required_response !== null) {
             return $login_required_response;
         }
