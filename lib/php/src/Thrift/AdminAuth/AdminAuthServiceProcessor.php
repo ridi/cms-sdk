@@ -43,13 +43,13 @@ class AdminAuthServiceProcessor {
     return true;
   }
 
-  protected function process_authorizeRequest($seqid, $input, $output) {
-    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeRequest_args();
+  protected function process_hasHashAuth($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasHashAuth_args();
     $args->read($input);
     $input->readMessageEnd();
-    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeRequest_result();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasHashAuth_result();
     try {
-      $result->success = $this->handler_->authorizeRequest($args->userId, $args->requestUrl);
+      $result->success = $this->handler_->hasHashAuth($args->hash, $args->checkUrl, $args->adminId);
     } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
       $result->userException = $userException;
         } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
@@ -58,11 +58,61 @@ class AdminAuthServiceProcessor {
     $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($output, 'authorizeRequest', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+      thrift_protocol_write_binary($output, 'hasHashAuth', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
     }
     else
     {
-      $output->writeMessageBegin('authorizeRequest', TMessageType::REPLY, $seqid);
+      $output->writeMessageBegin('hasHashAuth', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_getCurrentHashArray($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getCurrentHashArray_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getCurrentHashArray_result();
+    try {
+      $result->success = $this->handler_->getCurrentHashArray($args->checkUrl, $args->adminId);
+    } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
+      $result->userException = $userException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'getCurrentHashArray', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('getCurrentHashArray', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_getAdminMenu($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getAdminMenu_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getAdminMenu_result();
+    try {
+      $result->success = $this->handler_->getAdminMenu($args->adminId);
+    } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
+      $result->userException = $userException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'getAdminMenu', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('getAdminMenu', TMessageType::REPLY, $seqid);
       $result->write($output);
       $output->writeMessageEnd();
       $output->getTransport()->flush();

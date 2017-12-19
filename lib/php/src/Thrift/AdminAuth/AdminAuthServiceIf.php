@@ -21,13 +21,29 @@ use Thrift\Exception\TApplicationException;
  */
 interface AdminAuthServiceIf {
   /**
-   * @param string $userId
-   * @param string $requestUrl
+   * @param string $hash
+   * @param string $checkUrl
+   * @param string $adminId
    * @return bool
    * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
-  public function authorizeRequest($userId, $requestUrl);
+  public function hasHashAuth($hash, $checkUrl, $adminId);
+  /**
+   * @param string $checkUrl
+   * @param string $adminId
+   * @return string[]
+   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   */
+  public function getCurrentHashArray($checkUrl, $adminId);
+  /**
+   * @param string $adminId
+   * @return \Ridibooks\Cms\Thrift\AdminAuth\AdminMenu[]
+   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   */
+  public function getAdminMenu($adminId);
 }
 
 

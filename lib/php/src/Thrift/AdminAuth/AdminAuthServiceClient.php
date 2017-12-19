@@ -27,35 +27,36 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
     $this->output_ = $output ? $output : $input;
   }
 
-  public function authorizeRequest($userId, $requestUrl)
+  public function hasHashAuth($hash, $checkUrl, $adminId)
   {
-    $this->send_authorizeRequest($userId, $requestUrl);
-    return $this->recv_authorizeRequest();
+    $this->send_hasHashAuth($hash, $checkUrl, $adminId);
+    return $this->recv_hasHashAuth();
   }
 
-  public function send_authorizeRequest($userId, $requestUrl)
+  public function send_hasHashAuth($hash, $checkUrl, $adminId)
   {
-    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeRequest_args();
-    $args->userId = $userId;
-    $args->requestUrl = $requestUrl;
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasHashAuth_args();
+    $args->hash = $hash;
+    $args->checkUrl = $checkUrl;
+    $args->adminId = $adminId;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($this->output_, 'authorizeRequest', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+      thrift_protocol_write_binary($this->output_, 'hasHashAuth', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
     }
     else
     {
-      $this->output_->writeMessageBegin('authorizeRequest', TMessageType::CALL, $this->seqid_);
+      $this->output_->writeMessageBegin('hasHashAuth', TMessageType::CALL, $this->seqid_);
       $args->write($this->output_);
       $this->output_->writeMessageEnd();
       $this->output_->getTransport()->flush();
     }
   }
 
-  public function recv_authorizeRequest()
+  public function recv_hasHashAuth()
   {
     $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeRequest_result', $this->input_->isStrictRead());
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasHashAuth_result', $this->input_->isStrictRead());
     else
     {
       $rseqid = 0;
@@ -69,7 +70,7 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
         $this->input_->readMessageEnd();
         throw $x;
       }
-      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeRequest_result();
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasHashAuth_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }
@@ -82,7 +83,122 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
     if ($result->systemException !== null) {
       throw $result->systemException;
     }
-    throw new \Exception("authorizeRequest failed: unknown result");
+    throw new \Exception("hasHashAuth failed: unknown result");
+  }
+
+  public function getCurrentHashArray($checkUrl, $adminId)
+  {
+    $this->send_getCurrentHashArray($checkUrl, $adminId);
+    return $this->recv_getCurrentHashArray();
+  }
+
+  public function send_getCurrentHashArray($checkUrl, $adminId)
+  {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getCurrentHashArray_args();
+    $args->checkUrl = $checkUrl;
+    $args->adminId = $adminId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'getCurrentHashArray', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('getCurrentHashArray', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_getCurrentHashArray()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getCurrentHashArray_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getCurrentHashArray_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->userException !== null) {
+      throw $result->userException;
+    }
+    if ($result->systemException !== null) {
+      throw $result->systemException;
+    }
+    throw new \Exception("getCurrentHashArray failed: unknown result");
+  }
+
+  public function getAdminMenu($adminId)
+  {
+    $this->send_getAdminMenu($adminId);
+    return $this->recv_getAdminMenu();
+  }
+
+  public function send_getAdminMenu($adminId)
+  {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getAdminMenu_args();
+    $args->adminId = $adminId;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'getAdminMenu', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('getAdminMenu', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_getAdminMenu()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getAdminMenu_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_getAdminMenu_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->success !== null) {
+      return $result->success;
+    }
+    if ($result->userException !== null) {
+      throw $result->userException;
+    }
+    if ($result->systemException !== null) {
+      throw $result->systemException;
+    }
+    throw new \Exception("getAdminMenu failed: unknown result");
   }
 
 }
