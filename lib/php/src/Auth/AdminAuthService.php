@@ -19,15 +19,20 @@ class AdminAuthService
     public function getAdminMenu()
     {
         $client = ThriftService::getHttpClient('AdminAuth');
-        return $client->getAdminMenu(LoginService::GetAdminID());
+        $admin_id = LoginService::GetAdminID();
+        if (empty($admin_id)) {
+            return [];
+        }
+        return $client->getAdminMenu($admin_id);
     }
 
     /**해당 유저의 모든 태그를 가져온다.
+     * @deprecated 현재 id값만 가져오고 있다. 하위호환을 위해 유지.
      * @return array
      */
     public function getAdminTag()
     {
-        return AdminUserService::getAdminUserTag();
+        return $this->getAdminTagId();
     }
 
     /**해당 유저의 태그 ID 가져온다.
@@ -35,11 +40,7 @@ class AdminAuthService
      */
     public function getAdminTagId()
     {
-        $session_user_tagid = [];
-        foreach ($this->getAdminTag() as $tag) {
-            $session_user_tagid[] = $tag;
-        }
-        return $session_user_tagid;
+        return AdminUserService::getAdminUserTag(LoginService::GetAdminID());
     }
 
     /**해당 URL에 접근할 권한이 있는지 검사한다.<br/>
