@@ -2,9 +2,9 @@
 
 namespace Ridibooks\Cms\Thrift;
 
-use Thrift\Transport\THttpClient;
 use Thrift\Exception\TTransportException;
 use Thrift\Factory\TStringFuncFactory;
+use Thrift\Transport\THttpClient;
 
 class THttpsClient extends THttpClient
 {

@@ -28,7 +28,7 @@ class CouchbaseSessionHandler implements \SessionHandlerInterface
 
     /**
      * Initialize session
-     * @link http://php.net/manual/en/sessionhandlerinterface.open.php
+     * @see http://php.net/manual/en/sessionhandlerinterface.open.php
      * @param string $save_path The path where to store/retrieve the session.
      * @param string $name The session name.
      * @return bool <p>
@@ -51,7 +51,7 @@ class CouchbaseSessionHandler implements \SessionHandlerInterface
 
     /**
      * Close the session
-     * @link http://php.net/manual/en/sessionhandlerinterface.close.php
+     * @see http://php.net/manual/en/sessionhandlerinterface.close.php
      * @return bool <p>
      * The return value (usually TRUE on success, FALSE on failure).
      * Note this value is returned internally to PHP for processing.
@@ -67,7 +67,7 @@ class CouchbaseSessionHandler implements \SessionHandlerInterface
 
     /**
      * Read session data
-     * @link http://php.net/manual/en/sessionhandlerinterface.read.php
+     * @see http://php.net/manual/en/sessionhandlerinterface.read.php
      * @param string $session_id The session id to read data for.
      * @return string <p>
      * Returns an encoded string of the read data.
@@ -89,7 +89,7 @@ class CouchbaseSessionHandler implements \SessionHandlerInterface
 
     /**
      * Write session data
-     * @link http://php.net/manual/en/sessionhandlerinterface.write.php
+     * @see http://php.net/manual/en/sessionhandlerinterface.write.php
      * @param string $session_id The session id.
      * @param string $session_data <p>
      * The encoded session data. This data is the
@@ -121,7 +121,7 @@ class CouchbaseSessionHandler implements \SessionHandlerInterface
 
     /**
      * Destroy a session
-     * @link http://php.net/manual/en/sessionhandlerinterface.destroy.php
+     * @see http://php.net/manual/en/sessionhandlerinterface.destroy.php
      * @param string $session_id The session ID being destroyed.
      * @return bool <p>
      * The return value (usually TRUE on success, FALSE on failure).
@@ -142,7 +142,7 @@ class CouchbaseSessionHandler implements \SessionHandlerInterface
 
     /**
      * Cleanup old sessions
-     * @link http://php.net/manual/en/sessionhandlerinterface.gc.php
+     * @see http://php.net/manual/en/sessionhandlerinterface.gc.php
      * @param int $maxlifetime <p>
      * Sessions that have not updated for
      * the last maxlifetime seconds will be removed.

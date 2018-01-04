@@ -2,14 +2,14 @@
 
 namespace Ridibooks\Cms\Thrift;
 
+use Ridibooks\Cms\Service\AdminAuthService;
 use Ridibooks\Cms\Service\AdminMenuService;
 use Ridibooks\Cms\Service\AdminTagService;
 use Ridibooks\Cms\Service\AdminUserService;
-use Ridibooks\Cms\Service\AdminAuthService;
+use Ridibooks\Cms\Thrift\AdminAuth\AdminAuthServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminMenu\AdminMenuServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminTag\AdminTagServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminUser\AdminUserServiceProcessor;
-use Ridibooks\Cms\Thrift\AdminAuth\AdminAuthServiceProcessor;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Thrift\Protocol\TJSONProtocol;
