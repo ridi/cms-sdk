@@ -1,8 +1,8 @@
-.PHONY: all thrift thrift-php thrift-js
+.PHONY: all thrift thrift-php thrift-js thrift-python
 
 all: thrift
 
-thrift: thrift-php thrift-js
+thrift: thrift-php thrift-js thrift-python
 
 thrift-php:
 	thrift -r --gen php:server,psr4 lib/thrift-idl/AdminMenu.thrift
@@ -19,3 +19,10 @@ thrift-js:
 	thrift -r --gen js:node lib/thrift-idl/AdminAuth.thrift
 	cp -a gen-nodejs/ lib/js/lib/CmsClient/thrift/
 	rm -rf gen-nodejs
+
+thrift-python:
+	thrift -r --gen py:coding=utf-8 lib/thrift-idl/AdminMenu.thrift
+	thrift -r --gen py:coding=utf-8 lib/thrift-idl/AdminTag.thrift
+	thrift -r --gen py:coding=utf-8 lib/thrift-idl/AdminUser.thrift
+	cp -a gen-py/ lib/python/
+	rm -rf gen-py

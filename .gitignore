@@ -1,5 +1,4 @@
-.idea
-.vscode
+.venv
 composer.lock
 node_modules
 package-lock.json
