@@ -1,8 +1,12 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude('thrift')
-    ->in(__DIR__ . '/src')
+    ->exclude('src/Thrift/AdminAuth')
+    ->exclude('src/Thrift/AdminMenu')
+    ->exclude('src/Thrift/AdminTag')
+    ->exclude('src/Thrift/AdminUser')
+    ->exclude('src/Thrift/Errors')
+    ->in(__DIR__ . '/lib/php')
 ;
 
 return PhpCsFixer\Config::create()

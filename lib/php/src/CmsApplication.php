@@ -1,6 +1,7 @@
 <?php
 namespace Ridibooks\Cms;
 
+use Ridibooks\Cms\Auth\AdminAuthService;
 use Silex\Application;
 use Silex\Application\TwigTrait;
 use Silex\Provider\SessionServiceProvider;
@@ -130,9 +131,8 @@ class CmsApplication extends Application
             ];
         }
 
-        if (isset($_SESSION['session_user_menu'])) {
-            $globals['session_user_menu'] = $_SESSION['session_user_menu'];
-        }
+        $adminAuth = new AdminAuthService();
+        $globals['session_user_menu'] = $adminAuth->getAdminMenu();
 
         return $globals;
     }

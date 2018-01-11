@@ -2,9 +2,11 @@
 
 namespace Ridibooks\Cms\Thrift;
 
+use Ridibooks\Cms\Service\AdminAuthService;
 use Ridibooks\Cms\Service\AdminMenuService;
 use Ridibooks\Cms\Service\AdminTagService;
 use Ridibooks\Cms\Service\AdminUserService;
+use Ridibooks\Cms\Thrift\AdminAuth\AdminAuthServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminMenu\AdminMenuServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminTag\AdminTagServiceProcessor;
 use Ridibooks\Cms\Thrift\AdminUser\AdminUserServiceProcessor;
@@ -25,6 +27,8 @@ class ThriftResponse
         $processor->registerProcessor('AdminUser', $user_processor);
         $tag_processor = new AdminTagServiceProcessor(new AdminTagService());
         $processor->registerProcessor('AdminTag', $tag_processor);
+        $auth_processor = new AdminAuthServiceProcessor(new AdminAuthService());
+        $processor->registerProcessor('AdminAuth', $auth_processor);
 
         $readTransport = new TMemoryBuffer($request->getContent(false));
         $writeTransport = new TMemoryBuffer();
