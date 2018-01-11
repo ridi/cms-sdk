@@ -99,9 +99,53 @@ class AdminAuthService
     /**적합한 로그인 상태인지 검사한다.
      * @return bool
      */
-    public static function isValidLogin()
+    public static function isValidLogin(request $request)
     {
-        return !empty(LoginService::GetAdminID());
+        if (!isset($request)) {
+            $request = $_REQUEST;
+        }
+
+        $token = $request->cookies->get('cms-token');
+        if (empty($token)) {
+            return false;
+        }
+
+        $token_resource = self::requestTokenIntrospect($token);
+        if (!isset($token_resource->user_id)) {
+            return false;
+        }
+
+        LoginService::setSessions($token_resource->user_id);
+
+        return true;
+    }
+
+    private static function requestTokenIntrospect($token)
+    {
+        $endpoint = self::getTokenIntrospectUrl();
+        $requestBody = "token={$token}";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $requestBody);
+        // By default, HTTPS does not work with curl.
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return json_decode($output);
+    }
+
+    private static function getTokenIntrospectUrl()
+    {
+        $parsed = parse_url($_ENV['CMS_RPC_URL']);
+        $host = $parsed['host'] ?? 'localhost';
+        $scheme = $parsed['scheme'] ?? 'http';
+        $port = $parsed['port'] ?? (($scheme === 'https') ? 443 : 80);
+
+        return $scheme . '://' . $host . ':' . $port . '/token-introspect';
     }
 
     /**적합한 유저인지 검사한다.
@@ -120,7 +164,11 @@ class AdminAuthService
     public static function authorize($request)
     {
         $request_uri = $request->getRequestUri();
-        if (!self::isValidLogin()) {
+        if ($request_uri === '/token-introspect') {
+            return null;
+        }
+
+        if (!self::isValidLogin($request)) {
             $login_url = '/login';
             if (!empty($request_uri) && $request_uri != '/login' && $request_uri != '/logout') {
                 $login_url .= '?return_url=' . urlencode($request_uri);
