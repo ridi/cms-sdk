@@ -5,8 +5,6 @@
   "main": "./lib/js/dist/index.js",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
-    "couchbase": "^2.4.2",
-    "php-unserialize": "0.0.1",
     "thrift": "^0.10.0"
   },
   "devDependencies": {
@@ -17,13 +15,13 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "chai": "^4.1.2",
-    "css-loader": "^0.28.7",
-    "eslint": "^4.12.0",
+    "css-loader": "^0.28.8",
+    "eslint": "^4.15.0",
     "eslint-config-ridibooks": "^2.0.1",
     "eslint-loader": "^1.9.0",
     "express": "^4.16.2",
     "file-loader": "^0.11.2",
-    "mocha": "^4.0.1",
+    "mocha": "^4.1.0",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "webpack": "^3.6.0",
