@@ -115,7 +115,7 @@ class AdminAuthService
             return false;
         }
 
-        LoginService::setSessions($token_resource->user_id);
+        LoginService::SetAdminID($token_resource->user_id);
 
         return true;
     }

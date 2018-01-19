@@ -7,6 +7,7 @@ use Ridibooks\Cms\Session\CouchbaseSessionHandler;
 class LoginService
 {
     const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
+    const ADMIN_ID_COOKIE_NAME = 'admin-id';
 
     /**
      * @param string $id
@@ -16,7 +17,6 @@ class LoginService
     public static function doLoginAction($id, $passwd)
     {
         self::checkUserPassword($id, $passwd);
-        self::setSessions($id);
     }
 
     /**
@@ -46,8 +46,6 @@ class LoginService
         if (!$user || $user['is_use'] != '1') {
             throw new \Exception('ID와 일치하는 계정이 없습니다. 관리자에게 문의하세요.');
         }
-
-        self::setSessions($id);
     }
 
     public static function getLoginPageUrl($login_endpoint, $return_path)
@@ -63,6 +61,7 @@ class LoginService
 
     /**
      * @param string $id
+     * @deprecated
      */
     public static function setSessions($id)
     {
@@ -77,21 +76,14 @@ class LoginService
         @session_destroy();
     }
 
-    /**
-     * Cron에서 사용이 예상되면 isSessionableEnviroment() 호출하여 체크 후, 다른 이름을 사용해야한다.
-     * @return string|null
-     */
     public static function GetAdminID()
     {
-        if (!self::isSessionableEnviroment()) {
-            trigger_error('LoginService::GetAdminID() called in not sessionable enviroment, please fix it');
-        }
-        return isset($_SESSION['session_admin_id']) ? $_SESSION['session_admin_id'] : null;
+        return $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
     }
 
-    public static function isSessionableEnviroment()
+    public static function SetAdminID($admin_id)
     {
-        return in_array(php_sapi_name(), ['apache2filter', 'apache2handler', 'cli-server']);
+        setcookie(self::ADMIN_ID_COOKIE_NAME, $admin_id, self::SESSION_TIMEOUT_SEC,'', '', false, true);
     }
 
     public static function startSession()
