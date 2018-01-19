@@ -59,23 +59,6 @@ class LoginService
         return $login_endpoint . '?return_url=' . urlencode($callback_path);
     }
 
-    /**
-     * @param string $id
-     * @deprecated
-     */
-    public static function setSessions($id)
-    {
-        //GetAdminID에 사용할 id를미리 set 한다.
-        $_SESSION['session_admin_id'] = $id;
-    }
-
-    public static function resetSession()
-    {
-        $_SESSION['session_admin_id'] = null;
-
-        @session_destroy();
-    }
-
     public static function GetAdminID()
     {
         return $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
