@@ -2,8 +2,6 @@
 
 namespace Ridibooks\Cms\Auth;
 
-use Ridibooks\Cms\Session\CouchbaseSessionHandler;
-
 class LoginService
 {
     const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
@@ -73,15 +71,5 @@ class LoginService
     {
         session_set_cookie_params(self::SESSION_TIMEOUT_SEC, '/', $_SERVER['SERVER_NAME']);
         session_start();
-    }
-
-    public static function startCouchbaseSession($server_hosts)
-    {
-        session_set_save_handler(
-            new CouchbaseSessionHandler(implode(',', $server_hosts), 'session', self::SESSION_TIMEOUT_SEC),
-            true
-        );
-
-        self::startSession();
     }
 }

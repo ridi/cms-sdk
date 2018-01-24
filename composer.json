@@ -6,9 +6,9 @@
   "require": {
     "apache/thrift": "^0.10.0",
     "ext-couchbase": "*",
+    "guzzlehttp/guzzle": "^6.3",
     "silex/silex": "^2.0",
-    "twig/twig": "^2.0",
-    "guzzlehttp/guzzle": "^6.3"
+    "twig/twig": "^2.0"
   },
   "autoload": {
     "psr-4": {
