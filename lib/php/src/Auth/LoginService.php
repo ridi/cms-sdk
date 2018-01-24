@@ -64,9 +64,9 @@ class LoginService
         return $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
     }
 
-    public static function SetAdminID($admin_id)
+    public static function setAdminID($admin_id)
     {
-        setcookie(self::ADMIN_ID_COOKIE_NAME, $admin_id, time() + self::SESSION_TIMEOUT_SEC,'', '', false, true);
+        setcookie(self::ADMIN_ID_COOKIE_NAME, $admin_id, time() + self::SESSION_TIMEOUT_SEC, '', '', false, true);
     }
 
     public static function startSession()
