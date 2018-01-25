@@ -2,7 +2,7 @@
 
 ## Install
 ```sh
-npm install @ridibooks/cms-sdk
+npm install @ridi/cms-sdk
 ```
 
 ## Hierarchy
@@ -21,7 +21,7 @@ npm install @ridibooks/cms-sdk
 
 ## Usage
 ```js
-const { CmsClient } = require('@ridibooks/cms-sdk');
+const { CmsClient } = require('@ridi/cms-sdk');
 
 const client = new Client('http://localhost:8000');
 const userMenu = new UserMenu();
