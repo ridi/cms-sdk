@@ -2,6 +2,7 @@
 
 namespace Ridibooks\Cms\Auth;
 
+use GuzzleHttp\Client;
 use Ridibooks\Cms\Thrift\ThriftService;
 use Ridibooks\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -13,6 +14,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminAuthService
 {
+    const TOKEN_COOKIE_NAME = 'cms-token';
+
     /**해당 유저가 볼 수 있는 메뉴를 가져온다.
      * @return array
      */
@@ -99,9 +102,47 @@ class AdminAuthService
     /**적합한 로그인 상태인지 검사한다.
      * @return bool
      */
-    public static function isValidLogin()
+    public static function isValidLogin(request $request)
     {
-        return !empty(LoginService::GetAdminID());
+        $token = isset($request) ? $request->cookies->get(self::TOKEN_COOKIE_NAME) : $_COOKIE[self::TOKEN_COOKIE_NAME];
+        if (empty($token)) {
+            return false;
+        }
+
+        $token_resource = self::requestTokenIntrospect($token);
+        if (!isset($token_resource->user_id)) {
+            return false;
+        }
+
+        LoginService::setAdminID($token_resource->user_id);
+
+        return true;
+    }
+
+    private static function requestTokenIntrospect($token)
+    {
+        $client = new Client();
+        $response = $client->post(self::getTokenIntrospectUrl(), [
+            'form_params' => [
+                'token' => $token,
+            ],
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            return null;
+        }
+
+        return json_decode($response->getBody());
+    }
+
+    private static function getTokenIntrospectUrl()
+    {
+        $parsed = parse_url($_ENV['CMS_RPC_URL']);
+        $host = $parsed['host'] ?? 'localhost';
+        $scheme = $parsed['scheme'] ?? 'http';
+        $port = $parsed['port'] ?? (($scheme === 'https') ? 443 : 80);
+
+        return $scheme . '://' . $host . ':' . $port . '/token-introspect';
     }
 
     /**적합한 유저인지 검사한다.
@@ -119,8 +160,17 @@ class AdminAuthService
      */
     public static function authorize($request)
     {
+        $is_whitelisted = in_array($request->getRequestUri(), [
+            '/token-introspect', // Token validation url, which is called in this function.
+            '/login',
+            '/logout',
+        ]);
+        if ($is_whitelisted) {
+            return null;
+        }
+
         $request_uri = $request->getRequestUri();
-        if (!self::isValidLogin()) {
+        if (!self::isValidLogin($request)) {
             $login_url = '/login';
             if (!empty($request_uri) && $request_uri != '/login' && $request_uri != '/logout') {
                 $login_url .= '?return_url=' . urlencode($request_uri);
