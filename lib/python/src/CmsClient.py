@@ -4,9 +4,6 @@ from thrift import Thrift
 from thrift.transport import THttpClient
 from thrift.protocol import TMultiplexedProtocol
 from thrift.protocol import TJSONProtocol
-
-
-
 from AdminMenu import AdminMenuService
 from AdminTag import AdminTagService
 from AdminUser import AdminUserService

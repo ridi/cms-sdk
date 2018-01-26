@@ -25,5 +25,5 @@ thrift-python:
 	thrift -r --gen py:coding=utf-8 lib/thrift-idl/AdminTag.thrift
 	thrift -r --gen py:coding=utf-8 lib/thrift-idl/AdminUser.thrift
 	thrift -r --gen py:coding=utf-8 lib/thrift-idl/AdminAuth.thrift
-	cp -a gen-py/ lib/python/
+	cp -a gen-py/ lib/python/src
 	rm -rf gen-py
