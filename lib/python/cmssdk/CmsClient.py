@@ -4,9 +4,9 @@ from thrift import Thrift
 from thrift.transport import THttpClient
 from thrift.protocol import TMultiplexedProtocol
 from thrift.protocol import TJSONProtocol
-from AdminMenu import AdminMenuService
-from AdminTag import AdminTagService
-from AdminUser import AdminUserService
+from cmssdk.AdminMenu import AdminMenuService
+from cmssdk.AdminTag import AdminTagService
+from cmssdk.AdminUser import AdminUserService
 
 class CmsClient:
     def __init__(self, uriOrHost, port=None, path=None):

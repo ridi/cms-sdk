@@ -17,17 +17,20 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from AdminAuth import AdminAuthService
-from AdminAuth.ttypes import *
+from cmssdk.AdminMenu import AdminMenuService
+from cmssdk.AdminMenu.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
-    print('  bool hasHashAuth(string hash, string checkUrl, string adminId)')
-    print('   getCurrentHashArray(string checkUrl, string adminId)')
-    print('  AdminMenuCollection getAdminMenu(string adminId)')
+    print('  AdminMenuCollection getMenuList(bool isUse)')
+    print('  AdminMenuCollection getAllMenuList()')
+    print('  AdminMenuAjaxCollection getAllMenuAjax()')
+    print('  AdminMenuCollection getMenus( menuIds)')
+    print('   getAdminIdsByMenuId(i32 menuId)')
+    print('   getAllUserIds(i32 menuId)')
     print('')
     sys.exit(0)
 
@@ -104,26 +107,44 @@ else:
     else:
         transport = TTransport.TBufferedTransport(socket)
 protocol = TBinaryProtocol(transport)
-client = AdminAuthService.Client(protocol)
+client = AdminMenuService.Client(protocol)
 transport.open()
 
-if cmd == 'hasHashAuth':
-    if len(args) != 3:
-        print('hasHashAuth requires 3 args')
-        sys.exit(1)
-    pp.pprint(client.hasHashAuth(args[0], args[1], args[2],))
-
-elif cmd == 'getCurrentHashArray':
-    if len(args) != 2:
-        print('getCurrentHashArray requires 2 args')
-        sys.exit(1)
-    pp.pprint(client.getCurrentHashArray(args[0], args[1],))
-
-elif cmd == 'getAdminMenu':
+if cmd == 'getMenuList':
     if len(args) != 1:
-        print('getAdminMenu requires 1 args')
+        print('getMenuList requires 1 args')
         sys.exit(1)
-    pp.pprint(client.getAdminMenu(args[0],))
+    pp.pprint(client.getMenuList(eval(args[0]),))
+
+elif cmd == 'getAllMenuList':
+    if len(args) != 0:
+        print('getAllMenuList requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.getAllMenuList())
+
+elif cmd == 'getAllMenuAjax':
+    if len(args) != 0:
+        print('getAllMenuAjax requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.getAllMenuAjax())
+
+elif cmd == 'getMenus':
+    if len(args) != 1:
+        print('getMenus requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getMenus(eval(args[0]),))
+
+elif cmd == 'getAdminIdsByMenuId':
+    if len(args) != 1:
+        print('getAdminIdsByMenuId requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getAdminIdsByMenuId(eval(args[0]),))
+
+elif cmd == 'getAllUserIds':
+    if len(args) != 1:
+        print('getAllUserIds requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getAllUserIds(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)

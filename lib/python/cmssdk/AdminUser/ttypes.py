@@ -10,38 +10,42 @@
 from thrift.Thrift import TType, TMessageType, TFrozenDict, TException, TApplicationException
 from thrift.protocol.TProtocol import TProtocolException
 import sys
-import Errors.ttypes
-import AdminMenu.ttypes
+import cmssdk.Errors.ttypes
+import cmssdk.AdminTag.ttypes
+import cmssdk.AdminMenu.ttypes
 
 from thrift.transport import TTransport
 
 
-class AdminTag(object):
+class AdminUser(object):
     """
-    AdminTag 엔티티
+    AdminUser 엔티티
 
     Attributes:
      - id
      - name
+     - passwd
+     - team
      - is_use
-     - creator
      - reg_date
     """
 
     thrift_spec = (
         None,  # 0
-        (1, TType.I32, 'id', None, None, ),  # 1
+        (1, TType.STRING, 'id', 'UTF8', None, ),  # 1
         (2, TType.STRING, 'name', 'UTF8', None, ),  # 2
-        (3, TType.BOOL, 'is_use', None, None, ),  # 3
-        (4, TType.STRING, 'creator', 'UTF8', None, ),  # 4
-        (5, TType.STRING, 'reg_date', 'UTF8', None, ),  # 5
+        (3, TType.STRING, 'passwd', 'UTF8', None, ),  # 3
+        (4, TType.STRING, 'team', 'UTF8', None, ),  # 4
+        (5, TType.BOOL, 'is_use', None, None, ),  # 5
+        (6, TType.STRING, 'reg_date', 'UTF8', None, ),  # 6
     )
 
-    def __init__(self, id=None, name=None, is_use=None, creator=None, reg_date=None,):
+    def __init__(self, id=None, name=None, passwd=None, team=None, is_use=None, reg_date=None,):
         self.id = id
         self.name = name
+        self.passwd = passwd
+        self.team = team
         self.is_use = is_use
-        self.creator = creator
         self.reg_date = reg_date
 
     def read(self, iprot):
@@ -54,8 +58,8 @@ class AdminTag(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.id = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
@@ -64,16 +68,21 @@ class AdminTag(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
-                if ftype == TType.BOOL:
-                    self.is_use = iprot.readBool()
+                if ftype == TType.STRING:
+                    self.passwd = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
                 if ftype == TType.STRING:
-                    self.creator = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                    self.team = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             elif fid == 5:
+                if ftype == TType.BOOL:
+                    self.is_use = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
                 if ftype == TType.STRING:
                     self.reg_date = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
@@ -87,25 +96,29 @@ class AdminTag(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('AdminTag')
+        oprot.writeStructBegin('AdminUser')
         if self.id is not None:
-            oprot.writeFieldBegin('id', TType.I32, 1)
-            oprot.writeI32(self.id)
+            oprot.writeFieldBegin('id', TType.STRING, 1)
+            oprot.writeString(self.id.encode('utf-8') if sys.version_info[0] == 2 else self.id)
             oprot.writeFieldEnd()
         if self.name is not None:
             oprot.writeFieldBegin('name', TType.STRING, 2)
             oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
             oprot.writeFieldEnd()
+        if self.passwd is not None:
+            oprot.writeFieldBegin('passwd', TType.STRING, 3)
+            oprot.writeString(self.passwd.encode('utf-8') if sys.version_info[0] == 2 else self.passwd)
+            oprot.writeFieldEnd()
+        if self.team is not None:
+            oprot.writeFieldBegin('team', TType.STRING, 4)
+            oprot.writeString(self.team.encode('utf-8') if sys.version_info[0] == 2 else self.team)
+            oprot.writeFieldEnd()
         if self.is_use is not None:
-            oprot.writeFieldBegin('is_use', TType.BOOL, 3)
+            oprot.writeFieldBegin('is_use', TType.BOOL, 5)
             oprot.writeBool(self.is_use)
             oprot.writeFieldEnd()
-        if self.creator is not None:
-            oprot.writeFieldBegin('creator', TType.STRING, 4)
-            oprot.writeString(self.creator.encode('utf-8') if sys.version_info[0] == 2 else self.creator)
-            oprot.writeFieldEnd()
         if self.reg_date is not None:
-            oprot.writeFieldBegin('reg_date', TType.STRING, 5)
+            oprot.writeFieldBegin('reg_date', TType.STRING, 6)
             oprot.writeString(self.reg_date.encode('utf-8') if sys.version_info[0] == 2 else self.reg_date)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()

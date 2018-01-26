@@ -17,21 +17,17 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from AdminUser import AdminUserService
-from AdminUser.ttypes import *
+from cmssdk.AdminAuth import AdminAuthService
+from cmssdk.AdminAuth.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
-    print('  AdminUserCollection getAllAdminUserArray()')
-    print('  AdminUser getUser(string userId)')
-    print('   getAdminUserTag(string userId)')
-    print('   getAdminUserMenu(string userId)')
-    print('   getAllMenuIds(string userId)')
-    print('  bool updateMyInfo(string name, string team, bool isUse, string passwd)')
-    print('  bool updatePassword(string userId, string plainPassword)')
+    print('  bool hasHashAuth(string hash, string checkUrl, string adminId)')
+    print('   getCurrentHashArray(string checkUrl, string adminId)')
+    print('  AdminMenuCollection getAdminMenu(string adminId)')
     print('')
     sys.exit(0)
 
@@ -108,50 +104,26 @@ else:
     else:
         transport = TTransport.TBufferedTransport(socket)
 protocol = TBinaryProtocol(transport)
-client = AdminUserService.Client(protocol)
+client = AdminAuthService.Client(protocol)
 transport.open()
 
-if cmd == 'getAllAdminUserArray':
-    if len(args) != 0:
-        print('getAllAdminUserArray requires 0 args')
+if cmd == 'hasHashAuth':
+    if len(args) != 3:
+        print('hasHashAuth requires 3 args')
         sys.exit(1)
-    pp.pprint(client.getAllAdminUserArray())
+    pp.pprint(client.hasHashAuth(args[0], args[1], args[2],))
 
-elif cmd == 'getUser':
-    if len(args) != 1:
-        print('getUser requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getUser(args[0],))
-
-elif cmd == 'getAdminUserTag':
-    if len(args) != 1:
-        print('getAdminUserTag requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getAdminUserTag(args[0],))
-
-elif cmd == 'getAdminUserMenu':
-    if len(args) != 1:
-        print('getAdminUserMenu requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getAdminUserMenu(args[0],))
-
-elif cmd == 'getAllMenuIds':
-    if len(args) != 1:
-        print('getAllMenuIds requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getAllMenuIds(args[0],))
-
-elif cmd == 'updateMyInfo':
-    if len(args) != 4:
-        print('updateMyInfo requires 4 args')
-        sys.exit(1)
-    pp.pprint(client.updateMyInfo(args[0], args[1], eval(args[2]), args[3],))
-
-elif cmd == 'updatePassword':
+elif cmd == 'getCurrentHashArray':
     if len(args) != 2:
-        print('updatePassword requires 2 args')
+        print('getCurrentHashArray requires 2 args')
         sys.exit(1)
-    pp.pprint(client.updatePassword(args[0], args[1],))
+    pp.pprint(client.getCurrentHashArray(args[0], args[1],))
+
+elif cmd == 'getAdminMenu':
+    if len(args) != 1:
+        print('getAdminMenu requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getAdminMenu(args[0],))
 
 else:
     print('Unrecognized method %s' % cmd)

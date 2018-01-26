@@ -17,8 +17,8 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from AdminTag import AdminTagService
-from AdminTag.ttypes import *
+from cmssdk.AdminTag import AdminTagService
+from cmssdk.AdminTag.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')

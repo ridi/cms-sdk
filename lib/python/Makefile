@@ -1,9 +1,12 @@
-.PHONY: all build dist pypi-upload
+.PHONY: all build test dist pypi-upload
 
 all: build
 
 build:
 	pip install -r requirements.txt
+
+test:
+	python -m unittest discover
 
 dist:
 	rm -rf ./dist

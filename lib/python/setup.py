@@ -13,11 +13,10 @@ setup(
         'cmssdk.AdminUser',
         'cmssdk.Errors',
     ],
-    version='0.6.5',
+    version='0.6.6',
     description='Ridi CMS SDK',
     url='https://github.com/ridi/cms-sdk',
     keywords=['cmssdk', 'ridi', 'ridibooks'],
-    package_dir={'cmssdk': 'src'},
     classifiers=[
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3',
