@@ -29,15 +29,6 @@ class AdminAuthService
         return $client->getAdminMenu($admin_id);
     }
 
-    /**해당 유저의 모든 태그를 가져온다.
-     * @deprecated 현재 id값만 가져오고 있다. 하위호환을 위해 유지.
-     * @return array
-     */
-    public function getAdminTag()
-    {
-        return $this->getAdminTagId();
-    }
-
     /**해당 유저의 태그 ID 가져온다.
      * @return array
      */
