@@ -112,7 +112,7 @@ class AdminAuthService
 
     private static function requestTokenIntrospect($token)
     {
-        $client = new Client();
+        $client = new Client(['verify' => false]);
         $response = $client->post(self::getTokenIntrospectUrl(), [
             'form_params' => [
                 'token' => $token,
