@@ -132,8 +132,9 @@ class AdminAuthService
         $host = $parsed['host'] ?? 'localhost';
         $scheme = $parsed['scheme'] ?? 'http';
         $port = $parsed['port'] ?? (($scheme === 'https') ? 443 : 80);
+        $path = $parsed['path'] ?? '';
 
-        return $scheme . '://' . $host . ':' . $port . '/token-introspect';
+        return $scheme . '://' . $host . ':' . $port . $path . '/token-introspect';
     }
 
     /**적합한 유저인지 검사한다.
