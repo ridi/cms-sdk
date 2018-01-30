@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class AdminAuthService
 {
-    const TOKEN_COOKIE_NAME = 'cms-token';
-
     /**해당 유저가 볼 수 있는 메뉴를 가져온다.
      * @return array
      */
@@ -90,16 +88,6 @@ class AdminAuthService
         return $hash_array;
     }
 
-    private static function validateLogin(request $request)
-    {
-        $token = isset($request) ? $request->cookies->get(self::TOKEN_COOKIE_NAME) : $_COOKIE[self::TOKEN_COOKIE_NAME];
-        if (empty($token)) {
-            return false;
-        }
-
-        return LoginService::loadLoginContext($token);
-    }
-
     public static function requestTokenIntrospect($token)
     {
         $client = new Client(['verify' => false]);
@@ -152,7 +140,7 @@ class AdminAuthService
         }
 
         $request_uri = $request->getRequestUri();
-        if (!self::validateLogin($request)) {
+        if (!LoginService::validateLogin($request)) {
             $login_url = '/login';
             if (!empty($request_uri) && $request_uri != '/login' && $request_uri != '/logout') {
                 $login_url .= '?return_url=' . urlencode($request_uri);

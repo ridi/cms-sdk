@@ -2,10 +2,13 @@
 
 namespace Ridibooks\Cms\Auth;
 
+use Symfony\Component\HttpFoundation\Request;
+
 class LoginService
 {
     const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
     const ADMIN_ID_COOKIE_NAME = 'admin-id';
+    const TOKEN_COOKIE_NAME = 'cms-token';
 
     static $login_context;
 
@@ -64,9 +67,14 @@ class LoginService
         return self::$login_context->user_id ?? $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
     }
 
-    public static function loadLoginContext(string $login_token)
+    public static function validateLogin(request $request)
     {
-        self::$login_context = AdminAuthService::requestTokenIntrospect($login_token);
+        $token = $request->cookies->get(self::TOKEN_COOKIE_NAME);
+        if (empty($token)) {
+            return false;
+        }
+
+        self::$login_context = AdminAuthService::requestTokenIntrospect($token);
 
         return isset(self::$login_context->user_id);
     }
