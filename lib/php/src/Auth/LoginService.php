@@ -6,6 +6,7 @@ class LoginService
 {
     const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
     const ADMIN_ID_COOKIE_NAME = 'admin-id';
+    static $admin_id = '';
 
     /**
      * @param string $id
@@ -59,12 +60,12 @@ class LoginService
 
     public static function GetAdminID()
     {
-        return $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
+        return self::$admin_id;
     }
 
     public static function setAdminID($admin_id)
     {
-        setcookie(self::ADMIN_ID_COOKIE_NAME, $admin_id, time() + self::SESSION_TIMEOUT_SEC, '', '', false, true);
+        self::$admin_id = $admin_id;
     }
 
     public static function startSession()
