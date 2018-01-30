@@ -6,7 +6,8 @@ class LoginService
 {
     const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
     const ADMIN_ID_COOKIE_NAME = 'admin-id';
-    static $admin_id = '';
+
+    static $login_context;
 
     /**
      * @param string $id
@@ -60,12 +61,14 @@ class LoginService
 
     public static function GetAdminID()
     {
-        return self::$admin_id;
+        return self::$login_context->user_id ?? '';
     }
 
-    public static function setAdminID($admin_id)
+    public static function loadLoginContext(string $login_token)
     {
-        self::$admin_id = $admin_id;
+        self::$login_context = AdminAuthService::requestTokenIntrospect($login_token);
+
+        return isset(self::$login_context->user_id);
     }
 
     public static function startSession()
