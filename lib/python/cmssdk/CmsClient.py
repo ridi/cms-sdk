@@ -9,9 +9,7 @@ from cmssdk.AdminMenu import AdminMenuService
 from cmssdk.AdminTag import AdminTagService
 from cmssdk.AdminUser import AdminUserService
 from cmssdk.LoginSession import LoginSession
-
-class Config:
-    RPC_URL = 'http://localhost'
+from cmssdk.Config import Config
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)

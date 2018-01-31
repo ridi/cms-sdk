@@ -2,10 +2,11 @@ import unittest
 from unittest.mock import MagicMock
 from cmssdk import CmsClient
 from cmssdk.LoginSession import LoginSession
+from cmssdk.Config import Config
 
 class TestAdminAuth(unittest.TestCase):
     def setUp(self):
-        self.config = CmsClient.Config()
+        self.config = Config()
         self.config.RPC_URL = 'http://localhost'
         self.admin_auth = CmsClient.AdminAuth(self.config)
         assert self.admin_auth
@@ -26,7 +27,7 @@ class TestAdminAuth(unittest.TestCase):
         )
 
     def testShouldRedirectForLogin(self):
-        session = LoginSession('test-token', 'admin')
+        session = LoginSession(self.config)
         session.requestTokenIntrospect = MagicMock(return_value={'user_id': 'test'})
 
         self.assertTrue(
@@ -35,7 +36,7 @@ class TestAdminAuth(unittest.TestCase):
         session.requestTokenIntrospect.assert_called_with()
 
     def testShouldRedirectForLoginWithErrorResponce(self):
-        session = LoginSession('test-token', 'admin')
+        session = LoginSession(self.config)
         session.requestTokenIntrospect = MagicMock(return_value={'error': 'invalid token'})
 
         self.assertFalse(
