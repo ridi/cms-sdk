@@ -90,27 +90,17 @@ class AdminAuthService
         return $hash_array;
     }
 
-    /**적합한 로그인 상태인지 검사한다.
-     * @return bool
-     */
-    public static function isValidLogin(request $request)
+    private static function validateLogin(request $request)
     {
         $token = isset($request) ? $request->cookies->get(self::TOKEN_COOKIE_NAME) : $_COOKIE[self::TOKEN_COOKIE_NAME];
         if (empty($token)) {
             return false;
         }
 
-        $token_resource = self::requestTokenIntrospect($token);
-        if (!isset($token_resource->user_id)) {
-            return false;
-        }
-
-        LoginService::setAdminID($token_resource->user_id);
-
-        return true;
+        return LoginService::loadLoginContext($token);
     }
 
-    private static function requestTokenIntrospect($token)
+    public static function requestTokenIntrospect($token)
     {
         $client = new Client(['verify' => false]);
         $response = $client->post(self::getTokenIntrospectUrl(), [
@@ -162,7 +152,7 @@ class AdminAuthService
         }
 
         $request_uri = $request->getRequestUri();
-        if (!self::isValidLogin($request)) {
+        if (!self::validateLogin($request)) {
             $login_url = '/login';
             if (!empty($request_uri) && $request_uri != '/login' && $request_uri != '/logout') {
                 $login_url .= '?return_url=' . urlencode($request_uri);
