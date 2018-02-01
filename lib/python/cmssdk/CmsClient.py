@@ -10,6 +10,7 @@ from cmssdk.AdminTag import AdminTagService
 from cmssdk.AdminUser import AdminUserService
 from cmssdk.LoginSession import LoginSession
 from cmssdk.Config import Config
+from urllib.parse import quote_plus
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)
@@ -27,10 +28,10 @@ class AdminAuth(AdminAuthService.Client):
         return token_info and 'user_id' in token_info
 
     def authorizeUrl(self, check_url, login_session: LoginSession):
-        return self.hasHashAuth(null, check_url, login_session.getAdminId())
+        return self.hasHashAuth(None, check_url, login_session.getAdminId())
 
     def getLoginUrl(self, return_url: str = None):
-        param = '?return_url=%s' % return_url if return_url else ''
+        param = '?return_url=%s' % quote_plus(return_url) if return_url else ''
         return '/login' + param
 
 class AdminMenu(AdminMenuService.Client):

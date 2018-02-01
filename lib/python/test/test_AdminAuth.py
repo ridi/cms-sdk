@@ -18,8 +18,8 @@ class TestAdminAuth(unittest.TestCase):
 
     def testGetLoginUrl(self):
         self.assertEqual(
-            '/login?return_url=test',
-            self.admin_auth.getLoginUrl(return_url='test')
+            '/login?return_url=%2Ftest',
+            self.admin_auth.getLoginUrl(return_url='/test')
         )
         self.assertEqual(
             '/login',
@@ -27,7 +27,7 @@ class TestAdminAuth(unittest.TestCase):
         )
 
     def testShouldRedirectForLogin(self):
-        session = LoginSession(self.config)
+        session = LoginSession(self.config, None)
         session.requestTokenIntrospect = MagicMock(return_value={'user_id': 'test'})
 
         self.assertTrue(
@@ -36,7 +36,7 @@ class TestAdminAuth(unittest.TestCase):
         session.requestTokenIntrospect.assert_called_with()
 
     def testShouldRedirectForLoginWithErrorResponce(self):
-        session = LoginSession(self.config)
+        session = LoginSession(self.config, None)
         session.requestTokenIntrospect = MagicMock(return_value={'error': 'invalid token'})
 
         self.assertFalse(
