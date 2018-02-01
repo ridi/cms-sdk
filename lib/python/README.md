@@ -1,20 +1,13 @@
 # Ridibooks CMS SDK - Python
 
-## Install
-```sh
-pip install ridi
-```
+## Requirements
 
-## Hierarchy
-```
-    ...
-```
+- python 3.5 or higher
+
+## Setup
+
+`pip install cmssdk`
 
 ## Usage
-```python
-from cmssdk.CmsClient import CmsClient
 
-client = CmsClient('http://localhost:8000')
-user = client.adminUser.getUser('admin')
-print(user)
-```
+See the sample project(https://github.com/ridi/cms-bootstrap-python)
