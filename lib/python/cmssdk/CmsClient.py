@@ -23,16 +23,20 @@ class AdminAuth(AdminAuthService.Client):
     def __init__(self, config: Config):
         super().__init__(_createProtocol('AdminAuth', config))
 
-    def shouldRedirectForLogin(self, login_session: LoginSession):
+    def shouldRedirectForLogin(self, login_session: LoginSession) -> bool:
         token_info = login_session.requestTokenIntrospect()
-        return token_info and 'user_id' in token_info
+        return not token_info or not 'user_id' in token_info
 
-    def authorizeUrl(self, check_url, login_session: LoginSession):
+    def authorizeUrl(self, check_url, login_session: LoginSession) -> bool:
         return self.hasHashAuth(None, check_url, login_session.getAdminId())
 
-    def getLoginUrl(self, return_url: str = None):
+    def getLoginUrl(self, return_url: str = None) -> str:
         param = '?return_url=%s' % quote_plus(return_url) if return_url else ''
         return '/login' + param
+
+    def authorize(self, login_session: LoginSession, check_url) -> bool:
+        return not self.shouldRedirectForLogin(login_session) and \
+            self.authorizeUrl(check_url, login_session)
 
 class AdminMenu(AdminMenuService.Client):
     def __init__(self, config: Config):

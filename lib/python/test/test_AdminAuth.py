@@ -30,7 +30,7 @@ class TestAdminAuth(unittest.TestCase):
         session = LoginSession(self.config, None)
         session.requestTokenIntrospect = MagicMock(return_value={'user_id': 'test'})
 
-        self.assertTrue(
+        self.assertFalse(
             self.admin_auth.shouldRedirectForLogin(session)
         )
         session.requestTokenIntrospect.assert_called_with()
@@ -39,7 +39,7 @@ class TestAdminAuth(unittest.TestCase):
         session = LoginSession(self.config, None)
         session.requestTokenIntrospect = MagicMock(return_value={'error': 'invalid token'})
 
-        self.assertFalse(
+        self.assertTrue(
             self.admin_auth.shouldRedirectForLogin(session)
         )
         session.requestTokenIntrospect.assert_called_with()

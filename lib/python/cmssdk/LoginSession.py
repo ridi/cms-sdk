@@ -12,7 +12,11 @@ class LoginSession:
 
     def requestTokenIntrospect(self):
         res = requests.post(self.rpc_url + '/token-introspect', data={'token': self.token})
-        self.admin_id = res['user_id'] if 'user_id' in res else ''
+        if res.status_code != requests.codes.ok:
+            return None
+        login = res.json()
+        self.admin_id = login['user_id'] if 'user_id' in login else ''
+        return login
 
     def getAdminId(self):
         return self.admin_id
