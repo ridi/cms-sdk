@@ -18,46 +18,61 @@ from thrift.transport import TTransport
 
 class Iface(object):
     """
-    AdminMenu 서비스
+    AdminUser 서비스
     """
-    def getMenuList(self, isUse):
+    def getAllAdminUserArray(self):
+        pass
+
+    def getUser(self, userId):
         """
         Parameters:
+         - userId
+        """
+        pass
+
+    def getAdminUserTag(self, userId):
+        """
+        Parameters:
+         - userId
+        """
+        pass
+
+    def getAdminUserMenu(self, userId):
+        """
+        Parameters:
+         - userId
+        """
+        pass
+
+    def getAllMenuIds(self, userId):
+        """
+        Parameters:
+         - userId
+        """
+        pass
+
+    def updateMyInfo(self, name, team, isUse, passwd):
+        """
+        Parameters:
+         - name
+         - team
          - isUse
+         - passwd
         """
         pass
 
-    def getAllMenuList(self):
-        pass
-
-    def getAllMenuAjax(self):
-        pass
-
-    def getMenus(self, menuIds):
+    def updatePassword(self, userId, plainPassword):
         """
         Parameters:
-         - menuIds
-        """
-        pass
-
-    def getAdminIdsByMenuId(self, menuId):
-        """
-        Parameters:
-         - menuId
-        """
-        pass
-
-    def getAllUserIds(self, menuId):
-        """
-        Parameters:
-         - menuId
+         - userId
+         - plainPassword
         """
         pass
 
 
 class Client(Iface):
     """
-    AdminMenu 서비스
+    AdminUser 서비스
     """
     def __init__(self, iprot, oprot=None):
         self._iprot = self._oprot = iprot
@@ -65,23 +80,199 @@ class Client(Iface):
             self._oprot = oprot
         self._seqid = 0
 
-    def getMenuList(self, isUse):
+    def getAllAdminUserArray(self):
+        self.send_getAllAdminUserArray()
+        return self.recv_getAllAdminUserArray()
+
+    def send_getAllAdminUserArray(self):
+        self._oprot.writeMessageBegin('getAllAdminUserArray', TMessageType.CALL, self._seqid)
+        args = getAllAdminUserArray_args()
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getAllAdminUserArray(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getAllAdminUserArray_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.userException is not None:
+            raise result.userException
+        if result.systemException is not None:
+            raise result.systemException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAllAdminUserArray failed: unknown result")
+
+    def getUser(self, userId):
         """
         Parameters:
+         - userId
+        """
+        self.send_getUser(userId)
+        return self.recv_getUser()
+
+    def send_getUser(self, userId):
+        self._oprot.writeMessageBegin('getUser', TMessageType.CALL, self._seqid)
+        args = getUser_args()
+        args.userId = userId
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getUser(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getUser_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.userException is not None:
+            raise result.userException
+        if result.systemException is not None:
+            raise result.systemException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getUser failed: unknown result")
+
+    def getAdminUserTag(self, userId):
+        """
+        Parameters:
+         - userId
+        """
+        self.send_getAdminUserTag(userId)
+        return self.recv_getAdminUserTag()
+
+    def send_getAdminUserTag(self, userId):
+        self._oprot.writeMessageBegin('getAdminUserTag', TMessageType.CALL, self._seqid)
+        args = getAdminUserTag_args()
+        args.userId = userId
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getAdminUserTag(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getAdminUserTag_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.userException is not None:
+            raise result.userException
+        if result.systemException is not None:
+            raise result.systemException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAdminUserTag failed: unknown result")
+
+    def getAdminUserMenu(self, userId):
+        """
+        Parameters:
+         - userId
+        """
+        self.send_getAdminUserMenu(userId)
+        return self.recv_getAdminUserMenu()
+
+    def send_getAdminUserMenu(self, userId):
+        self._oprot.writeMessageBegin('getAdminUserMenu', TMessageType.CALL, self._seqid)
+        args = getAdminUserMenu_args()
+        args.userId = userId
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getAdminUserMenu(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getAdminUserMenu_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.userException is not None:
+            raise result.userException
+        if result.systemException is not None:
+            raise result.systemException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAdminUserMenu failed: unknown result")
+
+    def getAllMenuIds(self, userId):
+        """
+        Parameters:
+         - userId
+        """
+        self.send_getAllMenuIds(userId)
+        return self.recv_getAllMenuIds()
+
+    def send_getAllMenuIds(self, userId):
+        self._oprot.writeMessageBegin('getAllMenuIds', TMessageType.CALL, self._seqid)
+        args = getAllMenuIds_args()
+        args.userId = userId
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getAllMenuIds(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getAllMenuIds_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.userException is not None:
+            raise result.userException
+        if result.systemException is not None:
+            raise result.systemException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAllMenuIds failed: unknown result")
+
+    def updateMyInfo(self, name, team, isUse, passwd):
+        """
+        Parameters:
+         - name
+         - team
          - isUse
+         - passwd
         """
-        self.send_getMenuList(isUse)
-        return self.recv_getMenuList()
+        self.send_updateMyInfo(name, team, isUse, passwd)
+        return self.recv_updateMyInfo()
 
-    def send_getMenuList(self, isUse):
-        self._oprot.writeMessageBegin('getMenuList', TMessageType.CALL, self._seqid)
-        args = getMenuList_args()
+    def send_updateMyInfo(self, name, team, isUse, passwd):
+        self._oprot.writeMessageBegin('updateMyInfo', TMessageType.CALL, self._seqid)
+        args = updateMyInfo_args()
+        args.name = name
+        args.team = team
         args.isUse = isUse
+        args.passwd = passwd
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_getMenuList(self):
+    def recv_updateMyInfo(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -89,7 +280,7 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = getMenuList_result()
+        result = updateMyInfo_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.success is not None:
@@ -98,85 +289,27 @@ class Client(Iface):
             raise result.userException
         if result.systemException is not None:
             raise result.systemException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getMenuList failed: unknown result")
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "updateMyInfo failed: unknown result")
 
-    def getAllMenuList(self):
-        self.send_getAllMenuList()
-        return self.recv_getAllMenuList()
-
-    def send_getAllMenuList(self):
-        self._oprot.writeMessageBegin('getAllMenuList', TMessageType.CALL, self._seqid)
-        args = getAllMenuList_args()
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_getAllMenuList(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = getAllMenuList_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.userException is not None:
-            raise result.userException
-        if result.systemException is not None:
-            raise result.systemException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAllMenuList failed: unknown result")
-
-    def getAllMenuAjax(self):
-        self.send_getAllMenuAjax()
-        return self.recv_getAllMenuAjax()
-
-    def send_getAllMenuAjax(self):
-        self._oprot.writeMessageBegin('getAllMenuAjax', TMessageType.CALL, self._seqid)
-        args = getAllMenuAjax_args()
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_getAllMenuAjax(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = getAllMenuAjax_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.userException is not None:
-            raise result.userException
-        if result.systemException is not None:
-            raise result.systemException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAllMenuAjax failed: unknown result")
-
-    def getMenus(self, menuIds):
+    def updatePassword(self, userId, plainPassword):
         """
         Parameters:
-         - menuIds
+         - userId
+         - plainPassword
         """
-        self.send_getMenus(menuIds)
-        return self.recv_getMenus()
+        self.send_updatePassword(userId, plainPassword)
+        return self.recv_updatePassword()
 
-    def send_getMenus(self, menuIds):
-        self._oprot.writeMessageBegin('getMenus', TMessageType.CALL, self._seqid)
-        args = getMenus_args()
-        args.menuIds = menuIds
+    def send_updatePassword(self, userId, plainPassword):
+        self._oprot.writeMessageBegin('updatePassword', TMessageType.CALL, self._seqid)
+        args = updatePassword_args()
+        args.userId = userId
+        args.plainPassword = plainPassword
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_getMenus(self):
+    def recv_updatePassword(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -184,7 +317,7 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = getMenus_result()
+        result = updatePassword_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.success is not None:
@@ -193,89 +326,20 @@ class Client(Iface):
             raise result.userException
         if result.systemException is not None:
             raise result.systemException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getMenus failed: unknown result")
-
-    def getAdminIdsByMenuId(self, menuId):
-        """
-        Parameters:
-         - menuId
-        """
-        self.send_getAdminIdsByMenuId(menuId)
-        return self.recv_getAdminIdsByMenuId()
-
-    def send_getAdminIdsByMenuId(self, menuId):
-        self._oprot.writeMessageBegin('getAdminIdsByMenuId', TMessageType.CALL, self._seqid)
-        args = getAdminIdsByMenuId_args()
-        args.menuId = menuId
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_getAdminIdsByMenuId(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = getAdminIdsByMenuId_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.userException is not None:
-            raise result.userException
-        if result.systemException is not None:
-            raise result.systemException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAdminIdsByMenuId failed: unknown result")
-
-    def getAllUserIds(self, menuId):
-        """
-        Parameters:
-         - menuId
-        """
-        self.send_getAllUserIds(menuId)
-        return self.recv_getAllUserIds()
-
-    def send_getAllUserIds(self, menuId):
-        self._oprot.writeMessageBegin('getAllUserIds', TMessageType.CALL, self._seqid)
-        args = getAllUserIds_args()
-        args.menuId = menuId
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_getAllUserIds(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = getAllUserIds_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.userException is not None:
-            raise result.userException
-        if result.systemException is not None:
-            raise result.systemException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAllUserIds failed: unknown result")
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "updatePassword failed: unknown result")
 
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
-        self._processMap["getMenuList"] = Processor.process_getMenuList
-        self._processMap["getAllMenuList"] = Processor.process_getAllMenuList
-        self._processMap["getAllMenuAjax"] = Processor.process_getAllMenuAjax
-        self._processMap["getMenus"] = Processor.process_getMenus
-        self._processMap["getAdminIdsByMenuId"] = Processor.process_getAdminIdsByMenuId
-        self._processMap["getAllUserIds"] = Processor.process_getAllUserIds
+        self._processMap["getAllAdminUserArray"] = Processor.process_getAllAdminUserArray
+        self._processMap["getUser"] = Processor.process_getUser
+        self._processMap["getAdminUserTag"] = Processor.process_getAdminUserTag
+        self._processMap["getAdminUserMenu"] = Processor.process_getAdminUserMenu
+        self._processMap["getAllMenuIds"] = Processor.process_getAllMenuIds
+        self._processMap["updateMyInfo"] = Processor.process_updateMyInfo
+        self._processMap["updatePassword"] = Processor.process_updatePassword
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -292,152 +356,177 @@ class Processor(Iface, TProcessor):
             self._processMap[name](self, seqid, iprot, oprot)
         return True
 
-    def process_getMenuList(self, seqid, iprot, oprot):
-        args = getMenuList_args()
+    def process_getAllAdminUserArray(self, seqid, iprot, oprot):
+        args = getAllAdminUserArray_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getMenuList_result()
+        result = getAllAdminUserArray_result()
         try:
-            result.success = self._handler.getMenuList(args.isUse)
+            result.success = self._handler.getAllAdminUserArray()
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except cmssdk.Errors.ttypes.UserException as userException:
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
             msg_type = TMessageType.REPLY
             result.userException = userException
-        except cmssdk.Errors.ttypes.SystemException as systemException:
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
             msg_type = TMessageType.REPLY
             result.systemException = systemException
         except Exception as ex:
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getMenuList", msg_type, seqid)
+        oprot.writeMessageBegin("getAllAdminUserArray", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_getAllMenuList(self, seqid, iprot, oprot):
-        args = getAllMenuList_args()
+    def process_getUser(self, seqid, iprot, oprot):
+        args = getUser_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getAllMenuList_result()
+        result = getUser_result()
         try:
-            result.success = self._handler.getAllMenuList()
+            result.success = self._handler.getUser(args.userId)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except cmssdk.Errors.ttypes.UserException as userException:
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
             msg_type = TMessageType.REPLY
             result.userException = userException
-        except cmssdk.Errors.ttypes.SystemException as systemException:
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
             msg_type = TMessageType.REPLY
             result.systemException = systemException
         except Exception as ex:
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getAllMenuList", msg_type, seqid)
+        oprot.writeMessageBegin("getUser", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_getAllMenuAjax(self, seqid, iprot, oprot):
-        args = getAllMenuAjax_args()
+    def process_getAdminUserTag(self, seqid, iprot, oprot):
+        args = getAdminUserTag_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getAllMenuAjax_result()
+        result = getAdminUserTag_result()
         try:
-            result.success = self._handler.getAllMenuAjax()
+            result.success = self._handler.getAdminUserTag(args.userId)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except cmssdk.Errors.ttypes.UserException as userException:
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
             msg_type = TMessageType.REPLY
             result.userException = userException
-        except cmssdk.Errors.ttypes.SystemException as systemException:
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
             msg_type = TMessageType.REPLY
             result.systemException = systemException
         except Exception as ex:
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getAllMenuAjax", msg_type, seqid)
+        oprot.writeMessageBegin("getAdminUserTag", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_getMenus(self, seqid, iprot, oprot):
-        args = getMenus_args()
+    def process_getAdminUserMenu(self, seqid, iprot, oprot):
+        args = getAdminUserMenu_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getMenus_result()
+        result = getAdminUserMenu_result()
         try:
-            result.success = self._handler.getMenus(args.menuIds)
+            result.success = self._handler.getAdminUserMenu(args.userId)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except cmssdk.Errors.ttypes.UserException as userException:
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
             msg_type = TMessageType.REPLY
             result.userException = userException
-        except cmssdk.Errors.ttypes.SystemException as systemException:
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
             msg_type = TMessageType.REPLY
             result.systemException = systemException
         except Exception as ex:
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getMenus", msg_type, seqid)
+        oprot.writeMessageBegin("getAdminUserMenu", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_getAdminIdsByMenuId(self, seqid, iprot, oprot):
-        args = getAdminIdsByMenuId_args()
+    def process_getAllMenuIds(self, seqid, iprot, oprot):
+        args = getAllMenuIds_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getAdminIdsByMenuId_result()
+        result = getAllMenuIds_result()
         try:
-            result.success = self._handler.getAdminIdsByMenuId(args.menuId)
+            result.success = self._handler.getAllMenuIds(args.userId)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except cmssdk.Errors.ttypes.UserException as userException:
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
             msg_type = TMessageType.REPLY
             result.userException = userException
-        except cmssdk.Errors.ttypes.SystemException as systemException:
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
             msg_type = TMessageType.REPLY
             result.systemException = systemException
         except Exception as ex:
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getAdminIdsByMenuId", msg_type, seqid)
+        oprot.writeMessageBegin("getAllMenuIds", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_getAllUserIds(self, seqid, iprot, oprot):
-        args = getAllUserIds_args()
+    def process_updateMyInfo(self, seqid, iprot, oprot):
+        args = updateMyInfo_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = getAllUserIds_result()
+        result = updateMyInfo_result()
         try:
-            result.success = self._handler.getAllUserIds(args.menuId)
+            result.success = self._handler.updateMyInfo(args.name, args.team, args.isUse, args.passwd)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
-        except cmssdk.Errors.ttypes.UserException as userException:
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
             msg_type = TMessageType.REPLY
             result.userException = userException
-        except cmssdk.Errors.ttypes.SystemException as systemException:
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
             msg_type = TMessageType.REPLY
             result.systemException = systemException
         except Exception as ex:
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("getAllUserIds", msg_type, seqid)
+        oprot.writeMessageBegin("updateMyInfo", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_updatePassword(self, seqid, iprot, oprot):
+        args = updatePassword_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = updatePassword_result()
+        try:
+            result.success = self._handler.updatePassword(args.userId, args.plainPassword)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
+            msg_type = TMessageType.REPLY
+            result.userException = userException
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
+            msg_type = TMessageType.REPLY
+            result.systemException = systemException
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("updatePassword", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -445,19 +534,10 @@ class Processor(Iface, TProcessor):
 # HELPER FUNCTIONS AND STRUCTURES
 
 
-class getMenuList_args(object):
-    """
-    Attributes:
-     - isUse
-    """
+class getAllAdminUserArray_args(object):
 
     thrift_spec = (
-        None,  # 0
-        (1, TType.BOOL, 'isUse', None, None, ),  # 1
     )
-
-    def __init__(self, isUse=None,):
-        self.isUse = isUse
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -468,11 +548,6 @@ class getMenuList_args(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
-            if fid == 1:
-                if ftype == TType.BOOL:
-                    self.isUse = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -482,11 +557,7 @@ class getMenuList_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getMenuList_args')
-        if self.isUse is not None:
-            oprot.writeFieldBegin('isUse', TType.BOOL, 1)
-            oprot.writeBool(self.isUse)
-            oprot.writeFieldEnd()
+        oprot.writeStructBegin('getAllAdminUserArray_args')
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -505,7 +576,7 @@ class getMenuList_args(object):
         return not (self == other)
 
 
-class getMenuList_result(object):
+class getAllAdminUserArray_result(object):
     """
     Attributes:
      - success
@@ -514,9 +585,9 @@ class getMenuList_result(object):
     """
 
     thrift_spec = (
-        (0, TType.LIST, 'success', (TType.STRUCT, (AdminMenu, AdminMenu.thrift_spec), False), None, ),  # 0
-        (1, TType.STRUCT, 'userException', (cmssdk.Errors.ttypes.UserException, cmssdk.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'systemException', (cmssdk.Errors.ttypes.SystemException, cmssdk.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+        (0, TType.LIST, 'success', (TType.STRUCT, (AdminUser, AdminUser.thrift_spec), False), None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
     )
 
     def __init__(self, success=None, userException=None, systemException=None,):
@@ -538,7 +609,7 @@ class getMenuList_result(object):
                     self.success = []
                     (_etype3, _size0) = iprot.readListBegin()
                     for _i4 in range(_size0):
-                        _elem5 = AdminMenu()
+                        _elem5 = AdminUser()
                         _elem5.read(iprot)
                         self.success.append(_elem5)
                     iprot.readListEnd()
@@ -546,13 +617,13 @@ class getMenuList_result(object):
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.userException = cmssdk.Errors.ttypes.UserException()
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
                     self.userException.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.systemException = cmssdk.Errors.ttypes.SystemException()
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
                     self.systemException.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -565,7 +636,7 @@ class getMenuList_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getMenuList_result')
+        oprot.writeStructBegin('getAllAdminUserArray_result')
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.LIST, 0)
             oprot.writeListBegin(TType.STRUCT, len(self.success))
@@ -599,10 +670,19 @@ class getMenuList_result(object):
         return not (self == other)
 
 
-class getAllMenuList_args(object):
+class getUser_args(object):
+    """
+    Attributes:
+     - userId
+    """
 
     thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'userId', 'UTF8', None, ),  # 1
     )
+
+    def __init__(self, userId=None,):
+        self.userId = userId
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -613,6 +693,11 @@ class getAllMenuList_args(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.userId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -622,7 +707,11 @@ class getAllMenuList_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getAllMenuList_args')
+        oprot.writeStructBegin('getUser_args')
+        if self.userId is not None:
+            oprot.writeFieldBegin('userId', TType.STRING, 1)
+            oprot.writeString(self.userId.encode('utf-8') if sys.version_info[0] == 2 else self.userId)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -641,7 +730,7 @@ class getAllMenuList_args(object):
         return not (self == other)
 
 
-class getAllMenuList_result(object):
+class getUser_result(object):
     """
     Attributes:
      - success
@@ -650,9 +739,155 @@ class getAllMenuList_result(object):
     """
 
     thrift_spec = (
-        (0, TType.LIST, 'success', (TType.STRUCT, (AdminMenu, AdminMenu.thrift_spec), False), None, ),  # 0
-        (1, TType.STRUCT, 'userException', (cmssdk.Errors.ttypes.UserException, cmssdk.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'systemException', (cmssdk.Errors.ttypes.SystemException, cmssdk.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+        (0, TType.STRUCT, 'success', (AdminUser, AdminUser.thrift_spec), None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+    )
+
+    def __init__(self, success=None, userException=None, systemException=None,):
+        self.success = success
+        self.userException = userException
+        self.systemException = systemException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = AdminUser()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
+                    self.userException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
+                    self.systemException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getUser_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        if self.userException is not None:
+            oprot.writeFieldBegin('userException', TType.STRUCT, 1)
+            self.userException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.systemException is not None:
+            oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
+            self.systemException.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getAdminUserTag_args(object):
+    """
+    Attributes:
+     - userId
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'userId', 'UTF8', None, ),  # 1
+    )
+
+    def __init__(self, userId=None,):
+        self.userId = userId
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.userId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getAdminUserTag_args')
+        if self.userId is not None:
+            oprot.writeFieldBegin('userId', TType.STRING, 1)
+            oprot.writeString(self.userId.encode('utf-8') if sys.version_info[0] == 2 else self.userId)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getAdminUserTag_result(object):
+    """
+    Attributes:
+     - success
+     - userException
+     - systemException
+    """
+
+    thrift_spec = (
+        (0, TType.LIST, 'success', (TType.I32, None, False), None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
     )
 
     def __init__(self, success=None, userException=None, systemException=None,):
@@ -674,21 +909,20 @@ class getAllMenuList_result(object):
                     self.success = []
                     (_etype10, _size7) = iprot.readListBegin()
                     for _i11 in range(_size7):
-                        _elem12 = AdminMenu()
-                        _elem12.read(iprot)
+                        _elem12 = iprot.readI32()
                         self.success.append(_elem12)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.userException = cmssdk.Errors.ttypes.UserException()
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
                     self.userException.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.systemException = cmssdk.Errors.ttypes.SystemException()
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
                     self.systemException.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -701,12 +935,12 @@ class getAllMenuList_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getAllMenuList_result')
+        oprot.writeStructBegin('getAdminUserTag_result')
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.STRUCT, len(self.success))
+            oprot.writeListBegin(TType.I32, len(self.success))
             for iter13 in self.success:
-                iter13.write(oprot)
+                oprot.writeI32(iter13)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.userException is not None:
@@ -735,10 +969,19 @@ class getAllMenuList_result(object):
         return not (self == other)
 
 
-class getAllMenuAjax_args(object):
+class getAdminUserMenu_args(object):
+    """
+    Attributes:
+     - userId
+    """
 
     thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'userId', 'UTF8', None, ),  # 1
     )
+
+    def __init__(self, userId=None,):
+        self.userId = userId
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -749,6 +992,11 @@ class getAllMenuAjax_args(object):
             (fname, ftype, fid) = iprot.readFieldBegin()
             if ftype == TType.STOP:
                 break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.userId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -758,7 +1006,11 @@ class getAllMenuAjax_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getAllMenuAjax_args')
+        oprot.writeStructBegin('getAdminUserMenu_args')
+        if self.userId is not None:
+            oprot.writeFieldBegin('userId', TType.STRING, 1)
+            oprot.writeString(self.userId.encode('utf-8') if sys.version_info[0] == 2 else self.userId)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -777,7 +1029,7 @@ class getAllMenuAjax_args(object):
         return not (self == other)
 
 
-class getAllMenuAjax_result(object):
+class getAdminUserMenu_result(object):
     """
     Attributes:
      - success
@@ -786,9 +1038,9 @@ class getAllMenuAjax_result(object):
     """
 
     thrift_spec = (
-        (0, TType.LIST, 'success', (TType.STRUCT, (AdminMenuAjax, AdminMenuAjax.thrift_spec), False), None, ),  # 0
-        (1, TType.STRUCT, 'userException', (cmssdk.Errors.ttypes.UserException, cmssdk.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'systemException', (cmssdk.Errors.ttypes.SystemException, cmssdk.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+        (0, TType.LIST, 'success', (TType.I32, None, False), None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
     )
 
     def __init__(self, success=None, userException=None, systemException=None,):
@@ -810,21 +1062,20 @@ class getAllMenuAjax_result(object):
                     self.success = []
                     (_etype17, _size14) = iprot.readListBegin()
                     for _i18 in range(_size14):
-                        _elem19 = AdminMenuAjax()
-                        _elem19.read(iprot)
+                        _elem19 = iprot.readI32()
                         self.success.append(_elem19)
                     iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.userException = cmssdk.Errors.ttypes.UserException()
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
                     self.userException.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.systemException = cmssdk.Errors.ttypes.SystemException()
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
                     self.systemException.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -837,12 +1088,12 @@ class getAllMenuAjax_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getAllMenuAjax_result')
+        oprot.writeStructBegin('getAdminUserMenu_result')
         if self.success is not None:
             oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.STRUCT, len(self.success))
+            oprot.writeListBegin(TType.I32, len(self.success))
             for iter20 in self.success:
-                iter20.write(oprot)
+                oprot.writeI32(iter20)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.userException is not None:
@@ -871,19 +1122,19 @@ class getAllMenuAjax_result(object):
         return not (self == other)
 
 
-class getMenus_args(object):
+class getAllMenuIds_args(object):
     """
     Attributes:
-     - menuIds
+     - userId
     """
 
     thrift_spec = (
         None,  # 0
-        (1, TType.LIST, 'menuIds', (TType.I32, None, False), None, ),  # 1
+        (1, TType.STRING, 'userId', 'UTF8', None, ),  # 1
     )
 
-    def __init__(self, menuIds=None,):
-        self.menuIds = menuIds
+    def __init__(self, userId=None,):
+        self.userId = userId
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -895,13 +1146,90 @@ class getMenus_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
+                if ftype == TType.STRING:
+                    self.userId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getAllMenuIds_args')
+        if self.userId is not None:
+            oprot.writeFieldBegin('userId', TType.STRING, 1)
+            oprot.writeString(self.userId.encode('utf-8') if sys.version_info[0] == 2 else self.userId)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getAllMenuIds_result(object):
+    """
+    Attributes:
+     - success
+     - userException
+     - systemException
+    """
+
+    thrift_spec = (
+        (0, TType.LIST, 'success', (TType.I32, None, False), None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+    )
+
+    def __init__(self, success=None, userException=None, systemException=None,):
+        self.success = success
+        self.userException = userException
+        self.systemException = systemException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
                 if ftype == TType.LIST:
-                    self.menuIds = []
+                    self.success = []
                     (_etype24, _size21) = iprot.readListBegin()
                     for _i25 in range(_size21):
                         _elem26 = iprot.readI32()
-                        self.menuIds.append(_elem26)
+                        self.success.append(_elem26)
                     iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
+                    self.userException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
+                    self.systemException.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -913,14 +1241,22 @@ class getMenus_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getMenus_args')
-        if self.menuIds is not None:
-            oprot.writeFieldBegin('menuIds', TType.LIST, 1)
-            oprot.writeListBegin(TType.I32, len(self.menuIds))
-            for iter27 in self.menuIds:
+        oprot.writeStructBegin('getAllMenuIds_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.LIST, 0)
+            oprot.writeListBegin(TType.I32, len(self.success))
+            for iter27 in self.success:
                 oprot.writeI32(iter27)
             oprot.writeListEnd()
             oprot.writeFieldEnd()
+        if self.userException is not None:
+            oprot.writeFieldBegin('userException', TType.STRUCT, 1)
+            self.userException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.systemException is not None:
+            oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
+            self.systemException.write(oprot)
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -939,7 +1275,103 @@ class getMenus_args(object):
         return not (self == other)
 
 
-class getMenus_result(object):
+class updateMyInfo_args(object):
+    """
+    Attributes:
+     - name
+     - team
+     - isUse
+     - passwd
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'name', 'UTF8', None, ),  # 1
+        (2, TType.STRING, 'team', 'UTF8', None, ),  # 2
+        (3, TType.BOOL, 'isUse', None, None, ),  # 3
+        (4, TType.STRING, 'passwd', 'UTF8', None, ),  # 4
+    )
+
+    def __init__(self, name=None, team=None, isUse=None, passwd=None,):
+        self.name = name
+        self.team = team
+        self.isUse = isUse
+        self.passwd = passwd
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.name = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.team = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.BOOL:
+                    self.isUse = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.passwd = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('updateMyInfo_args')
+        if self.name is not None:
+            oprot.writeFieldBegin('name', TType.STRING, 1)
+            oprot.writeString(self.name.encode('utf-8') if sys.version_info[0] == 2 else self.name)
+            oprot.writeFieldEnd()
+        if self.team is not None:
+            oprot.writeFieldBegin('team', TType.STRING, 2)
+            oprot.writeString(self.team.encode('utf-8') if sys.version_info[0] == 2 else self.team)
+            oprot.writeFieldEnd()
+        if self.isUse is not None:
+            oprot.writeFieldBegin('isUse', TType.BOOL, 3)
+            oprot.writeBool(self.isUse)
+            oprot.writeFieldEnd()
+        if self.passwd is not None:
+            oprot.writeFieldBegin('passwd', TType.STRING, 4)
+            oprot.writeString(self.passwd.encode('utf-8') if sys.version_info[0] == 2 else self.passwd)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class updateMyInfo_result(object):
     """
     Attributes:
      - success
@@ -948,9 +1380,9 @@ class getMenus_result(object):
     """
 
     thrift_spec = (
-        (0, TType.LIST, 'success', (TType.STRUCT, (AdminMenu, AdminMenu.thrift_spec), False), None, ),  # 0
-        (1, TType.STRUCT, 'userException', (cmssdk.Errors.ttypes.UserException, cmssdk.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'systemException', (cmssdk.Errors.ttypes.SystemException, cmssdk.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+        (0, TType.BOOL, 'success', None, None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
     )
 
     def __init__(self, success=None, userException=None, systemException=None,):
@@ -968,25 +1400,19 @@ class getMenus_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype31, _size28) = iprot.readListBegin()
-                    for _i32 in range(_size28):
-                        _elem33 = AdminMenu()
-                        _elem33.read(iprot)
-                        self.success.append(_elem33)
-                    iprot.readListEnd()
+                if ftype == TType.BOOL:
+                    self.success = iprot.readBool()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.userException = cmssdk.Errors.ttypes.UserException()
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
                     self.userException.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.systemException = cmssdk.Errors.ttypes.SystemException()
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
                     self.systemException.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -999,13 +1425,10 @@ class getMenus_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getMenus_result')
+        oprot.writeStructBegin('updateMyInfo_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.STRUCT, len(self.success))
-            for iter34 in self.success:
-                iter34.write(oprot)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('success', TType.BOOL, 0)
+            oprot.writeBool(self.success)
             oprot.writeFieldEnd()
         if self.userException is not None:
             oprot.writeFieldBegin('userException', TType.STRUCT, 1)
@@ -1033,19 +1456,22 @@ class getMenus_result(object):
         return not (self == other)
 
 
-class getAdminIdsByMenuId_args(object):
+class updatePassword_args(object):
     """
     Attributes:
-     - menuId
+     - userId
+     - plainPassword
     """
 
     thrift_spec = (
         None,  # 0
-        (1, TType.I32, 'menuId', None, None, ),  # 1
+        (1, TType.STRING, 'userId', 'UTF8', None, ),  # 1
+        (2, TType.STRING, 'plainPassword', 'UTF8', None, ),  # 2
     )
 
-    def __init__(self, menuId=None,):
-        self.menuId = menuId
+    def __init__(self, userId=None, plainPassword=None,):
+        self.userId = userId
+        self.plainPassword = plainPassword
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -1057,8 +1483,13 @@ class getAdminIdsByMenuId_args(object):
             if ftype == TType.STOP:
                 break
             if fid == 1:
-                if ftype == TType.I32:
-                    self.menuId = iprot.readI32()
+                if ftype == TType.STRING:
+                    self.userId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.plainPassword = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
             else:
@@ -1070,10 +1501,14 @@ class getAdminIdsByMenuId_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getAdminIdsByMenuId_args')
-        if self.menuId is not None:
-            oprot.writeFieldBegin('menuId', TType.I32, 1)
-            oprot.writeI32(self.menuId)
+        oprot.writeStructBegin('updatePassword_args')
+        if self.userId is not None:
+            oprot.writeFieldBegin('userId', TType.STRING, 1)
+            oprot.writeString(self.userId.encode('utf-8') if sys.version_info[0] == 2 else self.userId)
+            oprot.writeFieldEnd()
+        if self.plainPassword is not None:
+            oprot.writeFieldBegin('plainPassword', TType.STRING, 2)
+            oprot.writeString(self.plainPassword.encode('utf-8') if sys.version_info[0] == 2 else self.plainPassword)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1093,7 +1528,7 @@ class getAdminIdsByMenuId_args(object):
         return not (self == other)
 
 
-class getAdminIdsByMenuId_result(object):
+class updatePassword_result(object):
     """
     Attributes:
      - success
@@ -1102,9 +1537,9 @@ class getAdminIdsByMenuId_result(object):
     """
 
     thrift_spec = (
-        (0, TType.LIST, 'success', (TType.STRING, 'UTF8', False), None, ),  # 0
-        (1, TType.STRUCT, 'userException', (cmssdk.Errors.ttypes.UserException, cmssdk.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'systemException', (cmssdk.Errors.ttypes.SystemException, cmssdk.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+        (0, TType.BOOL, 'success', None, None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
     )
 
     def __init__(self, success=None, userException=None, systemException=None,):
@@ -1122,24 +1557,19 @@ class getAdminIdsByMenuId_result(object):
             if ftype == TType.STOP:
                 break
             if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype38, _size35) = iprot.readListBegin()
-                    for _i39 in range(_size35):
-                        _elem40 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.success.append(_elem40)
-                    iprot.readListEnd()
+                if ftype == TType.BOOL:
+                    self.success = iprot.readBool()
                 else:
                     iprot.skip(ftype)
             elif fid == 1:
                 if ftype == TType.STRUCT:
-                    self.userException = cmssdk.Errors.ttypes.UserException()
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
                     self.userException.read(iprot)
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
                 if ftype == TType.STRUCT:
-                    self.systemException = cmssdk.Errors.ttypes.SystemException()
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
                     self.systemException.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1152,166 +1582,10 @@ class getAdminIdsByMenuId_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('getAdminIdsByMenuId_result')
+        oprot.writeStructBegin('updatePassword_result')
         if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.STRING, len(self.success))
-            for iter41 in self.success:
-                oprot.writeString(iter41.encode('utf-8') if sys.version_info[0] == 2 else iter41)
-            oprot.writeListEnd()
-            oprot.writeFieldEnd()
-        if self.userException is not None:
-            oprot.writeFieldBegin('userException', TType.STRUCT, 1)
-            self.userException.write(oprot)
-            oprot.writeFieldEnd()
-        if self.systemException is not None:
-            oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
-            self.systemException.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class getAllUserIds_args(object):
-    """
-    Attributes:
-     - menuId
-    """
-
-    thrift_spec = (
-        None,  # 0
-        (1, TType.I32, 'menuId', None, None, ),  # 1
-    )
-
-    def __init__(self, menuId=None,):
-        self.menuId = menuId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.I32:
-                    self.menuId = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
-            return
-        oprot.writeStructBegin('getAllUserIds_args')
-        if self.menuId is not None:
-            oprot.writeFieldBegin('menuId', TType.I32, 1)
-            oprot.writeI32(self.menuId)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class getAllUserIds_result(object):
-    """
-    Attributes:
-     - success
-     - userException
-     - systemException
-    """
-
-    thrift_spec = (
-        (0, TType.LIST, 'success', (TType.STRING, 'UTF8', False), None, ),  # 0
-        (1, TType.STRUCT, 'userException', (cmssdk.Errors.ttypes.UserException, cmssdk.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'systemException', (cmssdk.Errors.ttypes.SystemException, cmssdk.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
-    )
-
-    def __init__(self, success=None, userException=None, systemException=None,):
-        self.success = success
-        self.userException = userException
-        self.systemException = systemException
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.LIST:
-                    self.success = []
-                    (_etype45, _size42) = iprot.readListBegin()
-                    for _i46 in range(_size42):
-                        _elem47 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                        self.success.append(_elem47)
-                    iprot.readListEnd()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.userException = cmssdk.Errors.ttypes.UserException()
-                    self.userException.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRUCT:
-                    self.systemException = cmssdk.Errors.ttypes.SystemException()
-                    self.systemException.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
-            return
-        oprot.writeStructBegin('getAllUserIds_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.LIST, 0)
-            oprot.writeListBegin(TType.STRING, len(self.success))
-            for iter48 in self.success:
-                oprot.writeString(iter48.encode('utf-8') if sys.version_info[0] == 2 else iter48)
-            oprot.writeListEnd()
+            oprot.writeFieldBegin('success', TType.BOOL, 0)
+            oprot.writeBool(self.success)
             oprot.writeFieldEnd()
         if self.userException is not None:
             oprot.writeFieldBegin('userException', TType.STRUCT, 1)

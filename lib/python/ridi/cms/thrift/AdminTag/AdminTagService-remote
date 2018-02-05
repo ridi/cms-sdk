@@ -17,20 +17,17 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from cmssdk.AdminMenu import AdminMenuService
-from cmssdk.AdminMenu.ttypes import *
+from ridi.cms.thrift.AdminTag import AdminTagService
+from ridi.cms.thrift.AdminTag.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
-    print('  AdminMenuCollection getMenuList(bool isUse)')
-    print('  AdminMenuCollection getAllMenuList()')
-    print('  AdminMenuAjaxCollection getAllMenuAjax()')
-    print('  AdminMenuCollection getMenus( menuIds)')
-    print('   getAdminIdsByMenuId(i32 menuId)')
-    print('   getAllUserIds(i32 menuId)')
+    print('   getAdminIdsFromTags( tag_ids)')
+    print('   getAdminTagMenus(i32 tag_id)')
+    print('   getMappedAdminMenuHashes(string check_url, i32 tag_id)')
     print('')
     sys.exit(0)
 
@@ -107,44 +104,26 @@ else:
     else:
         transport = TTransport.TBufferedTransport(socket)
 protocol = TBinaryProtocol(transport)
-client = AdminMenuService.Client(protocol)
+client = AdminTagService.Client(protocol)
 transport.open()
 
-if cmd == 'getMenuList':
+if cmd == 'getAdminIdsFromTags':
     if len(args) != 1:
-        print('getMenuList requires 1 args')
+        print('getAdminIdsFromTags requires 1 args')
         sys.exit(1)
-    pp.pprint(client.getMenuList(eval(args[0]),))
+    pp.pprint(client.getAdminIdsFromTags(eval(args[0]),))
 
-elif cmd == 'getAllMenuList':
-    if len(args) != 0:
-        print('getAllMenuList requires 0 args')
-        sys.exit(1)
-    pp.pprint(client.getAllMenuList())
-
-elif cmd == 'getAllMenuAjax':
-    if len(args) != 0:
-        print('getAllMenuAjax requires 0 args')
-        sys.exit(1)
-    pp.pprint(client.getAllMenuAjax())
-
-elif cmd == 'getMenus':
+elif cmd == 'getAdminTagMenus':
     if len(args) != 1:
-        print('getMenus requires 1 args')
+        print('getAdminTagMenus requires 1 args')
         sys.exit(1)
-    pp.pprint(client.getMenus(eval(args[0]),))
+    pp.pprint(client.getAdminTagMenus(eval(args[0]),))
 
-elif cmd == 'getAdminIdsByMenuId':
-    if len(args) != 1:
-        print('getAdminIdsByMenuId requires 1 args')
+elif cmd == 'getMappedAdminMenuHashes':
+    if len(args) != 2:
+        print('getMappedAdminMenuHashes requires 2 args')
         sys.exit(1)
-    pp.pprint(client.getAdminIdsByMenuId(eval(args[0]),))
-
-elif cmd == 'getAllUserIds':
-    if len(args) != 1:
-        print('getAllUserIds requires 1 args')
-        sys.exit(1)
-    pp.pprint(client.getAllUserIds(eval(args[0]),))
+    pp.pprint(client.getMappedAdminMenuHashes(args[0], eval(args[1]),))
 
 else:
     print('Unrecognized method %s' % cmd)

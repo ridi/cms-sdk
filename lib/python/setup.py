@@ -4,16 +4,16 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='cmssdk',
+    name='ridi-cms-sdk',
     packages=[
-        'cmssdk',
-        'cmssdk.AdminAuth',
-        'cmssdk.AdminMenu',
-        'cmssdk.AdminTag',
-        'cmssdk.AdminUser',
-        'cmssdk.Errors',
+        'ridi.cms',
+        'ridi.cms.thrift.AdminAuth',
+        'ridi.cms.thrift.AdminMenu',
+        'ridi.cms.thrift.AdminTag',
+        'ridi.cms.thrift.AdminUser',
+        'ridi.cms.thrift.Errors',
     ],
-    version='0.6.7',
+    version='0.0.1',
     description='Ridi CMS SDK',
     url='https://github.com/ridi/cms-sdk',
     keywords=['cmssdk', 'ridi', 'ridibooks'],

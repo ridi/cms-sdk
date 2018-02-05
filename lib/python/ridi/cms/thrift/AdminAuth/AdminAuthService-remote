@@ -17,8 +17,8 @@ else:
 from thrift.transport import TTransport, TSocket, TSSLSocket, THttpClient
 from thrift.protocol.TBinaryProtocol import TBinaryProtocol
 
-from cmssdk.AdminAuth import AdminAuthService
-from cmssdk.AdminAuth.ttypes import *
+from ridi.cms.thrift.AdminAuth import AdminAuthService
+from ridi.cms.thrift.AdminAuth.ttypes import *
 
 if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('')

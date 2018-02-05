@@ -10,8 +10,8 @@
 from thrift.Thrift import TType, TMessageType, TFrozenDict, TException, TApplicationException
 from thrift.protocol.TProtocol import TProtocolException
 import sys
-import cmssdk.Errors.ttypes
-import cmssdk.AdminMenu.ttypes
+import ridi.cms.thrift.Errors.ttypes
+import ridi.cms.thrift.AdminMenu.ttypes
 
 from thrift.transport import TTransport
 

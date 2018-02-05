@@ -1,7 +1,7 @@
 include "Errors.thrift"
 
 namespace php Ridibooks.Cms.Thrift.AdminAuth
-namespace py cmssdk.AdminAuth
+namespace py ridi.cms.thrift.AdminAuth
 
 /**
  * AdminMenu 엔티티

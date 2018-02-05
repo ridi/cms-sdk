@@ -1,5 +1,5 @@
 import requests
-from cmssdk.Config import Config
+from ridi.cms.Config import Config
 
 COOKIE_CMS_TOKEN = 'cms-token'
 COOKIE_ADMIN_ID = 'admin-id'

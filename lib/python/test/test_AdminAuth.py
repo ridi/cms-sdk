@@ -1,8 +1,8 @@
 import unittest
 from unittest.mock import MagicMock
-from cmssdk import CmsClient
-from cmssdk.LoginSession import LoginSession
-from cmssdk.Config import Config
+from ridi.cms import CmsClient
+from ridi.cms.LoginSession import LoginSession
+from ridi.cms.Config import Config
 
 class TestAdminAuth(unittest.TestCase):
     def setUp(self):

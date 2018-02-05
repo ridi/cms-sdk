@@ -4,12 +4,12 @@ from thrift import Thrift
 from thrift.transport import THttpClient
 from thrift.protocol import TMultiplexedProtocol
 from thrift.protocol import TJSONProtocol
-from cmssdk.AdminAuth import AdminAuthService
-from cmssdk.AdminMenu import AdminMenuService
-from cmssdk.AdminTag import AdminTagService
-from cmssdk.AdminUser import AdminUserService
-from cmssdk.LoginSession import LoginSession
-from cmssdk.Config import Config
+from ridi.cms.thrift.AdminAuth import AdminAuthService
+from ridi.cms.thrift.AdminMenu import AdminMenuService
+from ridi.cms.thrift.AdminTag import AdminTagService
+from ridi.cms.thrift.AdminUser import AdminUserService
+from ridi.cms.LoginSession import LoginSession
+from ridi.cms.Config import Config
 from urllib.parse import quote_plus
 
 def _createProtocol(service_name, config: Config):
