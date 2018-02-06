@@ -29,3 +29,4 @@ pip-delete-this-directory.txt
 .Python
 *.egg-info/
 lib/python/dist/
+pip-selfcheck.json
