@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from thrift import Thrift
+from urllib.parse import quote_plus
 from thrift.transport import THttpClient
 from thrift.protocol import TMultiplexedProtocol
 from thrift.protocol import TJSONProtocol
@@ -10,7 +10,6 @@ from ridi.cms.thrift.AdminTag import AdminTagService
 from ridi.cms.thrift.AdminUser import AdminUserService
 from ridi.cms.LoginSession import LoginSession
 from ridi.cms.Config import Config
-from urllib.parse import quote_plus
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)

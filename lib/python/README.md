@@ -6,7 +6,7 @@
 
 ## Setup
 
-`pip install cmssdk`
+`pip install ridi-cms-sdk`
 
 ## Usage
 

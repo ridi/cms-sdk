@@ -8,6 +8,9 @@ build:
 test:
 	python -m unittest discover
 
+lint:
+	pylint ridi
+
 dist:
 	rm -rf ./dist
 	python setup.py sdist

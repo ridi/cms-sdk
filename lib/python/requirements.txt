@@ -1,4 +1,3 @@
---index-url https://pypi.python.org/simple/
-thrift==0.10.0
-requests>=2.0.0
+.
 twine
+pylint

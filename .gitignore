@@ -29,5 +29,3 @@ pip-delete-this-directory.txt
 .Python
 *.egg-info/
 lib/python/dist/
-lib/python/bin/
-lib/python/lib/
