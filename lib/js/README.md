@@ -44,3 +44,5 @@ async function callAsyncStyle() {
 callAsyncStyle();
 
 ```
+
+Check out our [sample project](https://github.com/ridi/cms-bootstrap-js) for more details.

@@ -10,4 +10,4 @@
 
 ## Usage
 
-See the sample project(https://github.com/ridi/cms-bootstrap-python)
+Check out our [sample project](https://github.com/ridi/cms-bootstrap-python) for more details.
