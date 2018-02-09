@@ -3,6 +3,7 @@ include "AdminTag.thrift"
 include "AdminMenu.thrift"
 
 namespace php Ridibooks.Cms.Thrift.AdminUser
+namespace py ridi.cms.thrift.AdminUser
 
 /**
  * AdminUser 엔티티

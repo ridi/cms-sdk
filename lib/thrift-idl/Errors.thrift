@@ -1,4 +1,5 @@
 namespace php Ridibooks.Cms.Thrift.Errors
+namespace py ridi.cms.thrift.Errors
 
 /**
  * 에러 코드

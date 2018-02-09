@@ -1,7 +1,32 @@
-.idea
-.vscode
 composer.lock
 node_modules
 package-lock.json
 vendor
 yarn.lock
+.idea/
+.vscode/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+pyvenv.cfg
+.python-version
+pip-log.txt
+pip-delete-this-directory.txt
+*.manifest
+*.spec
+.Python
+*.egg-info/
+lib/python/dist/
+pip-selfcheck.json
