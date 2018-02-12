@@ -29,3 +29,13 @@ To generate thrift code, please run:
 ``` sh
 make thrift
 ```
+
+### CMS-SDK Release steps
+
+1. Update `CHANGELOG.md`.
+1. Update new SDK version in `package.json` & `lib/python/setup.py`.
+1. Commit all the changes and push to the git repo.
+1. Tag a new release in github. This will release a new version in packagist.
+1. `make -C lib/js npm-upload` will release js version.
+1. `make -C lib/python dist` will build a python package.
+1. `make -C lib/python pypi-upload` will release the pacakge.
