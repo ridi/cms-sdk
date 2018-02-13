@@ -8,8 +8,8 @@ from ridi.cms.thrift.AdminAuth import AdminAuthService
 from ridi.cms.thrift.AdminMenu import AdminMenuService
 from ridi.cms.thrift.AdminTag import AdminTagService
 from ridi.cms.thrift.AdminUser import AdminUserService
-from ridi.cms.LoginSession import LoginSession
-from ridi.cms.Config import Config
+from ridi.cms.login_session import LoginSession
+from ridi.cms.config import Config
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)

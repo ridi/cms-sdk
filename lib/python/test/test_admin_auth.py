@@ -1,14 +1,14 @@
 import unittest
 from unittest.mock import MagicMock
-from ridi.cms import CmsClient
-from ridi.cms.LoginSession import LoginSession
-from ridi.cms.Config import Config
+from ridi.cms import cms_client
+from ridi.cms.login_session import LoginSession
+from ridi.cms.config import Config
 
 class TestAdminAuth(unittest.TestCase):
     def setUp(self):
         self.config = Config()
         self.config.RPC_URL = 'http://localhost'
-        self.admin_auth = CmsClient.AdminAuth(self.config)
+        self.admin_auth = cms_client.AdminAuth(self.config)
         assert self.admin_auth
 
     def testExistanceOfThriftMethods(self):
