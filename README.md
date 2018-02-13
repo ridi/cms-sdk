@@ -37,6 +37,5 @@ make thrift
 1. Update new SDK version in `package.json` & `lib/python/setup.py`.
 1. Commit & push all the changes and make a pull request.
 1. After PR, tag a new release in github. This will release a new version in Packagist.
-1. `make -C lib/js npm-upload` will release js version.
-1. `make -C lib/python dist` will build a python package.
-1. `make -C lib/python pypi-upload` will release the pacakge.
+1. `make -C lib/js npm-upload` will release js module.
+1. `make -C lib/python release` will release python package.

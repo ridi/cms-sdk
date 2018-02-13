@@ -17,3 +17,5 @@ dist:
 
 pypi-upload:
 	twine upload dist/*
+
+release: dist pypi-upload
