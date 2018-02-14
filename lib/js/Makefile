@@ -5,5 +5,5 @@ all: build
 build:
 	npm run build
 
-npm-upload:
+release:
 	npm publish ../../ --access public
