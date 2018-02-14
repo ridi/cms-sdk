@@ -1,5 +1,9 @@
 # Ridibooks CMS SDK
 
+## 2.1.1 (2018-02-14)
+
+- [PHP] Fix compatibility error with Config class
+
 ## 2.1 (2018-02-13)
 
 - [PHP] **Remove** deprecated method `AdminAuthService::getAdminTag`
