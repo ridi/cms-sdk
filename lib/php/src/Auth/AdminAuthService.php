@@ -106,13 +106,10 @@ class AdminAuthService
 
     private static function getTokenIntrospectUrl()
     {
-        $parsed = parse_url($_ENV['CMS_RPC_URL']);
-        $host = $parsed['host'] ?? 'localhost';
-        $scheme = $parsed['scheme'] ?? 'http';
-        $port = $parsed['port'] ?? (($scheme === 'https') ? 443 : 80);
-        $path = $parsed['path'] ?? '';
+        $endpoint = ThriftService::getEndPoint();
+        $endpoint = rtrim($endpoint, '/');
 
-        return $scheme . '://' . $host . ':' . $port . $path . '/token-introspect';
+        return $endpoint . '/token-introspect';
     }
 
     /**적합한 유저인지 검사한다.

@@ -33,6 +33,11 @@ class ThriftService
         self::$scheme = $scheme;
     }
 
+    public static function getEndPoint()
+    {
+        return self::$scheme . '://' . self::$host . ':' . self::$port . self::$path;
+    }
+
     public static function getHttpClient($thrift_name)
     {
         $transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
