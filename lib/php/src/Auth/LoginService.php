@@ -79,6 +79,11 @@ class LoginService
         return isset(self::$login_context->user_id);
     }
 
+    public static function setLoginContext($login_context)
+    {
+        self::$login_context = (object)$login_context;
+    }
+
     public static function startSession()
     {
         session_set_cookie_params(self::SESSION_TIMEOUT_SEC, '/', $_SERVER['SERVER_NAME']);
