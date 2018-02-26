@@ -64,15 +64,7 @@ class LoginService
 
     public static function GetAdminID()
     {
-        if (!self::isCgiEnvironment()) {
-            trigger_error('LoginService::GetAdminID() not called in CGI environment, please fix it');
-        }
         return self::$login_context->user_id ?? $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
-    }
-
-    public static function isCgiEnvironment()
-    {
-        return in_array(php_sapi_name(), ['apache2filter', 'apache2handler', 'cli-server']);
     }
 
     public static function validateLogin(request $request)
