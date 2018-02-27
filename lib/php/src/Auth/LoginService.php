@@ -64,7 +64,7 @@ class LoginService
 
     public static function GetAdminID()
     {
-        return self::$login_context->user_id ?? $_COOKIE[self::ADMIN_ID_COOKIE_NAME];
+        return self::$login_context->user_id ?? ($_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? null);
     }
 
     public static function validateLogin(request $request)
