@@ -25,12 +25,6 @@ class CmsApplication extends Application
 
     private function setDefaultErrorHandler()
     {
-        if (class_exists('Config')) {
-            $this['debug'] = \Config::$UNDER_DEV;
-        } else {
-            $this['debug'] = $_ENV['DEBUG'];
-        }
-
         $this->error(function (\Exception $e) {
             if ($this['debug']) {
                 return null;
@@ -47,16 +41,17 @@ class CmsApplication extends Application
     private function registerTwigServiceProvider()
     {
         $this->register(
-            new TwigServiceProvider(),
-            [
-                'twig.env.globals' => [],
+            new TwigServiceProvider(), [
+                'twig.path' => array_merge([
+                    __DIR__ . '/../views/'
+                ], $this['twig.path'] ?? []),
                 'twig.options' => [
                     'cache' => sys_get_temp_dir() . '/twig_cache_v12',
                     'auto_reload' => true,
                     // TwigServiceProvider에서 기본으로 $this['debug']와 같게 설정되어 있는데 true 일경우
                     // if xxx is defined로 변수를 일일이 체크해줘야 하는 문제가 있어서 override 함
                     'strict_variables' => false
-                ]
+                ],
             ]
         );
 
@@ -64,91 +59,24 @@ class CmsApplication extends Application
         $this->extend(
             'twig',
             function (\Twig_Environment $twig) {
-                $globals = array_merge($this->getTwigGlobalVariables(), $this['twig.env.globals']);
+                $globals = $this['twig.globals'] ?? [];
+                $globals = array_merge($globals, [
+                    'session_user_menu' => (new AdminAuthService())->getAdminMenu()
+                ]);
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);
                 }
 
-                foreach ($this->getTwigGlobalFilters() as $filter) {
-                    $twig->addFilter($filter);
-                }
-
+                $twig->addFilter(new \Twig_SimpleFilter('strtotime', 'strtotime'));
                 return $twig;
             }
         );
-
-        $this->extend(
-            'twig.loader.filesystem',
-            function (\Twig_Loader_Filesystem $loader) {
-                $loader->addPath(__DIR__ . '/../views/');
-
-                return $loader;
-            }
-        );
-    }
-
-    private function getTwigGlobalVariables()
-    {
-        if (class_exists('Config')) {
-            $globals = [
-                'FRONT_URL' => 'http://' . \Config::$DOMAIN,
-                'STATIC_URL' => '/admin/static',
-                'BOWER_PATH' => '/static/bower_components',
-
-                'MISC_URL' => \Config::$MISC_URL,
-                'BANNER_URL' => \Config::$ACTIVE_URL . '/ridibooks_banner/',
-                'ACTIVE_URL' => \Config::$ACTIVE_URL,
-                'DM_IMAGE_URL' => \Config::$ACTIVE_URL . '/ridibooks_dm/',
-
-                'PHP_SELF' => $_SERVER['PHP_SELF'],
-                'REQUEST_URI' => $_SERVER['REQUEST_URI'],
-                'REQUEST_PATH' => explode('?', $_SERVER['REQUEST_URI'])[0],
-
-                "HTTP_HOST_LINK" => \Config::$HTTP_HOST_LINK,
-                "SSL_HOST_LINK" => \Config::$SSL_HOST_LINK,
-
-                'base_url' => \Config::$DOMAIN
-            ];
-        } else {
-            $globals = [
-                'FRONT_URL' => 'http://' . $_ENV['DOMAIN'],
-                'STATIC_URL' => '/admin/static',
-                'BOWER_PATH' => '/static/bower_components',
-
-                'MISC_URL' => $_ENV['MISC_URL'],
-                'BANNER_URL' => $_ENV['ACTIVE_URL'] . '/ridibooks_banner/',
-                'ACTIVE_URL' => $_ENV['ACTIVE_URL'],
-                'DM_IMAGE_URL' => $_ENV['ACTIVE_URL'] . '/ridibooks_dm/',
-
-                'PHP_SELF' => $_SERVER['PHP_SELF'],
-                'REQUEST_URI' => $_SERVER['REQUEST_URI'],
-                'REQUEST_PATH' => explode('?', $_SERVER['REQUEST_URI'])[0],
-
-                "HTTP_HOST_LINK" => $_ENV['HTTP_HOST_LINK'],
-                "SSL_HOST_LINK" => $_ENV['SSL_HOST_LINK'],
-
-                'base_url' => $_ENV['DOMAIN']
-            ];
-        }
-
-        $adminAuth = new AdminAuthService();
-        $globals['session_user_menu'] = $adminAuth->getAdminMenu();
-
-        return $globals;
-    }
-
-    private function getTwigGlobalFilters()
-    {
-        return [
-            new \Twig_SimpleFilter('strtotime', 'strtotime')
-        ];
     }
 
     private function registerSessionServiceProvider()
     {
         $this->register(
-            new SessionServiceProvider(),
-            [
+            new SessionServiceProvider(), [
                 'session.storage.handler' => null
             ]
         );

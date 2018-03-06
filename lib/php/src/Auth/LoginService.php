@@ -10,7 +10,7 @@ class LoginService
     const ADMIN_ID_COOKIE_NAME = 'admin-id';
     const TOKEN_COOKIE_NAME = 'cms-token';
 
-    static $login_context;
+    private static $login_context;
 
     /**
      * @param string $id
