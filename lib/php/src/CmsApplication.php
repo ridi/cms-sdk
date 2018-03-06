@@ -26,7 +26,7 @@ class CmsApplication extends Application
     private function setDefaultErrorHandler()
     {
         $this->error(function (\Exception $e) {
-            if ($this['debug']) {
+            if (empty($this['debug'])) {
                 return null;
             }
 
