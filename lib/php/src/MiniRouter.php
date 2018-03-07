@@ -4,6 +4,8 @@ namespace Ridibooks\Cms;
 use Ridibooks\Cms\Auth\AdminAuthService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
 class MiniRouter
 {
@@ -120,18 +122,17 @@ class MiniRouter
      */
     private function callView($query, $args)
     {
-        $view_file_name = $query . '.twig';
-
-        $app = new CmsApplication([
-            'debug' => $this->debug,
-            'twig.globals' => $this->global_args,
-            'twig.path' => [$this->view_dir],
+        $loader = new Twig_Loader_Filesystem([
+            __DIR__ . '/../views/',
+            $this->view_dir,
         ]);
 
-        /** @var \Twig_Environment $twig_helper */
-        $twig_helper = $app['twig'];
+        $twig = new Twig_Environment($loader, ['debug' => $this->debug]);
+        foreach ($this->global_args as $k => $v) {
+            $twig->addGlobal($k, $v);
+        }
 
-        return Response::create($twig_helper->render($view_file_name, $args));
+        return Response::create($twig->render($query . '.twig', $args));
     }
 
     private static function notFound()
