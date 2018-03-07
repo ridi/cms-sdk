@@ -14,13 +14,15 @@ class MiniRouter
      * @var array
      */
     private $global_args;
+    private $debug;
 
-    public function __construct($controller_dir, $view_dir, $prefix_uri = '', $global_args = [])
+    public function __construct($controller_dir, $view_dir, $prefix_uri = '', $global_args = [], $debug = false)
     {
         $this->controller_dir = $controller_dir;
         $this->view_dir = $view_dir;
         $this->prefix_uri = self::getNormalizedUri($prefix_uri);
         $this->global_args = $global_args;
+        $this->debug = $debug;
     }
 
     /**
@@ -60,7 +62,7 @@ class MiniRouter
         $return_value = $this->callController($controller_path);
 
         if (is_array($return_value)) {
-            return $this->callView($request, $controller_path, $return_value);
+            return $this->callView($controller_path, $return_value);
         } elseif (is_string($return_value)) {
             return Response::create($return_value);
         } elseif ($return_value instanceof Response) {
@@ -112,18 +114,19 @@ class MiniRouter
     }
 
     /**
-     * @param Request $request
      * @param $query
      * @param array $args
      * @return Response
      */
-    private function callView($request, $query, $args)
+    private function callView($query, $args)
     {
         $view_file_name = $query . '.twig';
 
-        $app = new CmsApplication();
-        $app['twig.path'] = [$this->view_dir];
-        $app['twig.env.globals'] = $this->global_args;
+        $app = new CmsApplication([
+            'debug' => $this->debug,
+            'twig.globals' => $this->global_args,
+            'twig.path' => [$this->view_dir],
+        ]);
 
         /** @var \Twig_Environment $twig_helper */
         $twig_helper = $app['twig'];
