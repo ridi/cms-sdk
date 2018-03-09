@@ -1,5 +1,9 @@
 # Ridibooks CMS SDK
 
+## 2.2.0 (2018-03-09)
+
+- [PHP] CmsApplication accepts config variables by the constructor
+
 ## 2.1.1 (2018-02-14)
 
 - [PHP] Fix compatibility error with Config class
