@@ -122,17 +122,19 @@ class MiniRouter
      */
     private function callView($query, $args)
     {
-        $loader = new Twig_Loader_Filesystem([
-            __DIR__ . '/../views/',
-            $this->view_dir,
+        $view_file_name = $query . '.twig';
+
+        $app = new CmsApplication([
+            'debug' => $this->debug,
+            'twig.path' => [$this->view_dir],
+            'twig.globals' => $this->global_args,
         ]);
 
-        $twig = new Twig_Environment($loader, ['debug' => $this->debug]);
-        foreach ($this->global_args as $k => $v) {
-            $twig->addGlobal($k, $v);
-        }
+        /** @var \Twig_Environment $twig_helper */
+        $twig_helper = $app['twig'];
 
-        return Response::create($twig->render($query . '.twig', $args));
+        return Response::create($twig_helper->render($view_file_name, $args));
+
     }
 
     private static function notFound()
