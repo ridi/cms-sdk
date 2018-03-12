@@ -128,9 +128,15 @@ class MiniRouter
         ]);
 
         $twig = new Twig_Environment($loader, ['debug' => $this->debug]);
+
+        $this->global_args = array_merge($this->global_args, [
+            'session_user_menu' => (new AdminAuthService())->getAdminMenu()
+        ]);
         foreach ($this->global_args as $k => $v) {
             $twig->addGlobal($k, $v);
         }
+
+        $twig->addFilter(new \Twig_SimpleFilter('strtotime', 'strtotime'));
 
         return Response::create($twig->render($query . '.twig', $args));
     }
