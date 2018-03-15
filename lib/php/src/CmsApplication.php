@@ -61,7 +61,7 @@ class CmsApplication extends Application
             function (\Twig_Environment $twig) {
                 $globals = $this['twig.globals'] ?? [];
                 $globals = array_merge($globals, [
-                    'session_user_menu' => (new AdminAuthService())->getAdminMenu()
+                    'menus' => (new AdminAuthService())->getAdminMenu()
                 ]);
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);

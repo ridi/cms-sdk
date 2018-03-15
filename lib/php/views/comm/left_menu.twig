@@ -4,7 +4,7 @@
     <h1 id="leftTit">Ridibooks CMS</h1>
     <!-- 1뎁스메뉴 -->
     <ul id="leftMenu">
-      {% for menu in session_user_menu %}
+      {% for menu in menus %}
         {% if menu.menu_deep == 0 %}
           <li><b>{{ menu.menu_title }}</b></li>
         {% else %}

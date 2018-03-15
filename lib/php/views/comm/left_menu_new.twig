@@ -2,7 +2,7 @@
   <h4>Ridibooks CMS</h4>
   <select class="form-control menu_select">
     <option></option>
-    {% for menu in session_user_menu %}
+    {% for menu in menu %}
       {% if menu.menu_deep == 0 %}
         <option value="{{ menu.menu_url }}" disabled="disabled">{{ menu.menu_title }}</option>
       {% else %}
@@ -13,7 +13,7 @@
 
   <ul class="nav nav-pills nav-stacked">
     {% set pre_menu = '' %}
-    {% for menu in session_user_menu %}
+    {% for menu in menu %}
 
       {% if pre_menu.menu_deep is defined %}
         {% if pre_menu.menu_deep < menu.menu_deep %}
@@ -87,7 +87,7 @@
       <div class="col-xs-8">
         <select class="form-control menu_select">
           <option></option>
-          {% for menu in session_user_menu %}
+          {% for menu in menu %}
             {% if menu.menu_deep == 0 %}
               <option value="{{ menu.menu_url }}" disabled="disabled">{{ menu.menu_title }}</option>
             {% else %}

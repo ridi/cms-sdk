@@ -6,7 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class LoginService
 {
-    const SESSION_TIMEOUT_SEC = 60 * 60 * 24 * 14; // 2주
     const ADMIN_ID_COOKIE_NAME = 'admin-id';
     const TOKEN_COOKIE_NAME = 'cms-token';
 
@@ -82,11 +81,5 @@ class LoginService
     public static function setLoginContext($login_context)
     {
         self::$login_context = (object)$login_context;
-    }
-
-    public static function startSession()
-    {
-        session_set_cookie_params(self::SESSION_TIMEOUT_SEC, '/', $_SERVER['SERVER_NAME']);
-        session_start();
     }
 }
