@@ -20,7 +20,7 @@
 - [Node.js] Support Node.js
 - [Python] Support Python
 - Use token-based Login
-- Remove session server depenency
+- Remove session server dependency
 
 ## 2.0 (2017-08-17)
 

@@ -20,7 +20,7 @@ For more details, see below links.
 To build a RPC client, you should install Apache Thrift.
 
 ``` sh
-# In OSX, you can install easily with homebrew.
+# In macOS, you can install easily with homebrew.
 brew install thrift
 ```
 

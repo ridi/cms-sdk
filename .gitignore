@@ -1,12 +1,3 @@
-composer.lock
-node_modules
-package-lock.json
-vendor
-yarn.lock
-.idea/
-.vscode/
-
-# Environments
 .env
 .venv
 env/
@@ -14,6 +5,14 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# php
+composer.lock
+vendor
+
+# js
+node_modules
+package-lock.json
 
 # python
 __pycache__/
