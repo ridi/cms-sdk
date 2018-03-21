@@ -2,7 +2,6 @@
 
 namespace Ridibooks\Cms\Auth;
 
-use GuzzleHttp\Client;
 use Ridibooks\Cms\Thrift\ThriftService;
 use Ridibooks\Cms\Util\UrlHelper;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -86,30 +85,6 @@ class AdminAuthService
         $hash_array = $client->getCurrentHashArray($check_url, LoginService::GetAdminID());
 
         return $hash_array;
-    }
-
-    public static function requestTokenIntrospect($token)
-    {
-        $client = new Client(['verify' => false]);
-        $response = $client->post(self::getTokenIntrospectUrl(), [
-            'form_params' => [
-                'token' => $token,
-            ],
-        ]);
-
-        if ($response->getStatusCode() !== 200) {
-            return null;
-        }
-
-        return json_decode($response->getBody());
-    }
-
-    private static function getTokenIntrospectUrl()
-    {
-        $endpoint = ThriftService::getEndPoint();
-        $endpoint = rtrim($endpoint, '/');
-
-        return $endpoint . '/token-introspect';
     }
 
     /**적합한 유저인지 검사한다.

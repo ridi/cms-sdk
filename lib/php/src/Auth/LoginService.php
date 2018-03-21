@@ -2,6 +2,8 @@
 
 namespace Ridibooks\Cms\Auth;
 
+use GuzzleHttp\Client;
+use Ridibooks\Cms\Thrift\ThriftService;
 use Symfony\Component\HttpFoundation\Request;
 
 class LoginService
@@ -64,6 +66,31 @@ class LoginService
     public static function GetAdminID()
     {
         return self::$login_context->user_id ?? ($_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? null);
+    }
+
+
+    private static function getTokenIntrospectUrl()
+    {
+        $endpoint = ThriftService::getEndPoint();
+        $endpoint = rtrim($endpoint, '/');
+
+        return $endpoint . '/token-introspect';
+    }
+
+    public static function requestTokenIntrospect($token)
+    {
+        $client = new Client(['verify' => false]);
+        $response = $client->post(self::getTokenIntrospectUrl(), [
+            'form_params' => [
+                'token' => $token,
+            ],
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            return null;
+        }
+
+        return json_decode($response->getBody());
     }
 
     public static function validateLogin(request $request)
