@@ -5,6 +5,7 @@ namespace Ridibooks\Cms\Auth;
 use GuzzleHttp\Client;
 use Ridibooks\Cms\Thrift\ThriftService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class LoginService
 {
@@ -68,19 +69,19 @@ class LoginService
         return self::$login_context->user_id ?? ($_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? null);
     }
 
-
-    private static function getTokenIntrospectUrl()
+    private static function getRPCUrl()
     {
         $endpoint = ThriftService::getEndPoint();
         $endpoint = rtrim($endpoint, '/');
 
-        return $endpoint . '/token-introspect';
+        return $endpoint;
     }
 
     public static function requestTokenIntrospect($token)
     {
         $client = new Client(['verify' => false]);
-        $response = $client->post(self::getTokenIntrospectUrl(), [
+        $response = $client->post(self::getRPCUrl() . '/token-introspect', [
+            'http_erros' => false,
             'form_params' => [
                 'token' => $token,
             ],
@@ -90,7 +91,19 @@ class LoginService
             return null;
         }
 
-        return json_decode($response->getBody());
+        return json_decode($response->getBody()->getContents());
+    }
+
+    public static function isLoginRequired(request $request)
+    {
+        $open_urls = [
+            '/token-introspect', // Token validation url
+            '/token-refresh',
+            '/login',
+            '/logout',
+        ];
+
+        return in_array($request->getPathInfo(), $open_urls) ? false : true;
     }
 
     public static function validateLogin(request $request)
@@ -100,9 +113,31 @@ class LoginService
             return false;
         }
 
-        self::$login_context = AdminAuthService::requestTokenIntrospect($token);
+        self::$login_context = self::requestTokenIntrospect($token);
 
         return isset(self::$login_context->user_id);
+    }
+
+    private static function isTokenExpired()
+    {
+        return isset(self::$login_context->error) && self::$login_context->error === 'Authentication_ExpiredToken';
+    }
+
+    public static function createRedirectForLogin(request $request)
+    {
+        $request_uri = $request->getRequestUri();
+
+        if (self::isTokenExpired()) {
+            $redirect_url = self::getRPCUrl() . '/token-refresh';
+        } else {
+            $redirect_url = '/login';
+        }
+
+        if ($request_uri !== '/login' && $request_uri !== '/logout') {
+            $redirect_url .= '?return_url=' . urlencode($request->getRequestUri());
+        }
+
+        return RedirectResponse::create($redirect_url);
     }
 
     public static function setLoginContext($login_context)

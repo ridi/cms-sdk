@@ -102,27 +102,16 @@ class AdminAuthService
      */
     public static function authorize($request)
     {
-        $is_whitelisted = in_array($request->getRequestUri(), [
-            '/token-introspect', // Token validation url, which is called in this function.
-            '/login',
-            '/logout',
-        ]);
-        if ($is_whitelisted) {
+        if (!LoginService::isLoginRequired($request)) {
             return null;
         }
 
-        $request_uri = $request->getRequestUri();
         if (!LoginService::validateLogin($request)) {
-            $login_url = '/login';
-            if (!empty($request_uri) && $request_uri != '/login' && $request_uri != '/logout') {
-                $login_url .= '?return_url=' . urlencode($request_uri);
-            }
-
-            return RedirectResponse::create($login_url);
+            return LoginService::createRedirectForLogin($request);
         }
 
         try {
-            self::hasUrlAuth(null, $request_uri);
+            self::hasUrlAuth(null, $request->getRequestUri());
         } catch (\Exception $e) {
             // 이상하지만 기존과 호환성 맞추기 위해
             if ($request->isXmlHttpRequest()) {
