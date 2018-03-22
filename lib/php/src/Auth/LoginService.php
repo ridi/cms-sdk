@@ -81,17 +81,13 @@ class LoginService
     {
         $client = new Client(['verify' => false]);
         $response = $client->post(self::getRPCUrl() . '/token-introspect', [
-            'http_erros' => false,
+            'http_errors' => false,
             'form_params' => [
                 'token' => $token,
             ],
         ]);
 
-        if ($response->getStatusCode() !== 200) {
-            return null;
-        }
-
-        return json_decode($response->getBody()->getContents());
+        return json_decode($response->getBody());
     }
 
     public static function isAuthRequired(request $request)
