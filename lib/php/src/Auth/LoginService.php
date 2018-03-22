@@ -94,7 +94,7 @@ class LoginService
         return json_decode($response->getBody()->getContents());
     }
 
-    public static function isLoginRequired(request $request)
+    public static function isAuthRequired(request $request)
     {
         $open_urls = [
             '/token-introspect', // Token validation url

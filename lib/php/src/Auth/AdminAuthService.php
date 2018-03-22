@@ -102,7 +102,7 @@ class AdminAuthService
      */
     public static function authorize($request)
     {
-        if (!LoginService::isLoginRequired($request)) {
+        if (!LoginService::isAuthRequired($request)) {
             return null;
         }
 
