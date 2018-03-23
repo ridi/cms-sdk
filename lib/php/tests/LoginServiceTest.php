@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Ridibooks\Cms\Auth;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class LoginServiceTest extends TestCase
 {
@@ -23,7 +23,7 @@ class LoginServiceTest extends TestCase
         $req = Request::create('/test');
 
         /**
-         * @var RedirectResponse $res
+         * @var RedirectResponse
          */
         $res = LoginService::createRedirectForLogin($req);
         $this->assertInstanceOf(RedirectResponse::class, $res);
@@ -37,7 +37,7 @@ class LoginServiceTest extends TestCase
         $req = Request::create('/test');
 
         /**
-         * @var RedirectResponse $res
+         * @var RedirectResponse
          */
         $res = LoginService::createRedirectForLogin($req);
         $this->assertInstanceOf(RedirectResponse::class, $res);

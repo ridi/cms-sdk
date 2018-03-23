@@ -4,7 +4,6 @@ namespace Ridibooks\Cms\Auth;
 
 use Ridibooks\Cms\Thrift\ThriftService;
 use Ridibooks\Cms\Util\UrlHelper;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
