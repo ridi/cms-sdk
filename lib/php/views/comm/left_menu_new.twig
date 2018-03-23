@@ -2,7 +2,7 @@
   <h4>Ridibooks CMS</h4>
   <select class="form-control menu_select">
     <option></option>
-    {% for menu in menu %}
+    {% for menu in menus %}
       {% if menu.menu_deep == 0 %}
         <option value="{{ menu.menu_url }}" disabled="disabled">{{ menu.menu_title }}</option>
       {% else %}
@@ -13,7 +13,7 @@
 
   <ul class="nav nav-pills nav-stacked">
     {% set pre_menu = '' %}
-    {% for menu in menu %}
+    {% for menu in menus %}
 
       {% if pre_menu.menu_deep is defined %}
         {% if pre_menu.menu_deep < menu.menu_deep %}
@@ -35,7 +35,7 @@
       {% else %}
         <li
         {# TODO AuthService refactoring 할때 고려할 것(실제로 menu에 사용되는 data만 내려줄 것) #}
-        {% for ajax in menu.ajax_array %}
+        {% for ajax in menus.ajax_array %}
           {% if REQUEST_PATH == ajax.ajax_url %}
             class="active"
           {% endif %}
@@ -87,7 +87,7 @@
       <div class="col-xs-8">
         <select class="form-control menu_select">
           <option></option>
-          {% for menu in menu %}
+          {% for menu in menus %}
             {% if menu.menu_deep == 0 %}
               <option value="{{ menu.menu_url }}" disabled="disabled">{{ menu.menu_title }}</option>
             {% else %}
