@@ -2,10 +2,8 @@
 
 namespace Ridibooks\Cms\Auth;
 
-use GuzzleHttp\Client;
 use Ridibooks\Cms\Thrift\ThriftService;
 use Ridibooks\Cms\Util\UrlHelper;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -88,30 +86,6 @@ class AdminAuthService
         return $hash_array;
     }
 
-    public static function requestTokenIntrospect($token)
-    {
-        $client = new Client(['verify' => false]);
-        $response = $client->post(self::getTokenIntrospectUrl(), [
-            'form_params' => [
-                'token' => $token,
-            ],
-        ]);
-
-        if ($response->getStatusCode() !== 200) {
-            return null;
-        }
-
-        return json_decode($response->getBody());
-    }
-
-    private static function getTokenIntrospectUrl()
-    {
-        $endpoint = ThriftService::getEndPoint();
-        $endpoint = rtrim($endpoint, '/');
-
-        return $endpoint . '/token-introspect';
-    }
-
     /**적합한 유저인지 검사한다.
      * @return bool
      */
@@ -127,27 +101,16 @@ class AdminAuthService
      */
     public static function authorize($request)
     {
-        $is_whitelisted = in_array($request->getRequestUri(), [
-            '/token-introspect', // Token validation url, which is called in this function.
-            '/login',
-            '/logout',
-        ]);
-        if ($is_whitelisted) {
+        if (!LoginService::isAuthRequired($request)) {
             return null;
         }
 
-        $request_uri = $request->getRequestUri();
         if (!LoginService::validateLogin($request)) {
-            $login_url = '/login';
-            if (!empty($request_uri) && $request_uri != '/login' && $request_uri != '/logout') {
-                $login_url .= '?return_url=' . urlencode($request_uri);
-            }
-
-            return RedirectResponse::create($login_url);
+            return LoginService::createRedirectForLogin($request);
         }
 
         try {
-            self::hasUrlAuth(null, $request_uri);
+            self::hasUrlAuth(null, $request->getRequestUri());
         } catch (\Exception $e) {
             // 이상하지만 기존과 호환성 맞추기 위해
             if ($request->isXmlHttpRequest()) {

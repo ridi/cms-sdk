@@ -6,7 +6,7 @@ $finder = PhpCsFixer\Finder::create()
     ->exclude('src/Thrift/AdminTag')
     ->exclude('src/Thrift/AdminUser')
     ->exclude('src/Thrift/Errors')
-    ->in(__DIR__ . '/lib/php')
+    ->in(__DIR__)
 ;
 
 return PhpCsFixer\Config::create()
