@@ -124,7 +124,7 @@ class LoginService
         $request_uri = $request->getRequestUri();
 
         if (self::isTokenExpired()) {
-            $redirect_url = self::getRPCUrl() . '/token-refresh';
+            $redirect_url = '/v2/token-refresh';
         } else {
             $redirect_url = '/login';
         }
