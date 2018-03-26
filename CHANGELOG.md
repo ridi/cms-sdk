@@ -1,5 +1,10 @@
 # Ridibooks CMS SDK
 
+## 2.2.2 (2018-03-26)
+
+- [PHP] Redirect to /token-refresh on token expired
+- [PHP] Handle 400 error on token introspect
+
 ## 2.2.1 (2018-03-12)
 
 - [PHP] Fix `MiniRouter` compatiblitiy issue
