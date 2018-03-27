@@ -1,5 +1,9 @@
 # Ridibooks CMS SDK
 
+## 2.2.3 (2018-03-27)
+
+- [PHP] Fix token-refresh failure due to domain mismatch
+
 ## 2.2.2 (2018-03-26)
 
 - [PHP] Redirect to /token-refresh on token expired
