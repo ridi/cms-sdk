@@ -42,6 +42,10 @@ class ThriftService
     {
         $transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
         $transport->setTimeoutSecs(self::HTTP_TIMEOUT_SECS);
+        if (!empty($_ENV['DEBUG'])) {
+            $transport->addHeaders(['Cookie' => 'XDEBUG_SESSION=1']);
+        }
+
         $protocol = new TJSONProtocol($transport);
         $multiplexed_protocol = new TMultiplexedProtocol($protocol, $thrift_name);
         return self::getClient($thrift_name, $multiplexed_protocol);
