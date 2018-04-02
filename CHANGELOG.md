@@ -1,5 +1,9 @@
 # Ridibooks CMS SDK
 
+## 2.2.4 (2018-04-02)
+
+- [PHP] Add cookie header to Thrift request for debugger (#42)
+
 ## 2.2.3 (2018-03-27)
 
 - [PHP] Fix token-refresh failure due to domain mismatch
