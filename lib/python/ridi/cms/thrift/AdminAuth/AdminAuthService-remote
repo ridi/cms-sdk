@@ -25,9 +25,11 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Usage: ' + sys.argv[0] + ' [-h host[:port]] [-u url] [-f[ramed]] [-s[sl]] [-novalidate] [-ca_certs certs] [-keyfile keyfile] [-certfile certfile] function [arg1 [arg2...]]')
     print('')
     print('Functions:')
+    print('  bool hasUrlAuth(string method, string checkUrl, string adminId)')
     print('  bool hasHashAuth(string hash, string checkUrl, string adminId)')
     print('   getCurrentHashArray(string checkUrl, string adminId)')
     print('  AdminMenuCollection getAdminMenu(string adminId)')
+    print('  void authorize(string token, string method, string check_url)')
     print('')
     sys.exit(0)
 
@@ -107,7 +109,13 @@ protocol = TBinaryProtocol(transport)
 client = AdminAuthService.Client(protocol)
 transport.open()
 
-if cmd == 'hasHashAuth':
+if cmd == 'hasUrlAuth':
+    if len(args) != 3:
+        print('hasUrlAuth requires 3 args')
+        sys.exit(1)
+    pp.pprint(client.hasUrlAuth(args[0], args[1], args[2],))
+
+elif cmd == 'hasHashAuth':
     if len(args) != 3:
         print('hasHashAuth requires 3 args')
         sys.exit(1)
@@ -124,6 +132,12 @@ elif cmd == 'getAdminMenu':
         print('getAdminMenu requires 1 args')
         sys.exit(1)
     pp.pprint(client.getAdminMenu(args[0],))
+
+elif cmd == 'authorize':
+    if len(args) != 3:
+        print('authorize requires 3 args')
+        sys.exit(1)
+    pp.pprint(client.authorize(args[0], args[1], args[2],))
 
 else:
     print('Unrecognized method %s' % cmd)

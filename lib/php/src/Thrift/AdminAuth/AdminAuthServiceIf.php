@@ -21,29 +21,47 @@ use Thrift\Exception\TApplicationException;
  */
 interface AdminAuthServiceIf {
   /**
+   * @param string $method
+   * @param string $checkUrl
+   * @param string $adminId
+   * @return bool
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
+   */
+  public function hasUrlAuth($method, $checkUrl, $adminId);
+  /**
    * @param string $hash
    * @param string $checkUrl
    * @param string $adminId
    * @return bool
-   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
    */
   public function hasHashAuth($hash, $checkUrl, $adminId);
   /**
    * @param string $checkUrl
    * @param string $adminId
    * @return string[]
-   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
   public function getCurrentHashArray($checkUrl, $adminId);
   /**
    * @param string $adminId
    * @return \Ridibooks\Cms\Thrift\AdminAuth\AdminMenu[]
-   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
   public function getAdminMenu($adminId);
+  /**
+   * @param string $token
+   * @param string $method
+   * @param string $check_url
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @throws \Ridibooks\Cms\Thrift\Errors\NoTokenException
+   * @throws \Ridibooks\Cms\Thrift\Errors\MalformedTokenException
+   * @throws \Ridibooks\Cms\Thrift\Errors\ExpiredTokenException
+   * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
+   */
+  public function authorize($token, $method, $check_url);
 }
 
 

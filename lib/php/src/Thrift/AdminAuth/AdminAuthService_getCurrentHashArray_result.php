@@ -24,10 +24,6 @@ class AdminAuthService_getCurrentHashArray_result {
    */
   public $success = null;
   /**
-   * @var \Ridibooks\Cms\Thrift\Errors\UserException
-   */
-  public $userException = null;
-  /**
    * @var \Ridibooks\Cms\Thrift\Errors\SystemException
    */
   public $systemException = null;
@@ -44,11 +40,6 @@ class AdminAuthService_getCurrentHashArray_result {
             ),
           ),
         1 => array(
-          'var' => 'userException',
-          'type' => TType::STRUCT,
-          'class' => '\Ridibooks\Cms\Thrift\Errors\UserException',
-          ),
-        2 => array(
           'var' => 'systemException',
           'type' => TType::STRUCT,
           'class' => '\Ridibooks\Cms\Thrift\Errors\SystemException',
@@ -58,9 +49,6 @@ class AdminAuthService_getCurrentHashArray_result {
     if (is_array($vals)) {
       if (isset($vals['success'])) {
         $this->success = $vals['success'];
-      }
-      if (isset($vals['userException'])) {
-        $this->userException = $vals['userException'];
       }
       if (isset($vals['systemException'])) {
         $this->systemException = $vals['systemException'];
@@ -106,14 +94,6 @@ class AdminAuthService_getCurrentHashArray_result {
           break;
         case 1:
           if ($ftype == TType::STRUCT) {
-            $this->userException = new \Ridibooks\Cms\Thrift\Errors\UserException();
-            $xfer += $this->userException->read($input);
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 2:
-          if ($ftype == TType::STRUCT) {
             $this->systemException = new \Ridibooks\Cms\Thrift\Errors\SystemException();
             $xfer += $this->systemException->read($input);
           } else {
@@ -150,13 +130,8 @@ class AdminAuthService_getCurrentHashArray_result {
       }
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->userException !== null) {
-      $xfer += $output->writeFieldBegin('userException', TType::STRUCT, 1);
-      $xfer += $this->userException->write($output);
-      $xfer += $output->writeFieldEnd();
-    }
     if ($this->systemException !== null) {
-      $xfer += $output->writeFieldBegin('systemException', TType::STRUCT, 2);
+      $xfer += $output->writeFieldBegin('systemException', TType::STRUCT, 1);
       $xfer += $this->systemException->write($output);
       $xfer += $output->writeFieldEnd();
     }

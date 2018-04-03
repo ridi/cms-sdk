@@ -18,7 +18,7 @@ use Thrift\Exception\TApplicationException;
 
 
 /**
- * 서버에 의해 발생한 에러
+ * 서버에 의해 발생한 에러 (5XX)
  */
 class SystemException extends TException {
   static $_TSPEC;
