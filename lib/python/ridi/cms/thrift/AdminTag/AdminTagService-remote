@@ -28,6 +28,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('   getAdminIdsFromTags( tag_ids)')
     print('   getAdminTagMenus(i32 tag_id)')
     print('   getMappedAdminMenuHashes(string check_url, i32 tag_id)')
+    print('  AdminTag getAdminTag(i32 tag_id)')
     print('')
     sys.exit(0)
 
@@ -124,6 +125,12 @@ elif cmd == 'getMappedAdminMenuHashes':
         print('getMappedAdminMenuHashes requires 2 args')
         sys.exit(1)
     pp.pprint(client.getMappedAdminMenuHashes(args[0], eval(args[1]),))
+
+elif cmd == 'getAdminTag':
+    if len(args) != 1:
+        print('getAdminTag requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getAdminTag(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)

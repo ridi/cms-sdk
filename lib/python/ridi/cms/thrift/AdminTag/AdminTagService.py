@@ -39,6 +39,13 @@ class Iface(object):
         """
         pass
 
+    def getAdminTag(self, tag_id):
+        """
+        Parameters:
+         - tag_id
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -154,6 +161,41 @@ class Client(Iface):
             raise result.systemException
         raise TApplicationException(TApplicationException.MISSING_RESULT, "getMappedAdminMenuHashes failed: unknown result")
 
+    def getAdminTag(self, tag_id):
+        """
+        Parameters:
+         - tag_id
+        """
+        self.send_getAdminTag(tag_id)
+        return self.recv_getAdminTag()
+
+    def send_getAdminTag(self, tag_id):
+        self._oprot.writeMessageBegin('getAdminTag', TMessageType.CALL, self._seqid)
+        args = getAdminTag_args()
+        args.tag_id = tag_id
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getAdminTag(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getAdminTag_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.userException is not None:
+            raise result.userException
+        if result.systemException is not None:
+            raise result.systemException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "getAdminTag failed: unknown result")
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -162,6 +204,7 @@ class Processor(Iface, TProcessor):
         self._processMap["getAdminIdsFromTags"] = Processor.process_getAdminIdsFromTags
         self._processMap["getAdminTagMenus"] = Processor.process_getAdminTagMenus
         self._processMap["getMappedAdminMenuHashes"] = Processor.process_getMappedAdminMenuHashes
+        self._processMap["getAdminTag"] = Processor.process_getAdminTag
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -249,6 +292,31 @@ class Processor(Iface, TProcessor):
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("getMappedAdminMenuHashes", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_getAdminTag(self, seqid, iprot, oprot):
+        args = getAdminTag_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = getAdminTag_result()
+        try:
+            result.success = self._handler.getAdminTag(args.tag_id)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except ridi.cms.thrift.Errors.ttypes.UserException as userException:
+            msg_type = TMessageType.REPLY
+            result.userException = userException
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
+            msg_type = TMessageType.REPLY
+            result.systemException = systemException
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("getAdminTag", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -708,6 +776,152 @@ class getMappedAdminMenuHashes_result(object):
             for iter27 in self.success:
                 oprot.writeString(iter27.encode('utf-8') if sys.version_info[0] == 2 else iter27)
             oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.userException is not None:
+            oprot.writeFieldBegin('userException', TType.STRUCT, 1)
+            self.userException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.systemException is not None:
+            oprot.writeFieldBegin('systemException', TType.STRUCT, 2)
+            self.systemException.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getAdminTag_args(object):
+    """
+    Attributes:
+     - tag_id
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.I32, 'tag_id', None, None, ),  # 1
+    )
+
+    def __init__(self, tag_id=None,):
+        self.tag_id = tag_id
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.tag_id = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getAdminTag_args')
+        if self.tag_id is not None:
+            oprot.writeFieldBegin('tag_id', TType.I32, 1)
+            oprot.writeI32(self.tag_id)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class getAdminTag_result(object):
+    """
+    Attributes:
+     - success
+     - userException
+     - systemException
+    """
+
+    thrift_spec = (
+        (0, TType.STRUCT, 'success', (AdminTag, AdminTag.thrift_spec), None, ),  # 0
+        (1, TType.STRUCT, 'userException', (ridi.cms.thrift.Errors.ttypes.UserException, ridi.cms.thrift.Errors.ttypes.UserException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 2
+    )
+
+    def __init__(self, success=None, userException=None, systemException=None,):
+        self.success = success
+        self.userException = userException
+        self.systemException = systemException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = AdminTag()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.userException = ridi.cms.thrift.Errors.ttypes.UserException()
+                    self.userException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
+                    self.systemException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('getAdminTag_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
             oprot.writeFieldEnd()
         if self.userException is not None:
             oprot.writeFieldBegin('userException', TType.STRUCT, 1)

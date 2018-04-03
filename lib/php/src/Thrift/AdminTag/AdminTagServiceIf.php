@@ -39,6 +39,14 @@ interface AdminTagServiceIf {
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    */
   public function getMappedAdminMenuHashes($check_url, $tag_id);
+  /**
+   * @param int $tag_id
+   * @return \Ridibooks\Cms\Thrift\AdminTag\AdminTag AdminTag 엔티티
+   * 
+   * @throws \Ridibooks\Cms\Thrift\Errors\UserException
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   */
+  public function getAdminTag($tag_id);
 }
 
 
