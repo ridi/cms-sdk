@@ -69,18 +69,22 @@ class LoginService
         return self::$login_context->user_id ?? ($_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? null);
     }
 
-    private static function getRPCUrl()
+    private static function getTokenApiUrl(string $host = '')
     {
+        $host = rtrim($host, '/');
         $endpoint = ThriftService::getEndPoint();
-        $endpoint = rtrim($endpoint, '/');
+        $version = parse_url($endpoint, PHP_URL_PATH);
+        $version = trim($version, '/');
 
-        return $endpoint;
+        $url = rtrim("$host/$version", '/');
+
+        return $url;
     }
 
-    public static function requestTokenIntrospect($token)
+    public static function requestTokenIntrospect($token, $host)
     {
         $client = new Client(['verify' => false]);
-        $response = $client->post(self::getRPCUrl() . '/token-introspect', [
+        $response = $client->post(self::getTokenApiUrl($host) . '/token-introspect', [
             'http_errors' => false,
             'form_params' => [
                 'token' => $token,
@@ -93,7 +97,7 @@ class LoginService
     public static function isAuthRequired(request $request)
     {
         $open_urls = [
-            '/token-introspect', // Token validation url
+            '/token-introspect',
             '/token-refresh',
             '/login',
             '/logout',
@@ -109,7 +113,7 @@ class LoginService
             return false;
         }
 
-        self::$login_context = self::requestTokenIntrospect($token);
+        self::$login_context = self::requestTokenIntrospect($token, $request->getHttpHost());
 
         return isset(self::$login_context->user_id);
     }
@@ -124,7 +128,7 @@ class LoginService
         $request_uri = $request->getRequestUri();
 
         if (self::isTokenExpired()) {
-            $redirect_url = '/v2/token-refresh';
+            $redirect_url = self::getTokenApiUrl() . '/token-refresh';
         } else {
             $redirect_url = '/login';
         }
