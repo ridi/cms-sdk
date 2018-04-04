@@ -114,9 +114,9 @@ class AdminAuthService
         } catch (\Exception $e) {
             // 이상하지만 기존과 호환성 맞추기 위해
             if ($request->isXmlHttpRequest()) {
-                return new Response($e->getMessage());
+                return new Response($e->getMessage(), 401);
             } else { //일반 페이지
-                return new Response(UrlHelper::printAlertHistoryBack($e->getMessage()));
+                return new Response(UrlHelper::printAlertHistoryBack($e->getMessage()), 401);
             }
         }
 
