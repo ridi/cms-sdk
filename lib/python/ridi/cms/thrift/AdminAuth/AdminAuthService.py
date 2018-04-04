@@ -44,11 +44,11 @@ class Iface(object):
         """
         pass
 
-    def authorize(self, token, method, check_url):
+    def authorize(self, token, methods, check_url):
         """
         Parameters:
          - token
-         - method
+         - methods
          - check_url
         """
         pass
@@ -171,21 +171,21 @@ class Client(Iface):
             raise result.systemException
         raise TApplicationException(TApplicationException.MISSING_RESULT, "getAdminMenu failed: unknown result")
 
-    def authorize(self, token, method, check_url):
+    def authorize(self, token, methods, check_url):
         """
         Parameters:
          - token
-         - method
+         - methods
          - check_url
         """
-        self.send_authorize(token, method, check_url)
+        self.send_authorize(token, methods, check_url)
         self.recv_authorize()
 
-    def send_authorize(self, token, method, check_url):
+    def send_authorize(self, token, methods, check_url):
         self._oprot.writeMessageBegin('authorize', TMessageType.CALL, self._seqid)
         args = authorize_args()
         args.token = token
-        args.method = method
+        args.methods = methods
         args.check_url = check_url
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
@@ -314,7 +314,7 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = authorize_result()
         try:
-            self._handler.authorize(args.token, args.method, args.check_url)
+            self._handler.authorize(args.token, args.methods, args.check_url)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
@@ -811,20 +811,20 @@ class authorize_args(object):
     """
     Attributes:
      - token
-     - method
+     - methods
      - check_url
     """
 
     thrift_spec = (
         None,  # 0
         (1, TType.STRING, 'token', 'UTF8', None, ),  # 1
-        (2, TType.STRING, 'method', 'UTF8', None, ),  # 2
+        (2, TType.LIST, 'methods', (TType.STRING, 'UTF8', False), None, ),  # 2
         (3, TType.STRING, 'check_url', 'UTF8', None, ),  # 3
     )
 
-    def __init__(self, token=None, method=None, check_url=None,):
+    def __init__(self, token=None, methods=None, check_url=None,):
         self.token = token
-        self.method = method
+        self.methods = methods
         self.check_url = check_url
 
     def read(self, iprot):
@@ -842,8 +842,13 @@ class authorize_args(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.method = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                if ftype == TType.LIST:
+                    self.methods = []
+                    (_etype17, _size14) = iprot.readListBegin()
+                    for _i18 in range(_size14):
+                        _elem19 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.methods.append(_elem19)
+                    iprot.readListEnd()
                 else:
                     iprot.skip(ftype)
             elif fid == 3:
@@ -865,9 +870,12 @@ class authorize_args(object):
             oprot.writeFieldBegin('token', TType.STRING, 1)
             oprot.writeString(self.token.encode('utf-8') if sys.version_info[0] == 2 else self.token)
             oprot.writeFieldEnd()
-        if self.method is not None:
-            oprot.writeFieldBegin('method', TType.STRING, 2)
-            oprot.writeString(self.method.encode('utf-8') if sys.version_info[0] == 2 else self.method)
+        if self.methods is not None:
+            oprot.writeFieldBegin('methods', TType.LIST, 2)
+            oprot.writeListBegin(TType.STRING, len(self.methods))
+            for iter20 in self.methods:
+                oprot.writeString(iter20.encode('utf-8') if sys.version_info[0] == 2 else iter20)
+            oprot.writeListEnd()
             oprot.writeFieldEnd()
         if self.check_url is not None:
             oprot.writeFieldBegin('check_url', TType.STRING, 3)

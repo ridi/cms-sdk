@@ -44,7 +44,7 @@ interface AdminAuthServiceIf {
   public function getAdminMenu($adminId);
   /**
    * @param string $token
-   * @param string $method
+   * @param string[] $methods
    * @param string $check_url
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
    * @throws \Ridibooks\Cms\Thrift\Errors\NoTokenException
@@ -52,7 +52,7 @@ interface AdminAuthServiceIf {
    * @throws \Ridibooks\Cms\Thrift\Errors\ExpiredTokenException
    * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
    */
-  public function authorize($token, $method, $check_url);
+  public function authorize($token, array $methods, $check_url);
 }
 
 

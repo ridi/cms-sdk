@@ -51,7 +51,7 @@ class AdminAuthService
             $client = ThriftService::getHttpClient('AdminAuth');
             $client->authorize(
                 $token,
-                $request->getMethod(),
+                [$request->getMethod()],
                 $request->getRequestUri()
             );
         } catch (NoTokenException $e) {

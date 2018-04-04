@@ -28,7 +28,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  bool hasHashAuth(string hash, string checkUrl, string adminId)')
     print('   getCurrentHashArray(string checkUrl, string adminId)')
     print('  AdminMenuCollection getAdminMenu(string adminId)')
-    print('  void authorize(string token, string method, string check_url)')
+    print('  void authorize(string token,  methods, string check_url)')
     print('')
     sys.exit(0)
 
@@ -130,7 +130,7 @@ elif cmd == 'authorize':
     if len(args) != 3:
         print('authorize requires 3 args')
         sys.exit(1)
-    pp.pprint(client.authorize(args[0], args[1], args[2],))
+    pp.pprint(client.authorize(args[0], eval(args[1]), args[2],))
 
 else:
     print('Unrecognized method %s' % cmd)

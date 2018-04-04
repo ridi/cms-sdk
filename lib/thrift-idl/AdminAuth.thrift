@@ -49,7 +49,7 @@ service AdminAuthService {
 
     void authorize(
         1: string token,
-        2: string method,
+        2: list<string> methods,
         3: string check_url,
     ) throws (
         1: Errors.SystemException systemException,

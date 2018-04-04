@@ -9,11 +9,11 @@ class LoginService
 
     public static function GetAdminID()
     {
-        return $_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? null;
+        return $_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? '';
     }
 
     public static function getAccessToken()
     {
-        return $_COOKIE[self::TOKEN_COOKIE_NAME] ?? null;
+        return $_COOKIE[self::TOKEN_COOKIE_NAME] ?? '';
     }
 }

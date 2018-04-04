@@ -120,7 +120,7 @@ class AdminAuthServiceProcessor {
     $input->readMessageEnd();
     $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorize_result();
     try {
-      $this->handler_->authorize($args->token, $args->method, $args->check_url);
+      $this->handler_->authorize($args->token, $args->methods, $args->check_url);
     } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
       $result->systemException = $systemException;
         } catch (\Ridibooks\Cms\Thrift\Errors\NoTokenException $noTokenException) {

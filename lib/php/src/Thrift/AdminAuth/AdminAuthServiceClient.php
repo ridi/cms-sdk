@@ -195,17 +195,17 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
     throw new \Exception("getAdminMenu failed: unknown result");
   }
 
-  public function authorize($token, $method, $check_url)
+  public function authorize($token, array $methods, $check_url)
   {
-    $this->send_authorize($token, $method, $check_url);
+    $this->send_authorize($token, $methods, $check_url);
     $this->recv_authorize();
   }
 
-  public function send_authorize($token, $method, $check_url)
+  public function send_authorize($token, array $methods, $check_url)
   {
     $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorize_args();
     $args->token = $token;
-    $args->method = $method;
+    $args->methods = $methods;
     $args->check_url = $check_url;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)

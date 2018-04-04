@@ -24,9 +24,9 @@ class AdminAuthService_authorize_args {
    */
   public $token = null;
   /**
-   * @var string
+   * @var string[]
    */
-  public $method = null;
+  public $methods = null;
   /**
    * @var string
    */
@@ -40,8 +40,12 @@ class AdminAuthService_authorize_args {
           'type' => TType::STRING,
           ),
         2 => array(
-          'var' => 'method',
-          'type' => TType::STRING,
+          'var' => 'methods',
+          'type' => TType::LST,
+          'etype' => TType::STRING,
+          'elem' => array(
+            'type' => TType::STRING,
+            ),
           ),
         3 => array(
           'var' => 'check_url',
@@ -53,8 +57,8 @@ class AdminAuthService_authorize_args {
       if (isset($vals['token'])) {
         $this->token = $vals['token'];
       }
-      if (isset($vals['method'])) {
-        $this->method = $vals['method'];
+      if (isset($vals['methods'])) {
+        $this->methods = $vals['methods'];
       }
       if (isset($vals['check_url'])) {
         $this->check_url = $vals['check_url'];
@@ -89,8 +93,18 @@ class AdminAuthService_authorize_args {
           }
           break;
         case 2:
-          if ($ftype == TType::STRING) {
-            $xfer += $input->readString($this->method);
+          if ($ftype == TType::LST) {
+            $this->methods = array();
+            $_size14 = 0;
+            $_etype17 = 0;
+            $xfer += $input->readListBegin($_etype17, $_size14);
+            for ($_i18 = 0; $_i18 < $_size14; ++$_i18)
+            {
+              $elem19 = null;
+              $xfer += $input->readString($elem19);
+              $this->methods []= $elem19;
+            }
+            $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -120,9 +134,21 @@ class AdminAuthService_authorize_args {
       $xfer += $output->writeString($this->token);
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->method !== null) {
-      $xfer += $output->writeFieldBegin('method', TType::STRING, 2);
-      $xfer += $output->writeString($this->method);
+    if ($this->methods !== null) {
+      if (!is_array($this->methods)) {
+        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
+      }
+      $xfer += $output->writeFieldBegin('methods', TType::LST, 2);
+      {
+        $output->writeListBegin(TType::STRING, count($this->methods));
+        {
+          foreach ($this->methods as $iter20)
+          {
+            $xfer += $output->writeString($iter20);
+          }
+        }
+        $output->writeListEnd();
+      }
       $xfer += $output->writeFieldEnd();
     }
     if ($this->check_url !== null) {
