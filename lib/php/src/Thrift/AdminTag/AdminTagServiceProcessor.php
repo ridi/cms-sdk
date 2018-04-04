@@ -118,4 +118,54 @@ class AdminTagServiceProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_getAdminTag($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminTag\AdminTagService_getAdminTag_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminTag\AdminTagService_getAdminTag_result();
+    try {
+      $result->success = $this->handler_->getAdminTag($args->tag_id);
+    } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
+      $result->userException = $userException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'getAdminTag', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('getAdminTag', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_getAdminTags($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminTag\AdminTagService_getAdminTags_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminTag\AdminTagService_getAdminTags_result();
+    try {
+      $result->success = $this->handler_->getAdminTags($args->tag_ids);
+    } catch (\Ridibooks\Cms\Thrift\Errors\UserException $userException) {
+      $result->userException = $userException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'getAdminTags', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('getAdminTags', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
 }
