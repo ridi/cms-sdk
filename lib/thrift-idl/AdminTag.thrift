@@ -49,4 +49,11 @@ service AdminTagService {
         1: Errors.UserException userException,
         2: Errors.SystemException systemException
     ),
+
+    AdminTagCollection getAdminTags(
+        1: list<i32> tag_ids,
+    ) throws (
+        1: Errors.UserException userException,
+        2: Errors.SystemException systemException
+    ),
 }
