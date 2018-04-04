@@ -20,15 +20,6 @@ class Iface(object):
     """
     AdminAuth 서비스
     """
-    def hasUrlAuth(self, method, checkUrl, adminId):
-        """
-        Parameters:
-         - method
-         - checkUrl
-         - adminId
-        """
-        pass
-
     def hasHashAuth(self, hash, checkUrl, adminId):
         """
         Parameters:
@@ -72,45 +63,6 @@ class Client(Iface):
         if oprot is not None:
             self._oprot = oprot
         self._seqid = 0
-
-    def hasUrlAuth(self, method, checkUrl, adminId):
-        """
-        Parameters:
-         - method
-         - checkUrl
-         - adminId
-        """
-        self.send_hasUrlAuth(method, checkUrl, adminId)
-        return self.recv_hasUrlAuth()
-
-    def send_hasUrlAuth(self, method, checkUrl, adminId):
-        self._oprot.writeMessageBegin('hasUrlAuth', TMessageType.CALL, self._seqid)
-        args = hasUrlAuth_args()
-        args.method = method
-        args.checkUrl = checkUrl
-        args.adminId = adminId
-        args.write(self._oprot)
-        self._oprot.writeMessageEnd()
-        self._oprot.trans.flush()
-
-    def recv_hasUrlAuth(self):
-        iprot = self._iprot
-        (fname, mtype, rseqid) = iprot.readMessageBegin()
-        if mtype == TMessageType.EXCEPTION:
-            x = TApplicationException()
-            x.read(iprot)
-            iprot.readMessageEnd()
-            raise x
-        result = hasUrlAuth_result()
-        result.read(iprot)
-        iprot.readMessageEnd()
-        if result.success is not None:
-            return result.success
-        if result.systemException is not None:
-            raise result.systemException
-        if result.unauthorizedException is not None:
-            raise result.unauthorizedException
-        raise TApplicationException(TApplicationException.MISSING_RESULT, "hasUrlAuth failed: unknown result")
 
     def hasHashAuth(self, hash, checkUrl, adminId):
         """
@@ -267,7 +219,6 @@ class Processor(Iface, TProcessor):
     def __init__(self, handler):
         self._handler = handler
         self._processMap = {}
-        self._processMap["hasUrlAuth"] = Processor.process_hasUrlAuth
         self._processMap["hasHashAuth"] = Processor.process_hasHashAuth
         self._processMap["getCurrentHashArray"] = Processor.process_getCurrentHashArray
         self._processMap["getAdminMenu"] = Processor.process_getAdminMenu
@@ -287,31 +238,6 @@ class Processor(Iface, TProcessor):
         else:
             self._processMap[name](self, seqid, iprot, oprot)
         return True
-
-    def process_hasUrlAuth(self, seqid, iprot, oprot):
-        args = hasUrlAuth_args()
-        args.read(iprot)
-        iprot.readMessageEnd()
-        result = hasUrlAuth_result()
-        try:
-            result.success = self._handler.hasUrlAuth(args.method, args.checkUrl, args.adminId)
-            msg_type = TMessageType.REPLY
-        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
-            raise
-        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
-            msg_type = TMessageType.REPLY
-            result.systemException = systemException
-        except ridi.cms.thrift.Errors.ttypes.UnauthorizedException as unauthorizedException:
-            msg_type = TMessageType.REPLY
-            result.unauthorizedException = unauthorizedException
-        except Exception as ex:
-            msg_type = TMessageType.EXCEPTION
-            logging.exception(ex)
-            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("hasUrlAuth", msg_type, seqid)
-        result.write(oprot)
-        oprot.writeMessageEnd()
-        oprot.trans.flush()
 
     def process_hasHashAuth(self, seqid, iprot, oprot):
         args = hasHashAuth_args()
@@ -417,175 +343,6 @@ class Processor(Iface, TProcessor):
         oprot.trans.flush()
 
 # HELPER FUNCTIONS AND STRUCTURES
-
-
-class hasUrlAuth_args(object):
-    """
-    Attributes:
-     - method
-     - checkUrl
-     - adminId
-    """
-
-    thrift_spec = (
-        None,  # 0
-        (1, TType.STRING, 'method', 'UTF8', None, ),  # 1
-        (2, TType.STRING, 'checkUrl', 'UTF8', None, ),  # 2
-        (3, TType.STRING, 'adminId', 'UTF8', None, ),  # 3
-    )
-
-    def __init__(self, method=None, checkUrl=None, adminId=None,):
-        self.method = method
-        self.checkUrl = checkUrl
-        self.adminId = adminId
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 1:
-                if ftype == TType.STRING:
-                    self.method = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRING:
-                    self.checkUrl = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
-                if ftype == TType.STRING:
-                    self.adminId = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
-            return
-        oprot.writeStructBegin('hasUrlAuth_args')
-        if self.method is not None:
-            oprot.writeFieldBegin('method', TType.STRING, 1)
-            oprot.writeString(self.method.encode('utf-8') if sys.version_info[0] == 2 else self.method)
-            oprot.writeFieldEnd()
-        if self.checkUrl is not None:
-            oprot.writeFieldBegin('checkUrl', TType.STRING, 2)
-            oprot.writeString(self.checkUrl.encode('utf-8') if sys.version_info[0] == 2 else self.checkUrl)
-            oprot.writeFieldEnd()
-        if self.adminId is not None:
-            oprot.writeFieldBegin('adminId', TType.STRING, 3)
-            oprot.writeString(self.adminId.encode('utf-8') if sys.version_info[0] == 2 else self.adminId)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
-
-
-class hasUrlAuth_result(object):
-    """
-    Attributes:
-     - success
-     - systemException
-     - unauthorizedException
-    """
-
-    thrift_spec = (
-        (0, TType.BOOL, 'success', None, None, ),  # 0
-        (1, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 1
-        (2, TType.STRUCT, 'unauthorizedException', (ridi.cms.thrift.Errors.ttypes.UnauthorizedException, ridi.cms.thrift.Errors.ttypes.UnauthorizedException.thrift_spec), None, ),  # 2
-    )
-
-    def __init__(self, success=None, systemException=None, unauthorizedException=None,):
-        self.success = success
-        self.systemException = systemException
-        self.unauthorizedException = unauthorizedException
-
-    def read(self, iprot):
-        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
-            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            if fid == 0:
-                if ftype == TType.BOOL:
-                    self.success = iprot.readBool()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 1:
-                if ftype == TType.STRUCT:
-                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
-                    self.systemException.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            elif fid == 2:
-                if ftype == TType.STRUCT:
-                    self.unauthorizedException = ridi.cms.thrift.Errors.ttypes.UnauthorizedException()
-                    self.unauthorizedException.read(iprot)
-                else:
-                    iprot.skip(ftype)
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
-
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
-            return
-        oprot.writeStructBegin('hasUrlAuth_result')
-        if self.success is not None:
-            oprot.writeFieldBegin('success', TType.BOOL, 0)
-            oprot.writeBool(self.success)
-            oprot.writeFieldEnd()
-        if self.systemException is not None:
-            oprot.writeFieldBegin('systemException', TType.STRUCT, 1)
-            self.systemException.write(oprot)
-            oprot.writeFieldEnd()
-        if self.unauthorizedException is not None:
-            oprot.writeFieldBegin('unauthorizedException', TType.STRUCT, 2)
-            self.unauthorizedException.write(oprot)
-            oprot.writeFieldEnd()
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
-
-    def validate(self):
-        return
-
-    def __repr__(self):
-        L = ['%s=%r' % (key, value)
-             for key, value in self.__dict__.items()]
-        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
-
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
-
-    def __ne__(self, other):
-        return not (self == other)
 
 
 class hasHashAuth_args(object):

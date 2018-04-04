@@ -24,15 +24,6 @@ typedef list<AdminMenu> AdminMenuCollection
  * AdminAuth 서비스
  */
 service AdminAuthService {
-    bool hasUrlAuth(
-        1: string method,
-        2: string checkUrl,
-        3: string adminId,
-    ) throws (
-        1: Errors.SystemException systemException,
-        2: Errors.UnauthorizedException unauthorizedException,
-    ),
-
     bool hasHashAuth(
         1: string hash,
         2: string checkUrl,

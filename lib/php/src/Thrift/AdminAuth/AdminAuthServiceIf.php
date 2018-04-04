@@ -21,15 +21,6 @@ use Thrift\Exception\TApplicationException;
  */
 interface AdminAuthServiceIf {
   /**
-   * @param string $method
-   * @param string $checkUrl
-   * @param string $adminId
-   * @return bool
-   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
-   * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
-   */
-  public function hasUrlAuth($method, $checkUrl, $adminId);
-  /**
    * @param string $hash
    * @param string $checkUrl
    * @param string $adminId

@@ -43,31 +43,6 @@ class AdminAuthServiceProcessor {
     return true;
   }
 
-  protected function process_hasUrlAuth($seqid, $input, $output) {
-    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasUrlAuth_args();
-    $args->read($input);
-    $input->readMessageEnd();
-    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasUrlAuth_result();
-    try {
-      $result->success = $this->handler_->hasUrlAuth($args->method, $args->checkUrl, $args->adminId);
-    } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
-      $result->systemException = $systemException;
-        } catch (\Ridibooks\Cms\Thrift\Errors\UnauthorizedException $unauthorizedException) {
-      $result->unauthorizedException = $unauthorizedException;
-    }
-    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
-    if ($bin_accel)
-    {
-      thrift_protocol_write_binary($output, 'hasUrlAuth', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
-    }
-    else
-    {
-      $output->writeMessageBegin('hasUrlAuth', TMessageType::REPLY, $seqid);
-      $result->write($output);
-      $output->writeMessageEnd();
-      $output->getTransport()->flush();
-    }
-  }
   protected function process_hasHashAuth($seqid, $input, $output) {
     $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_hasHashAuth_args();
     $args->read($input);
