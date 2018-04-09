@@ -1,5 +1,9 @@
 # Ridibooks CMS SDK
 
+## 2.2.6 (2018-04-04)
+
+- [PHP, JS, Python] Add new tag APIs, `getAdminTag` and `getAdminTags`.
+
 ## 2.2.5 (2018-04-03)
 
 - [PHP] `/token-refresh` does not redirect to CMS-RPC-URL (#43)
