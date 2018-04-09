@@ -18,9 +18,9 @@ use Thrift\Exception\TApplicationException;
 
 
 /**
- * 클라이언트의 의해 발생한 에러 (4XX)
+ * 토큰 만료 기간이 지남
  */
-class UserException extends TException {
+class ExpiredTokenException extends TException {
   static $_TSPEC;
 
   /**
@@ -56,7 +56,7 @@ class UserException extends TException {
   }
 
   public function getName() {
-    return 'UserException';
+    return 'ExpiredTokenException';
   }
 
   public function read($input)
@@ -100,7 +100,7 @@ class UserException extends TException {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('UserException');
+    $xfer += $output->writeStructBegin('ExpiredTokenException');
     if ($this->code !== null) {
       $xfer += $output->writeFieldBegin('code', TType::I32, 1);
       $xfer += $output->writeI32($this->code);

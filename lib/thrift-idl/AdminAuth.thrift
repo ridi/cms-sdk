@@ -29,8 +29,8 @@ service AdminAuthService {
         2: string checkUrl,
         3: string adminId,
     ) throws (
-        1: Errors.UserException userException,
-        2: Errors.SystemException systemException
+        1: Errors.SystemException systemException,
+        2: Errors.UnauthorizedException unauthorizedException,
     ),
 
     list<string> getCurrentHashArray(
@@ -38,14 +38,24 @@ service AdminAuthService {
         2: string adminId,
 
     ) throws (
-        1: Errors.UserException userException,
-        2: Errors.SystemException systemException
+        1: Errors.SystemException systemException,
     ),
 
     AdminMenuCollection getAdminMenu(
         1: string adminId,
     ) throws (
-        1: Errors.UserException userException,
-        2: Errors.SystemException systemException
+        1: Errors.SystemException systemException,
+    ),
+
+    void authorize(
+        1: string token,
+        2: list<string> methods,
+        3: string check_url,
+    ) throws (
+        1: Errors.SystemException systemException,
+        2: Errors.NoTokenException noTokenException,
+        3: Errors.MalformedTokenException malformedTokenException,
+        4: Errors.ExpiredTokenException expiredTokenException,
+        5: Errors.UnauthorizedException unauthorizedException,
     ),
 }

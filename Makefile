@@ -2,7 +2,12 @@
 
 all: thrift
 
-thrift: thrift-php thrift-js thrift-python
+thrift: clean thrift-php thrift-js thrift-python
+
+clean:
+	rm -rf lib/php/src/Thrift/*/
+	rm -rf lib/js/lib/CmsClient/thrift
+	rm -rf lib/python/ridi/cms/thrift
 
 thrift-php:
 	thrift -r --gen php:server,psr4 lib/thrift-idl/AdminMenu.thrift

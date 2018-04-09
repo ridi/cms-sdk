@@ -18,9 +18,9 @@ use Thrift\Exception\TApplicationException;
 
 
 /**
- * 클라이언트의 의해 발생한 에러 (4XX)
+ * 잘못된 토큰 데이터
  */
-class UserException extends TException {
+class MalformedTokenException extends TException {
   static $_TSPEC;
 
   /**
@@ -56,7 +56,7 @@ class UserException extends TException {
   }
 
   public function getName() {
-    return 'UserException';
+    return 'MalformedTokenException';
   }
 
   public function read($input)
@@ -100,7 +100,7 @@ class UserException extends TException {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('UserException');
+    $xfer += $output->writeStructBegin('MalformedTokenException');
     if ($this->code !== null) {
       $xfer += $output->writeFieldBegin('code', TType::I32, 1);
       $xfer += $output->writeI32($this->code);

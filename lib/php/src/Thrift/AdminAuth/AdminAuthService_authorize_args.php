@@ -16,48 +16,58 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class AdminAuthService_getCurrentHashArray_result {
+class AdminAuthService_authorize_args {
   static $_TSPEC;
 
   /**
+   * @var string
+   */
+  public $token = null;
+  /**
    * @var string[]
    */
-  public $success = null;
+  public $methods = null;
   /**
-   * @var \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @var string
    */
-  public $systemException = null;
+  public $check_url = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
-        0 => array(
-          'var' => 'success',
+        1 => array(
+          'var' => 'token',
+          'type' => TType::STRING,
+          ),
+        2 => array(
+          'var' => 'methods',
           'type' => TType::LST,
           'etype' => TType::STRING,
           'elem' => array(
             'type' => TType::STRING,
             ),
           ),
-        1 => array(
-          'var' => 'systemException',
-          'type' => TType::STRUCT,
-          'class' => '\Ridibooks\Cms\Thrift\Errors\SystemException',
+        3 => array(
+          'var' => 'check_url',
+          'type' => TType::STRING,
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['success'])) {
-        $this->success = $vals['success'];
+      if (isset($vals['token'])) {
+        $this->token = $vals['token'];
       }
-      if (isset($vals['systemException'])) {
-        $this->systemException = $vals['systemException'];
+      if (isset($vals['methods'])) {
+        $this->methods = $vals['methods'];
+      }
+      if (isset($vals['check_url'])) {
+        $this->check_url = $vals['check_url'];
       }
     }
   }
 
   public function getName() {
-    return 'AdminAuthService_getCurrentHashArray_result';
+    return 'AdminAuthService_authorize_args';
   }
 
   public function read($input)
@@ -75,27 +85,33 @@ class AdminAuthService_getCurrentHashArray_result {
       }
       switch ($fid)
       {
-        case 0:
+        case 1:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->token);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
+        case 2:
           if ($ftype == TType::LST) {
-            $this->success = array();
-            $_size0 = 0;
-            $_etype3 = 0;
-            $xfer += $input->readListBegin($_etype3, $_size0);
-            for ($_i4 = 0; $_i4 < $_size0; ++$_i4)
+            $this->methods = array();
+            $_size14 = 0;
+            $_etype17 = 0;
+            $xfer += $input->readListBegin($_etype17, $_size14);
+            for ($_i18 = 0; $_i18 < $_size14; ++$_i18)
             {
-              $elem5 = null;
-              $xfer += $input->readString($elem5);
-              $this->success []= $elem5;
+              $elem19 = null;
+              $xfer += $input->readString($elem19);
+              $this->methods []= $elem19;
             }
             $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 1:
-          if ($ftype == TType::STRUCT) {
-            $this->systemException = new \Ridibooks\Cms\Thrift\Errors\SystemException();
-            $xfer += $this->systemException->read($input);
+        case 3:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->check_url);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -112,27 +128,32 @@ class AdminAuthService_getCurrentHashArray_result {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('AdminAuthService_getCurrentHashArray_result');
-    if ($this->success !== null) {
-      if (!is_array($this->success)) {
+    $xfer += $output->writeStructBegin('AdminAuthService_authorize_args');
+    if ($this->token !== null) {
+      $xfer += $output->writeFieldBegin('token', TType::STRING, 1);
+      $xfer += $output->writeString($this->token);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->methods !== null) {
+      if (!is_array($this->methods)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
+      $xfer += $output->writeFieldBegin('methods', TType::LST, 2);
       {
-        $output->writeListBegin(TType::STRING, count($this->success));
+        $output->writeListBegin(TType::STRING, count($this->methods));
         {
-          foreach ($this->success as $iter6)
+          foreach ($this->methods as $iter20)
           {
-            $xfer += $output->writeString($iter6);
+            $xfer += $output->writeString($iter20);
           }
         }
         $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->systemException !== null) {
-      $xfer += $output->writeFieldBegin('systemException', TType::STRUCT, 1);
-      $xfer += $this->systemException->write($output);
+    if ($this->check_url !== null) {
+      $xfer += $output->writeFieldBegin('check_url', TType::STRING, 3);
+      $xfer += $output->writeString($this->check_url);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

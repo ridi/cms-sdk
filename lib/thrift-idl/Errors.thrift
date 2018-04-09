@@ -19,7 +19,7 @@ enum ErrorCode {
 }
 
 /**
- * 클라이언트의 의해 발생한 에러
+ * 클라이언트의 의해 발생한 에러 (4XX)
  */
 exception UserException {
     1: required ErrorCode code,
@@ -27,9 +27,41 @@ exception UserException {
 }
 
 /**
- * 서버에 의해 발생한 에러
+ * 서버에 의해 발생한 에러 (5XX)
  */
 exception SystemException {
+    1: required ErrorCode code,
+    2: optional string message
+}
+
+/**
+ * 토큰을 찾을 수 없음
+ */
+exception NoTokenException {
+    1: required ErrorCode code,
+    2: optional string message
+}
+
+/**
+ * 잘못된 토큰 데이터
+ */
+exception MalformedTokenException {
+    1: required ErrorCode code,
+    2: optional string message
+}
+
+/**
+ * 토큰 만료 기간이 지남
+ */
+exception ExpiredTokenException {
+    1: required ErrorCode code,
+    2: optional string message
+}
+
+/**
+ * 접근 권한이 없음
+ */
+exception UnauthorizedException {
     1: required ErrorCode code,
     2: optional string message
 }
