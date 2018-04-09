@@ -7,9 +7,16 @@ class LoginService
     const ADMIN_ID_COOKIE_NAME = 'admin-id';
     const TOKEN_COOKIE_NAME = 'cms-token';
 
+    private static $admin_id_for_test = '';
+
     public static function GetAdminID()
     {
-        return $_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? '';
+        return self::$admin_id_for_test ?? ($_COOKIE[self::ADMIN_ID_COOKIE_NAME] ?? '');
+    }
+
+    public static function SetAdminID($admin_id)
+    {
+        self::$admin_id_for_test = $admin_id;
     }
 
     public static function getAccessToken()
