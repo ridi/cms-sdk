@@ -1,13 +1,13 @@
 # Ridibooks CMS SDK
 
-## [Unreleased]
+## [2.3.0] - 2018-04-10
 ### Added
 - [PHP] Add new method `SetAdminID` with the purpose of test
 ### Deprecated
 - [PHP] Remove token-introspect url endpoint (#46)
   - Removed method `hasUrlAuth` from AdminAuthService class.
   - Removed method `checkUserPassword`, `doLoginAction`, `doCmsLoginAction`, `requestTokenIntrospect`, `getTokenApiUrl` `getLoginPageUrl`, `isAuthRequired`, `validateLogin`, `createRedirectForLogin`, `setLoginContext` from LoginService class
-  
+
 ## [2.2.6] - 2018-04-04
 ### Added
 - [PHP, JS, Python] Add new tag APIs, `getAdminTag` and `getAdminTags`.
@@ -30,7 +30,7 @@
 - [PHP] Handle 400 error on token introspect
 
 ## [2.2.1] - 2018-03-12
-### Fixed 
+### Fixed
 - [PHP] Fix `MiniRouter` compatiblitiy issue
 
 ## [2.2.0] - 2018-03-09
