@@ -311,6 +311,7 @@ class AdminAuthService
             '/me', // 본인 정보 수정
             '/welcome',
             '/logout',
+            '/authorize', // For compatibility with cms-sdk 2.3
             '/'
         ];
 
