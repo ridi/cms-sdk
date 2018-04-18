@@ -53,7 +53,7 @@ class Iface(object):
         """
         pass
 
-    def authorizeTag(self, token, tags):
+    def authorizeByTag(self, token, tags):
         """
         Parameters:
          - token
@@ -222,25 +222,25 @@ class Client(Iface):
             raise result.unauthorizedException
         return
 
-    def authorizeTag(self, token, tags):
+    def authorizeByTag(self, token, tags):
         """
         Parameters:
          - token
          - tags
         """
-        self.send_authorizeTag(token, tags)
-        self.recv_authorizeTag()
+        self.send_authorizeByTag(token, tags)
+        self.recv_authorizeByTag()
 
-    def send_authorizeTag(self, token, tags):
-        self._oprot.writeMessageBegin('authorizeTag', TMessageType.CALL, self._seqid)
-        args = authorizeTag_args()
+    def send_authorizeByTag(self, token, tags):
+        self._oprot.writeMessageBegin('authorizeByTag', TMessageType.CALL, self._seqid)
+        args = authorizeByTag_args()
         args.token = token
         args.tags = tags
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
 
-    def recv_authorizeTag(self):
+    def recv_authorizeByTag(self):
         iprot = self._iprot
         (fname, mtype, rseqid) = iprot.readMessageBegin()
         if mtype == TMessageType.EXCEPTION:
@@ -248,7 +248,7 @@ class Client(Iface):
             x.read(iprot)
             iprot.readMessageEnd()
             raise x
-        result = authorizeTag_result()
+        result = authorizeByTag_result()
         result.read(iprot)
         iprot.readMessageEnd()
         if result.systemException is not None:
@@ -272,7 +272,7 @@ class Processor(Iface, TProcessor):
         self._processMap["getCurrentHashArray"] = Processor.process_getCurrentHashArray
         self._processMap["getAdminMenu"] = Processor.process_getAdminMenu
         self._processMap["authorize"] = Processor.process_authorize
-        self._processMap["authorizeTag"] = Processor.process_authorizeTag
+        self._processMap["authorizeByTag"] = Processor.process_authorizeByTag
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -392,13 +392,13 @@ class Processor(Iface, TProcessor):
         oprot.writeMessageEnd()
         oprot.trans.flush()
 
-    def process_authorizeTag(self, seqid, iprot, oprot):
-        args = authorizeTag_args()
+    def process_authorizeByTag(self, seqid, iprot, oprot):
+        args = authorizeByTag_args()
         args.read(iprot)
         iprot.readMessageEnd()
-        result = authorizeTag_result()
+        result = authorizeByTag_result()
         try:
-            self._handler.authorizeTag(args.token, args.tags)
+            self._handler.authorizeByTag(args.token, args.tags)
             msg_type = TMessageType.REPLY
         except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
             raise
@@ -421,7 +421,7 @@ class Processor(Iface, TProcessor):
             msg_type = TMessageType.EXCEPTION
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
-        oprot.writeMessageBegin("authorizeTag", msg_type, seqid)
+        oprot.writeMessageBegin("authorizeByTag", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1096,7 +1096,7 @@ class authorize_result(object):
         return not (self == other)
 
 
-class authorizeTag_args(object):
+class authorizeByTag_args(object):
     """
     Attributes:
      - token
@@ -1146,7 +1146,7 @@ class authorizeTag_args(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('authorizeTag_args')
+        oprot.writeStructBegin('authorizeByTag_args')
         if self.token is not None:
             oprot.writeFieldBegin('token', TType.STRING, 1)
             oprot.writeString(self.token.encode('utf-8') if sys.version_info[0] == 2 else self.token)
@@ -1176,7 +1176,7 @@ class authorizeTag_args(object):
         return not (self == other)
 
 
-class authorizeTag_result(object):
+class authorizeByTag_result(object):
     """
     Attributes:
      - systemException
@@ -1250,7 +1250,7 @@ class authorizeTag_result(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('authorizeTag_result')
+        oprot.writeStructBegin('authorizeByTag_result')
         if self.systemException is not None:
             oprot.writeFieldBegin('systemException', TType.STRUCT, 1)
             self.systemException.write(oprot)

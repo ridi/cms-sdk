@@ -16,7 +16,7 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class AdminAuthService_authorizeTag_args {
+class AdminAuthService_authorizeByTag_args {
   static $_TSPEC;
 
   /**
@@ -56,7 +56,7 @@ class AdminAuthService_authorizeTag_args {
   }
 
   public function getName() {
-    return 'AdminAuthService_authorizeTag_args';
+    return 'AdminAuthService_authorizeByTag_args';
   }
 
   public function read($input)
@@ -110,7 +110,7 @@ class AdminAuthService_authorizeTag_args {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('AdminAuthService_authorizeTag_args');
+    $xfer += $output->writeStructBegin('AdminAuthService_authorizeByTag_args');
     if ($this->token !== null) {
       $xfer += $output->writeFieldBegin('token', TType::STRING, 1);
       $xfer += $output->writeString($this->token);

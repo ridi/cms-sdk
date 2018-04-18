@@ -260,35 +260,35 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
     return;
   }
 
-  public function authorizeTag($token, array $tags)
+  public function authorizeByTag($token, array $tags)
   {
-    $this->send_authorizeTag($token, $tags);
-    $this->recv_authorizeTag();
+    $this->send_authorizeByTag($token, $tags);
+    $this->recv_authorizeByTag();
   }
 
-  public function send_authorizeTag($token, array $tags)
+  public function send_authorizeByTag($token, array $tags)
   {
-    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeTag_args();
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeByTag_args();
     $args->token = $token;
     $args->tags = $tags;
     $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {
-      thrift_protocol_write_binary($this->output_, 'authorizeTag', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+      thrift_protocol_write_binary($this->output_, 'authorizeByTag', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
     }
     else
     {
-      $this->output_->writeMessageBegin('authorizeTag', TMessageType::CALL, $this->seqid_);
+      $this->output_->writeMessageBegin('authorizeByTag', TMessageType::CALL, $this->seqid_);
       $args->write($this->output_);
       $this->output_->writeMessageEnd();
       $this->output_->getTransport()->flush();
     }
   }
 
-  public function recv_authorizeTag()
+  public function recv_authorizeByTag()
   {
     $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
-    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeTag_result', $this->input_->isStrictRead());
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeByTag_result', $this->input_->isStrictRead());
     else
     {
       $rseqid = 0;
@@ -302,7 +302,7 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
         $this->input_->readMessageEnd();
         throw $x;
       }
-      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeTag_result();
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeByTag_result();
       $result->read($this->input_);
       $this->input_->readMessageEnd();
     }

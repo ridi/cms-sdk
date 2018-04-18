@@ -59,7 +59,7 @@ service AdminAuthService {
         5: Errors.UnauthorizedException unauthorizedException,
     ),
 
-    void authorizeTag(
+    void authorizeByTag(
         1: string token,
         2: list<string> tags,
     ) throws (

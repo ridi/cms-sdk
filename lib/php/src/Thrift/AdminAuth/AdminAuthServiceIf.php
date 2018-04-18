@@ -62,7 +62,7 @@ interface AdminAuthServiceIf {
    * @throws \Ridibooks\Cms\Thrift\Errors\ExpiredTokenException
    * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
    */
-  public function authorizeTag($token, array $tags);
+  public function authorizeByTag($token, array $tags);
 }
 
 
