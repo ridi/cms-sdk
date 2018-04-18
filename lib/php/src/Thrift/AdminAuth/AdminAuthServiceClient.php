@@ -260,6 +260,70 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
     return;
   }
 
+  public function authorizeTag($token, array $tags)
+  {
+    $this->send_authorizeTag($token, $tags);
+    $this->recv_authorizeTag();
+  }
+
+  public function send_authorizeTag($token, array $tags)
+  {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeTag_args();
+    $args->token = $token;
+    $args->tags = $tags;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'authorizeTag', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('authorizeTag', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_authorizeTag()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeTag_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeTag_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->systemException !== null) {
+      throw $result->systemException;
+    }
+    if ($result->noTokenException !== null) {
+      throw $result->noTokenException;
+    }
+    if ($result->malformedTokenException !== null) {
+      throw $result->malformedTokenException;
+    }
+    if ($result->expiredTokenException !== null) {
+      throw $result->expiredTokenException;
+    }
+    if ($result->unauthorizedException !== null) {
+      throw $result->unauthorizedException;
+    }
+    return;
+  }
+
 }
 
 
