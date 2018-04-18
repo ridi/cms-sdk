@@ -58,4 +58,15 @@ service AdminAuthService {
         4: Errors.ExpiredTokenException expiredTokenException,
         5: Errors.UnauthorizedException unauthorizedException,
     ),
+
+    void authorizeByTag(
+        1: string token,
+        2: list<string> tags,
+    ) throws (
+        1: Errors.SystemException systemException,
+        2: Errors.NoTokenException noTokenException,
+        3: Errors.MalformedTokenException malformedTokenException,
+        4: Errors.ExpiredTokenException expiredTokenException,
+        5: Errors.UnauthorizedException unauthorizedException,
+    ),
 }

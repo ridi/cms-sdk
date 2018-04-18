@@ -145,4 +145,35 @@ class AdminAuthServiceProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_authorizeByTag($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeByTag_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeByTag_result();
+    try {
+      $this->handler_->authorizeByTag($args->token, $args->tags);
+    } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\NoTokenException $noTokenException) {
+      $result->noTokenException = $noTokenException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\MalformedTokenException $malformedTokenException) {
+      $result->malformedTokenException = $malformedTokenException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\ExpiredTokenException $expiredTokenException) {
+      $result->expiredTokenException = $expiredTokenException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\UnauthorizedException $unauthorizedException) {
+      $result->unauthorizedException = $unauthorizedException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'authorizeByTag', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('authorizeByTag', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
 }
