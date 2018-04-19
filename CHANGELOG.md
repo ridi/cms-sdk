@@ -1,7 +1,9 @@
 # Ridibooks CMS SDK
 
 ## [Unreleased]
-- Add new `/authorizeByTag` API
+
+## [2.3.1] - 2018-04-19
+- [PHP, JS, Python] Add new `authorizeByTag` API
 
 ## [2.3.0] - 2018-04-10
 ### Added
