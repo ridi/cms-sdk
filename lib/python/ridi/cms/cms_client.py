@@ -13,7 +13,10 @@ from ridi.cms.config import Config
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)
-    client.setCustomHeaders({'Accept' : 'application/x-thrift'})
+    client.setCustomHeaders({
+        'Accept' : 'application/x-thrift',
+        'Content-Type': 'application/x-thrift',
+        })
     protocol = TJSONProtocol.TJSONProtocol(client)
     protocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)
     return protocol
