@@ -33,10 +33,6 @@ class AdminTagService
 
     public function getMappedAdminMenuHashes($check_url, $tag_id)
     {
-        $menu_ids = self::getAdminTagMenus($tag_id);
-
-        $menus = AdminMenuService::getMenus($menu_ids);
-
-        return AdminAuthService::getHashesFromMenus($check_url, $menus);
+        return self::getTClient()->getMappedAdminMenuHashes($check_url, $tag_id);
     }
 }
