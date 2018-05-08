@@ -42,9 +42,10 @@ class CmsApplication extends Application
     {
         $this->register(
             new TwigServiceProvider(), [
-                'twig.path' => array_merge([
-                    __DIR__ . '/../views/'
-                ], $this['twig.path'] ?? []),
+                'twig.path' => array_merge(
+                    $this['twig.path'] ?? [],
+                    [__DIR__ . '/../views/']
+                ),
                 'twig.options' => [
                     'cache' => sys_get_temp_dir() . '/twig_cache_v12',
                     'auto_reload' => true,
