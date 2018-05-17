@@ -176,4 +176,33 @@ class AdminAuthServiceProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_introspectToken($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_introspectToken_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_introspectToken_result();
+    try {
+      $result->success = $this->handler_->introspectToken($args->token);
+    } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\NoTokenException $noTokenException) {
+      $result->noTokenException = $noTokenException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\MalformedTokenException $malformedTokenException) {
+      $result->malformedTokenException = $malformedTokenException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\ExpiredTokenException $expiredTokenException) {
+      $result->expiredTokenException = $expiredTokenException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'introspectToken', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('introspectToken', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
 }

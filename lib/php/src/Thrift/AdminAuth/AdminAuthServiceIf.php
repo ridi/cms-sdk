@@ -63,6 +63,15 @@ interface AdminAuthServiceIf {
    * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
    */
   public function authorizeByTag($token, array $tags);
+  /**
+   * @param string $token
+   * @return \Ridibooks\Cms\Thrift\AdminAuth\AccessToken
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @throws \Ridibooks\Cms\Thrift\Errors\NoTokenException
+   * @throws \Ridibooks\Cms\Thrift\Errors\MalformedTokenException
+   * @throws \Ridibooks\Cms\Thrift\Errors\ExpiredTokenException
+   */
+  public function introspectToken($token);
 }
 
 

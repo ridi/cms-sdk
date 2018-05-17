@@ -30,6 +30,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  AdminMenuCollection getAdminMenu(string adminId)')
     print('  void authorize(string token,  methods, string check_url)')
     print('  void authorizeByTag(string token,  tags)')
+    print('  AccessToken introspectToken(string token)')
     print('')
     sys.exit(0)
 
@@ -138,6 +139,12 @@ elif cmd == 'authorizeByTag':
         print('authorizeByTag requires 2 args')
         sys.exit(1)
     pp.pprint(client.authorizeByTag(args[0], eval(args[1]),))
+
+elif cmd == 'introspectToken':
+    if len(args) != 1:
+        print('introspectToken requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.introspectToken(args[0],))
 
 else:
     print('Unrecognized method %s' % cmd)
