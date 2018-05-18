@@ -3,6 +3,7 @@
 namespace Ridibooks\Cms\Auth;
 
 use Ridibooks\Cms\Thrift\AdminAuth\AdminAuthServiceClient;
+use Ridibooks\Cms\Thrift\AdminAuth\TokenClaim;
 use Ridibooks\Cms\Thrift\Errors\ExpiredTokenException;
 use Ridibooks\Cms\Thrift\Errors\MalformedTokenException;
 use Ridibooks\Cms\Thrift\Errors\NoTokenException;
@@ -72,6 +73,19 @@ class AdminAuthService
         }
 
         return null;
+    }
+
+    /**
+     * @throws NoTokenException
+     * @throws MalformedTokenException
+     */
+    public static function introspectToken($token): array
+    {
+        $client = ThriftService::getHttpClient('AdminAuth');
+        /** @var TokenClaim */
+        $token_claim = $client->introspectToken($token);
+
+        return (array) $token_claim;
     }
 
     /**해당 URL의 Hash 권한이 있는지 검사한다.<br/>

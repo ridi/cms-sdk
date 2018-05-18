@@ -61,6 +61,13 @@ class Iface(object):
         """
         pass
 
+    def introspectToken(self, token):
+        """
+        Parameters:
+         - token
+        """
+        pass
+
 
 class Client(Iface):
     """
@@ -263,6 +270,45 @@ class Client(Iface):
             raise result.unauthorizedException
         return
 
+    def introspectToken(self, token):
+        """
+        Parameters:
+         - token
+        """
+        self.send_introspectToken(token)
+        return self.recv_introspectToken()
+
+    def send_introspectToken(self, token):
+        self._oprot.writeMessageBegin('introspectToken', TMessageType.CALL, self._seqid)
+        args = introspectToken_args()
+        args.token = token
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_introspectToken(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = introspectToken_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        if result.systemException is not None:
+            raise result.systemException
+        if result.noTokenException is not None:
+            raise result.noTokenException
+        if result.malformedTokenException is not None:
+            raise result.malformedTokenException
+        if result.expiredTokenException is not None:
+            raise result.expiredTokenException
+        raise TApplicationException(TApplicationException.MISSING_RESULT, "introspectToken failed: unknown result")
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -273,6 +319,7 @@ class Processor(Iface, TProcessor):
         self._processMap["getAdminMenu"] = Processor.process_getAdminMenu
         self._processMap["authorize"] = Processor.process_authorize
         self._processMap["authorizeByTag"] = Processor.process_authorizeByTag
+        self._processMap["introspectToken"] = Processor.process_introspectToken
 
     def process(self, iprot, oprot):
         (name, type, seqid) = iprot.readMessageBegin()
@@ -422,6 +469,37 @@ class Processor(Iface, TProcessor):
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("authorizeByTag", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_introspectToken(self, seqid, iprot, oprot):
+        args = introspectToken_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = introspectToken_result()
+        try:
+            result.success = self._handler.introspectToken(args.token)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
+            msg_type = TMessageType.REPLY
+            result.systemException = systemException
+        except ridi.cms.thrift.Errors.ttypes.NoTokenException as noTokenException:
+            msg_type = TMessageType.REPLY
+            result.noTokenException = noTokenException
+        except ridi.cms.thrift.Errors.ttypes.MalformedTokenException as malformedTokenException:
+            msg_type = TMessageType.REPLY
+            result.malformedTokenException = malformedTokenException
+        except ridi.cms.thrift.Errors.ttypes.ExpiredTokenException as expiredTokenException:
+            msg_type = TMessageType.REPLY
+            result.expiredTokenException = expiredTokenException
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("introspectToken", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1270,6 +1348,178 @@ class authorizeByTag_result(object):
         if self.unauthorizedException is not None:
             oprot.writeFieldBegin('unauthorizedException', TType.STRUCT, 5)
             self.unauthorizedException.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class introspectToken_args(object):
+    """
+    Attributes:
+     - token
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'token', 'UTF8', None, ),  # 1
+    )
+
+    def __init__(self, token=None,):
+        self.token = token
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.token = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('introspectToken_args')
+        if self.token is not None:
+            oprot.writeFieldBegin('token', TType.STRING, 1)
+            oprot.writeString(self.token.encode('utf-8') if sys.version_info[0] == 2 else self.token)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class introspectToken_result(object):
+    """
+    Attributes:
+     - success
+     - systemException
+     - noTokenException
+     - malformedTokenException
+     - expiredTokenException
+    """
+
+    thrift_spec = (
+        (0, TType.STRUCT, 'success', (TokenClaim, TokenClaim.thrift_spec), None, ),  # 0
+        (1, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'noTokenException', (ridi.cms.thrift.Errors.ttypes.NoTokenException, ridi.cms.thrift.Errors.ttypes.NoTokenException.thrift_spec), None, ),  # 2
+        (3, TType.STRUCT, 'malformedTokenException', (ridi.cms.thrift.Errors.ttypes.MalformedTokenException, ridi.cms.thrift.Errors.ttypes.MalformedTokenException.thrift_spec), None, ),  # 3
+        (4, TType.STRUCT, 'expiredTokenException', (ridi.cms.thrift.Errors.ttypes.ExpiredTokenException, ridi.cms.thrift.Errors.ttypes.ExpiredTokenException.thrift_spec), None, ),  # 4
+    )
+
+    def __init__(self, success=None, systemException=None, noTokenException=None, malformedTokenException=None, expiredTokenException=None,):
+        self.success = success
+        self.systemException = systemException
+        self.noTokenException = noTokenException
+        self.malformedTokenException = malformedTokenException
+        self.expiredTokenException = expiredTokenException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = TokenClaim()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 1:
+                if ftype == TType.STRUCT:
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
+                    self.systemException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.noTokenException = ridi.cms.thrift.Errors.ttypes.NoTokenException()
+                    self.noTokenException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRUCT:
+                    self.malformedTokenException = ridi.cms.thrift.Errors.ttypes.MalformedTokenException()
+                    self.malformedTokenException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRUCT:
+                    self.expiredTokenException = ridi.cms.thrift.Errors.ttypes.ExpiredTokenException()
+                    self.expiredTokenException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('introspectToken_result')
+        if self.success is not None:
+            oprot.writeFieldBegin('success', TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        if self.systemException is not None:
+            oprot.writeFieldBegin('systemException', TType.STRUCT, 1)
+            self.systemException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.noTokenException is not None:
+            oprot.writeFieldBegin('noTokenException', TType.STRUCT, 2)
+            self.noTokenException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.malformedTokenException is not None:
+            oprot.writeFieldBegin('malformedTokenException', TType.STRUCT, 3)
+            self.malformedTokenException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.expiredTokenException is not None:
+            oprot.writeFieldBegin('expiredTokenException', TType.STRUCT, 4)
+            self.expiredTokenException.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()

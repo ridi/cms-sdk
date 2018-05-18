@@ -20,6 +20,10 @@ struct AdminMenu {
 
 typedef list<AdminMenu> AdminMenuCollection
 
+struct TokenClaim {
+    1: optional string admin_id,
+}
+
 /**
  * AdminAuth 서비스
  */
@@ -68,5 +72,14 @@ service AdminAuthService {
         3: Errors.MalformedTokenException malformedTokenException,
         4: Errors.ExpiredTokenException expiredTokenException,
         5: Errors.UnauthorizedException unauthorizedException,
+    ),
+
+    TokenClaim introspectToken(
+        1: string token,
+    ) throws (
+        1: Errors.SystemException systemException,
+        2: Errors.NoTokenException noTokenException,
+        3: Errors.MalformedTokenException malformedTokenException,
+        4: Errors.ExpiredTokenException expiredTokenException,
     ),
 }
