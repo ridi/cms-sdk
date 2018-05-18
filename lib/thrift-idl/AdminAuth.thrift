@@ -20,7 +20,7 @@ struct AdminMenu {
 
 typedef list<AdminMenu> AdminMenuCollection
 
-struct AccessToken {
+struct TokenClaim {
     1: optional string admin_id,
 }
 
@@ -74,7 +74,7 @@ service AdminAuthService {
         5: Errors.UnauthorizedException unauthorizedException,
     ),
 
-    AccessToken introspectToken(
+    TokenClaim introspectToken(
         1: string token,
     ) throws (
         1: Errors.SystemException systemException,

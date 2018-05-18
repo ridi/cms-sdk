@@ -20,7 +20,7 @@ class AdminAuthService_introspectToken_result {
   static $_TSPEC;
 
   /**
-   * @var \Ridibooks\Cms\Thrift\AdminAuth\AccessToken
+   * @var \Ridibooks\Cms\Thrift\AdminAuth\TokenClaim
    */
   public $success = null;
   /**
@@ -46,7 +46,7 @@ class AdminAuthService_introspectToken_result {
         0 => array(
           'var' => 'success',
           'type' => TType::STRUCT,
-          'class' => '\Ridibooks\Cms\Thrift\AdminAuth\AccessToken',
+          'class' => '\Ridibooks\Cms\Thrift\AdminAuth\TokenClaim',
           ),
         1 => array(
           'var' => 'systemException',
@@ -110,7 +110,7 @@ class AdminAuthService_introspectToken_result {
       {
         case 0:
           if ($ftype == TType::STRUCT) {
-            $this->success = new \Ridibooks\Cms\Thrift\AdminAuth\AccessToken();
+            $this->success = new \Ridibooks\Cms\Thrift\AdminAuth\TokenClaim();
             $xfer += $this->success->read($input);
           } else {
             $xfer += $input->skip($ftype);

@@ -173,7 +173,7 @@ class AdminMenu(object):
         return not (self == other)
 
 
-class AccessToken(object):
+class TokenClaim(object):
     """
     Attributes:
      - admin_id
@@ -210,7 +210,7 @@ class AccessToken(object):
         if oprot._fast_encode is not None and self.thrift_spec is not None:
             oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
             return
-        oprot.writeStructBegin('AccessToken')
+        oprot.writeStructBegin('TokenClaim')
         if self.admin_id is not None:
             oprot.writeFieldBegin('admin_id', TType.STRING, 1)
             oprot.writeString(self.admin_id.encode('utf-8') if sys.version_info[0] == 2 else self.admin_id)

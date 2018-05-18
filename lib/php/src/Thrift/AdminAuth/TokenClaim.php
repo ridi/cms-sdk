@@ -17,7 +17,7 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class AccessToken {
+class TokenClaim {
   static $_TSPEC;
 
   /**
@@ -42,7 +42,7 @@ class AccessToken {
   }
 
   public function getName() {
-    return 'AccessToken';
+    return 'TokenClaim';
   }
 
   public function read($input)
@@ -79,7 +79,7 @@ class AccessToken {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('AccessToken');
+    $xfer += $output->writeStructBegin('TokenClaim');
     if ($this->admin_id !== null) {
       $xfer += $output->writeFieldBegin('admin_id', TType::STRING, 1);
       $xfer += $output->writeString($this->admin_id);

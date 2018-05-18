@@ -30,7 +30,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  AdminMenuCollection getAdminMenu(string adminId)')
     print('  void authorize(string token,  methods, string check_url)')
     print('  void authorizeByTag(string token,  tags)')
-    print('  AccessToken introspectToken(string token)')
+    print('  TokenClaim introspectToken(string token)')
     print('')
     sys.exit(0)
 

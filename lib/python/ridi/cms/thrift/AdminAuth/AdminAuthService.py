@@ -1438,7 +1438,7 @@ class introspectToken_result(object):
     """
 
     thrift_spec = (
-        (0, TType.STRUCT, 'success', (AccessToken, AccessToken.thrift_spec), None, ),  # 0
+        (0, TType.STRUCT, 'success', (TokenClaim, TokenClaim.thrift_spec), None, ),  # 0
         (1, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 1
         (2, TType.STRUCT, 'noTokenException', (ridi.cms.thrift.Errors.ttypes.NoTokenException, ridi.cms.thrift.Errors.ttypes.NoTokenException.thrift_spec), None, ),  # 2
         (3, TType.STRUCT, 'malformedTokenException', (ridi.cms.thrift.Errors.ttypes.MalformedTokenException, ridi.cms.thrift.Errors.ttypes.MalformedTokenException.thrift_spec), None, ),  # 3
@@ -1463,7 +1463,7 @@ class introspectToken_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = AccessToken()
+                    self.success = TokenClaim()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
