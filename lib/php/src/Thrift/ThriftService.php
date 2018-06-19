@@ -42,7 +42,7 @@ class ThriftService
     {
         $transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
         $transport->setTimeoutSecs(self::HTTP_TIMEOUT_SECS);
-        if (!empty($_ENV['DEBUG'])) {
+        if (!empty($_ENV['XDEBUG_ENABLE'])) {
             $transport->addHeaders(['Cookie' => 'XDEBUG_SESSION=1']);
         }
 
