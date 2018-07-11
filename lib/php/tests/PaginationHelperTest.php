@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 use Ridibooks\Cms\PaginationHelper;
 use Symfony\Component\HttpFoundation\Request;
 
-class GroupServiceTest extends TestCase
+class PaginationHelperTest extends TestCase
 {
     public function testPaginationHelper()
     {
