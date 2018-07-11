@@ -75,6 +75,27 @@ class AdminAuthService
         return null;
     }
 
+    public function authorizeByTag($token, array $tags)
+    {
+        try {
+            $token = LoginService::getAccessToken();
+
+            $client = ThriftService::getHttpClient('AdminAuth');
+            $client->authorizeByTag($token, $tags);
+        } catch (NoTokenException $e) {
+            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
+            return RedirectResponse::create($redirect_url);
+        } catch (MalformedTokenException $e) {
+            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
+            return RedirectResponse::create($redirect_url);
+        } catch (ExpiredTokenException $e) {
+            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
+            return RedirectResponse::create($redirect_url);
+        } catch (UnauthorizedException $e) {
+            return new Response($e->getMessage(), Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
     /**
      * @throws NoTokenException
      * @throws MalformedTokenException
