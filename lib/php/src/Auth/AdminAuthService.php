@@ -62,7 +62,7 @@ class AdminAuthService
             $redirect_url = '/auth/oauth2/authorize?return_url=' . urlencode($request->getRequestUri());
             return RedirectResponse::create($redirect_url);
         } catch (ExpiredTokenException $e) {
-            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
+            $redirect_url = '/auth/oauth2/authorize?return_url=' . urlencode($request->getRequestUri());
             return RedirectResponse::create($redirect_url);
         } catch (UnauthorizedException $e) {
             if ($request->isXmlHttpRequest()) {
