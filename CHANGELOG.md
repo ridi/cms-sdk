@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 ### Fixed
 - Fixed PaginationHelper not to filter 0 value of query string #54
+### Changed
+- [PHP] Use XDEBUG_ENABLE instead DEBUG env for XDebug switch
 
 ## [2.3.3] - 2018-05-24
 ### Added
