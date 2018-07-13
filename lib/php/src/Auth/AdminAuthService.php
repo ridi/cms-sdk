@@ -56,14 +56,11 @@ class AdminAuthService
                 $request->getRequestUri()
             );
         } catch (NoTokenException $e) {
-            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
-            return RedirectResponse::create($redirect_url);
+            return self::createRedirectToAuthorize($request->getRequestUri());
         } catch (MalformedTokenException $e) {
-            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
-            return RedirectResponse::create($redirect_url);
+            return self::createRedirectToAuthorize($request->getRequestUri());
         } catch (ExpiredTokenException $e) {
-            $redirect_url = '/authorize?return_url=' . urlencode($request->getRequestUri());
-            return RedirectResponse::create($redirect_url);
+            return self::createRedirectToAuthorize($request->getRequestUri());
         } catch (UnauthorizedException $e) {
             if ($request->isXmlHttpRequest()) {
                 return new Response($e->getMessage(), Response::HTTP_UNAUTHORIZED);
@@ -73,6 +70,35 @@ class AdminAuthService
         }
 
         return null;
+    }
+
+    public function authorizeByTag($token, array $tags)
+    {
+        $request = Request::createFromGlobals();
+
+        try {
+            $token = LoginService::getAccessToken();
+
+            $client = ThriftService::getHttpClient('AdminAuth');
+            $client->authorizeByTag($token, $tags);
+        } catch (NoTokenException $e) {
+            return self::createRedirectToAuthorize($request->getRequestUri());
+        } catch (MalformedTokenException $e) {
+            return self::createRedirectToAuthorize($request->getRequestUri());
+        } catch (ExpiredTokenException $e) {
+            return self::createRedirectToAuthorize($request->getRequestUri());
+        } catch (UnauthorizedException $e) {
+            return new Response($e->getMessage(), Response::HTTP_UNAUTHORIZED);
+        }
+
+        return null;
+    }
+
+    private function createRedirectToAuthorize(string $return_url)
+    {
+        $redirect_url = '/auth/oauth2/authorize?return_url=' . urlencode($return_url);
+
+        return RedirectResponse::create($redirect_url);
     }
 
     /**
