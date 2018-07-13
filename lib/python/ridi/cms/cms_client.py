@@ -13,10 +13,6 @@ from ridi.cms.config import Config
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)
-    client.setCustomHeaders({
-        'Accept' : 'application/x-thrift',
-        'Content-Type': 'application/x-thrift',
-        })
     protocol = TJSONProtocol.TJSONProtocol(client)
     protocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)
     return protocol
@@ -33,8 +29,14 @@ class AdminAuth(AdminAuthService.Client):
         return self.hasHashAuth(None, check_url, login_session.getAdminId())
 
     def getLoginUrl(self, return_url: str = None) -> str:
+        '''Deprecated. Use 'getAuthorizeUrl' instead.'''
         param = '?return_url=%s' % quote_plus(return_url) if return_url else ''
         return '/login' + param
+
+    def getAuthorizeUrl(self, return_url: str = None) -> str:
+        '''Refresh token or Redirect to login page as neccessary.'''
+        param = '?return_url=%s' % quote_plus(return_url) if return_url else ''
+        return '/auth/oauth2/authorize' + param
 
     def authorize(self, login_session: LoginSession, check_url) -> bool:
         return not self.shouldRedirectForLogin(login_session) and \
