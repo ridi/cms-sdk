@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [2.3.4] - 2018-07-12
 ### Added
 - [PHP] Add AuthorizeByTag
+- [Python] Add authorize endpoint
 ### Fixed
 - [PHP] Fixed PaginationHelper not to filter 0 value of query string #54
 ### Changed
