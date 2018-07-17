@@ -72,7 +72,7 @@ class AdminAuthService
         return null;
     }
 
-    public function authorizeByTag($token, array $tags)
+    public static function authorizeByTag($token, array $tags)
     {
         $request = Request::createFromGlobals();
 
@@ -94,7 +94,7 @@ class AdminAuthService
         return null;
     }
 
-    private function createRedirectToAuthorize(string $return_url)
+    private static function createRedirectToAuthorize(string $return_url)
     {
         $redirect_url = '/auth/oauth2/authorize?return_url=' . urlencode($return_url);
 
