@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.3.5] - 2018-07-17
+### Fixed
+- [PHP] Fix non static method call exception at `authorize` and `authorizeByTag`
+
 ## [2.3.4] - 2018-07-12
 ### Added
 - [PHP] Add AuthorizeByTag
