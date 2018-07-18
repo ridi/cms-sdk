@@ -28,6 +28,7 @@ class AdminUser(object):
      - team
      - is_use
      - reg_date
+     - email
     """
 
     thrift_spec = (
@@ -38,15 +39,17 @@ class AdminUser(object):
         (4, TType.STRING, 'team', 'UTF8', None, ),  # 4
         (5, TType.BOOL, 'is_use', None, None, ),  # 5
         (6, TType.STRING, 'reg_date', 'UTF8', None, ),  # 6
+        (7, TType.STRING, 'email', 'UTF8', None, ),  # 7
     )
 
-    def __init__(self, id=None, name=None, passwd=None, team=None, is_use=None, reg_date=None,):
+    def __init__(self, id=None, name=None, passwd=None, team=None, is_use=None, reg_date=None, email=None,):
         self.id = id
         self.name = name
         self.passwd = passwd
         self.team = team
         self.is_use = is_use
         self.reg_date = reg_date
+        self.email = email
 
     def read(self, iprot):
         if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
@@ -87,6 +90,11 @@ class AdminUser(object):
                     self.reg_date = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
                 else:
                     iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.STRING:
+                    self.email = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -120,6 +128,10 @@ class AdminUser(object):
         if self.reg_date is not None:
             oprot.writeFieldBegin('reg_date', TType.STRING, 6)
             oprot.writeString(self.reg_date.encode('utf-8') if sys.version_info[0] == 2 else self.reg_date)
+            oprot.writeFieldEnd()
+        if self.email is not None:
+            oprot.writeFieldBegin('email', TType.STRING, 7)
+            oprot.writeString(self.email.encode('utf-8') if sys.version_info[0] == 2 else self.email)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()

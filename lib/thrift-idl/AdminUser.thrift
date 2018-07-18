@@ -13,8 +13,9 @@ struct AdminUser {
     2: optional string name,
     3: optional string passwd,
     4: optional string team,
-    5: optional bool is_use
-    6: optional string reg_date
+    5: optional bool is_use,
+    6: optional string reg_date,
+    7: optional string email,
 }
 
 /**

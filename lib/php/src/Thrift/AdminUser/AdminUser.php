@@ -47,6 +47,10 @@ class AdminUser {
    * @var string
    */
   public $reg_date = null;
+  /**
+   * @var string
+   */
+  public $email = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -75,6 +79,10 @@ class AdminUser {
           'var' => 'reg_date',
           'type' => TType::STRING,
           ),
+        7 => array(
+          'var' => 'email',
+          'type' => TType::STRING,
+          ),
         );
     }
     if (is_array($vals)) {
@@ -95,6 +103,9 @@ class AdminUser {
       }
       if (isset($vals['reg_date'])) {
         $this->reg_date = $vals['reg_date'];
+      }
+      if (isset($vals['email'])) {
+        $this->email = $vals['email'];
       }
     }
   }
@@ -160,6 +171,13 @@ class AdminUser {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 7:
+          if ($ftype == TType::STRING) {
+            $xfer += $input->readString($this->email);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -201,6 +219,11 @@ class AdminUser {
     if ($this->reg_date !== null) {
       $xfer += $output->writeFieldBegin('reg_date', TType::STRING, 6);
       $xfer += $output->writeString($this->reg_date);
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->email !== null) {
+      $xfer += $output->writeFieldBegin('email', TType::STRING, 7);
+      $xfer += $output->writeString($this->email);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
