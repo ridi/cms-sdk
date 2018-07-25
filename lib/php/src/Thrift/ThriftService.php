@@ -78,6 +78,7 @@ class ThriftService
             'team' => $user->team,
             'is_use' => $user->is_use,
             'reg_date' => $user->reg_date,
+            'email' => $user->email,
         ];
     }
 
