@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [2.3.7] - 2018-07-25
+### Fixed
+- [PHP] Add missing `email` field in the return of `getUser`.
+
 ## [2.3.6] - 2018-07-20
+### Added
 - [PHP, JS, Python] Add `email` field in AdminUser struct
 
 ## [2.3.5] - 2018-07-17
