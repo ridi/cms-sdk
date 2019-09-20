@@ -1,8 +1,7 @@
 import jwt
 import unittest
 from ridi.cms import cms_client
-from ridi.cms.auth.cf_jwt_validator import CFJwtValidator
-from ridi.cms.login_session import LoginSession
+from ridi.cms.cf_jwt_validator import CFJwtValidator
 from ridi.cms.config import Config
 
 
