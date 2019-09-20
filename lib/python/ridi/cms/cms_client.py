@@ -4,6 +4,8 @@ from urllib.parse import quote_plus
 from thrift.transport import THttpClient
 from thrift.protocol import TMultiplexedProtocol
 from thrift.protocol import TJSONProtocol
+from ridi.cms.auth.cloudflare import Cloudflare as AuthCloudflare
+from ridi.cms.auth.oauth2 import OAuth2 as AuthOAuth2
 from ridi.cms.thrift.AdminAuth import AdminAuthService
 from ridi.cms.thrift.AdminMenu import AdminMenuService
 from ridi.cms.thrift.AdminTag import AdminTagService
@@ -20,27 +22,25 @@ def _createProtocol(service_name, config: Config):
 class AdminAuth(AdminAuthService.Client):
     def __init__(self, config: Config):
         super().__init__(_createProtocol('AdminAuth', config))
-
-    def shouldRedirectForLogin(self, login_session: LoginSession) -> bool:
-        token_info = login_session.requestTokenIntrospect()
-        return not token_info or not 'user_id' in token_info
-
-    def authorizeUrl(self, check_url, login_session: LoginSession) -> bool:
-        return self.hasHashAuth(None, check_url, login_session.getAdminId())
+        self.config = config
+        if (self.config.AUTH_TYPE == 'cloudflare'):
+            self.auth = AuthCloudflare(super())
+        else:
+            self.auth = AuthOAuth2(super())
 
     def getLoginUrl(self, return_url: str = None) -> str:
-        '''Deprecated. Use 'getAuthorizeUrl' instead.'''
         param = '?return_url=%s' % quote_plus(return_url) if return_url else ''
         return '/login' + param
 
     def getAuthorizeUrl(self, return_url: str = None) -> str:
         '''Refresh token or Redirect to login page as neccessary.'''
-        param = '?return_url=%s' % quote_plus(return_url) if return_url else ''
-        return '/auth/oauth2/authorize' + param
+        self.auth.getAuthorizeUrl(return_url)
 
-    def authorize(self, login_session: LoginSession, check_url) -> bool:
-        return not self.shouldRedirectForLogin(login_session) and \
-            self.authorizeUrl(check_url, login_session)
+    def authorize(self, login_session: LoginSession, check_url: str) -> bool:
+        self.auth.authorize(login_session, check_url)
+
+    def authorizeByTag(self, token, tags) -> bool:
+        self.auth.authorizeByTag(token, tags)
 
 class AdminMenu(AdminMenuService.Client):
     def __init__(self, config: Config):

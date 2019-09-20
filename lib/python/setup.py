@@ -24,5 +24,7 @@ setup(
     install_requires=[
         'thrift>=0.10.0',
         'requests>=2.0.0',
+        'pyjwt>=1.7.1',
+        'cryptography>=2.7',
     ],
 )

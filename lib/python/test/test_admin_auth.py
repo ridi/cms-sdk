@@ -26,23 +26,5 @@ class TestAdminAuth(unittest.TestCase):
             self.admin_auth.getLoginUrl()
         )
 
-    def testShouldRedirectForLogin(self):
-        session = LoginSession(self.config, None)
-        session.requestTokenIntrospect = MagicMock(return_value={'user_id': 'test'})
-
-        self.assertFalse(
-            self.admin_auth.shouldRedirectForLogin(session)
-        )
-        session.requestTokenIntrospect.assert_called_with()
-
-    def testShouldRedirectForLoginWithErrorResponce(self):
-        session = LoginSession(self.config, None)
-        session.requestTokenIntrospect = MagicMock(return_value={'error': 'invalid token'})
-
-        self.assertTrue(
-            self.admin_auth.shouldRedirectForLogin(session)
-        )
-        session.requestTokenIntrospect.assert_called_with()
-
 if __name__ == '__main__':
     unittest.main()
