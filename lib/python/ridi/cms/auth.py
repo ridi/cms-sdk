@@ -10,7 +10,7 @@ def introspectJwt(token: str, config: Config) -> dict:
         raise NoTokenException()
 
     jwt = CFJwtValidator()
-    key = jwt.getPublicKey(config.AUTH_URL)
+    key = jwt.getPublicKeys(config.AUTH_URL or config.RPC_URL)
     payload = jwt.decode(token, key, config.CF_AUDIENCE_TAG)
     if not payload:
         raise UnauthorizedException()

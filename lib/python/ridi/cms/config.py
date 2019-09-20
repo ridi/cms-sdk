@@ -1,5 +1,6 @@
 class Config:
-    AUTH_URL = 'http://localhost'
+    RPC_URL = 'http://localhost'
+    AUTH_URL = ''
     AUTH_TYPE = 'cloudflare'
     CF_AUDIENCE_TAG = ''
     CF_ACCESS_ID = ''

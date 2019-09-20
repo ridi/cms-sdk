@@ -50,13 +50,13 @@ class TestAdminAuth(unittest.TestCase):
         }
         encoded = jwt.encode(token, test_private, algorithm='RS256')
         cfjwt = CFJwtValidator()
-        payload = cfjwt.decode(encoded, test_public, aud=aud)
+        payload = cfjwt.decode(encoded, [test_public], aud=aud)
 
         self.assertEqual(token, payload)
 
-    def testGetPublicKey(self):
+    def testGetPublicKeys(self):
         cfjwt = CFJwtValidator()
-        keys = cfjwt.getPublicKey('https://cms.ridi.io')
+        keys = cfjwt.getPublicKeys('https://cms.ridi.io')
         self.assertIsNotNone(keys)
 
 if __name__ == '__main__':
