@@ -13,8 +13,7 @@ from ridi.cms.config import Config
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)
     client.setCustomHeaders({
-        'CF-Access-Client-Id': config.CF_ACCESS_ID,
-        'CF-Access-Client-Secret': config.CF_ACCESS_SECRET,
+        'Authorization': config.RPC_SECRET,
     })
     protocol = TJSONProtocol.TJSONProtocol(client)
     protocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)

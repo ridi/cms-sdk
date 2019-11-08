@@ -1,7 +1,6 @@
 class Config:
     RPC_URL = 'http://localhost'
-    AUTH_URL = ''
-    AUTH_TYPE = 'cloudflare'
+    RPC_SECRET = ''
+    RPC_TEST_ID = ''
+    CF_ACCESS_DOMAIN = ''
     CF_AUDIENCE_TAG = ''
-    CF_ACCESS_ID = ''
-    CF_ACCESS_SECRET = ''
