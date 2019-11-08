@@ -176,6 +176,56 @@ class AdminAuthServiceProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_authorizeAdminByTag($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByTag_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByTag_result();
+    try {
+      $this->handler_->authorizeAdminByTag($args->admin_id, $args->tags);
+    } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\UnauthorizedException $unauthorizedException) {
+      $result->unauthorizedException = $unauthorizedException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'authorizeAdminByTag', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('authorizeAdminByTag', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
+  protected function process_authorizeAdminByUrl($seqid, $input, $output) {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByUrl_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByUrl_result();
+    try {
+      $this->handler_->authorizeAdminByUrl($args->admin_id, $args->check_url);
+    } catch (\Ridibooks\Cms\Thrift\Errors\SystemException $systemException) {
+      $result->systemException = $systemException;
+        } catch (\Ridibooks\Cms\Thrift\Errors\UnauthorizedException $unauthorizedException) {
+      $result->unauthorizedException = $unauthorizedException;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'authorizeAdminByUrl', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('authorizeAdminByUrl', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
   protected function process_introspectToken($seqid, $input, $output) {
     $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_introspectToken_args();
     $args->read($input);

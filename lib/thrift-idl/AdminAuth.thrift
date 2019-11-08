@@ -74,6 +74,22 @@ service AdminAuthService {
         5: Errors.UnauthorizedException unauthorizedException,
     ),
 
+    void authorizeAdminByTag(
+        1: string admin_id,
+        2: list<string> tags,
+    ) throws (
+        1: Errors.SystemException systemException,
+        2: Errors.UnauthorizedException unauthorizedException,
+    ),
+
+    void authorizeAdminByUrl(
+        1: string admin_id,
+        2: string check_url,
+    ) throws (
+        1: Errors.SystemException systemException,
+        2: Errors.UnauthorizedException unauthorizedException,
+    ),
+
     TokenClaim introspectToken(
         1: string token,
     ) throws (

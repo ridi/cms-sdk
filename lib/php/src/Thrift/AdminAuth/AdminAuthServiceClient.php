@@ -324,6 +324,116 @@ class AdminAuthServiceClient implements \Ridibooks\Cms\Thrift\AdminAuth\AdminAut
     return;
   }
 
+  public function authorizeAdminByTag($admin_id, array $tags)
+  {
+    $this->send_authorizeAdminByTag($admin_id, $tags);
+    $this->recv_authorizeAdminByTag();
+  }
+
+  public function send_authorizeAdminByTag($admin_id, array $tags)
+  {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByTag_args();
+    $args->admin_id = $admin_id;
+    $args->tags = $tags;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'authorizeAdminByTag', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('authorizeAdminByTag', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_authorizeAdminByTag()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByTag_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByTag_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->systemException !== null) {
+      throw $result->systemException;
+    }
+    if ($result->unauthorizedException !== null) {
+      throw $result->unauthorizedException;
+    }
+    return;
+  }
+
+  public function authorizeAdminByUrl($admin_id, $check_url)
+  {
+    $this->send_authorizeAdminByUrl($admin_id, $check_url);
+    $this->recv_authorizeAdminByUrl();
+  }
+
+  public function send_authorizeAdminByUrl($admin_id, $check_url)
+  {
+    $args = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByUrl_args();
+    $args->admin_id = $admin_id;
+    $args->check_url = $check_url;
+    $bin_accel = ($this->output_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($this->output_, 'authorizeAdminByUrl', TMessageType::CALL, $args, $this->seqid_, $this->output_->isStrictWrite());
+    }
+    else
+    {
+      $this->output_->writeMessageBegin('authorizeAdminByUrl', TMessageType::CALL, $this->seqid_);
+      $args->write($this->output_);
+      $this->output_->writeMessageEnd();
+      $this->output_->getTransport()->flush();
+    }
+  }
+
+  public function recv_authorizeAdminByUrl()
+  {
+    $bin_accel = ($this->input_ instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_read_binary');
+    if ($bin_accel) $result = thrift_protocol_read_binary($this->input_, '\Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByUrl_result', $this->input_->isStrictRead());
+    else
+    {
+      $rseqid = 0;
+      $fname = null;
+      $mtype = 0;
+
+      $this->input_->readMessageBegin($fname, $mtype, $rseqid);
+      if ($mtype == TMessageType::EXCEPTION) {
+        $x = new TApplicationException();
+        $x->read($this->input_);
+        $this->input_->readMessageEnd();
+        throw $x;
+      }
+      $result = new \Ridibooks\Cms\Thrift\AdminAuth\AdminAuthService_authorizeAdminByUrl_result();
+      $result->read($this->input_);
+      $this->input_->readMessageEnd();
+    }
+    if ($result->systemException !== null) {
+      throw $result->systemException;
+    }
+    if ($result->unauthorizedException !== null) {
+      throw $result->unauthorizedException;
+    }
+    return;
+  }
+
   public function introspectToken($token)
   {
     $this->send_introspectToken($token);

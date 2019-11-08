@@ -64,6 +64,20 @@ interface AdminAuthServiceIf {
    */
   public function authorizeByTag($token, array $tags);
   /**
+   * @param string $admin_id
+   * @param string[] $tags
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
+   */
+  public function authorizeAdminByTag($admin_id, array $tags);
+  /**
+   * @param string $admin_id
+   * @param string $check_url
+   * @throws \Ridibooks\Cms\Thrift\Errors\SystemException
+   * @throws \Ridibooks\Cms\Thrift\Errors\UnauthorizedException
+   */
+  public function authorizeAdminByUrl($admin_id, $check_url);
+  /**
    * @param string $token
    * @return \Ridibooks\Cms\Thrift\AdminAuth\TokenClaim
    * @throws \Ridibooks\Cms\Thrift\Errors\SystemException

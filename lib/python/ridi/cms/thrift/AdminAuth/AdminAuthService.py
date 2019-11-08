@@ -61,6 +61,22 @@ class Iface(object):
         """
         pass
 
+    def authorizeAdminByTag(self, admin_id, tags):
+        """
+        Parameters:
+         - admin_id
+         - tags
+        """
+        pass
+
+    def authorizeAdminByUrl(self, admin_id, check_url):
+        """
+        Parameters:
+         - admin_id
+         - check_url
+        """
+        pass
+
     def introspectToken(self, token):
         """
         Parameters:
@@ -270,6 +286,76 @@ class Client(Iface):
             raise result.unauthorizedException
         return
 
+    def authorizeAdminByTag(self, admin_id, tags):
+        """
+        Parameters:
+         - admin_id
+         - tags
+        """
+        self.send_authorizeAdminByTag(admin_id, tags)
+        self.recv_authorizeAdminByTag()
+
+    def send_authorizeAdminByTag(self, admin_id, tags):
+        self._oprot.writeMessageBegin('authorizeAdminByTag', TMessageType.CALL, self._seqid)
+        args = authorizeAdminByTag_args()
+        args.admin_id = admin_id
+        args.tags = tags
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_authorizeAdminByTag(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = authorizeAdminByTag_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.systemException is not None:
+            raise result.systemException
+        if result.unauthorizedException is not None:
+            raise result.unauthorizedException
+        return
+
+    def authorizeAdminByUrl(self, admin_id, check_url):
+        """
+        Parameters:
+         - admin_id
+         - check_url
+        """
+        self.send_authorizeAdminByUrl(admin_id, check_url)
+        self.recv_authorizeAdminByUrl()
+
+    def send_authorizeAdminByUrl(self, admin_id, check_url):
+        self._oprot.writeMessageBegin('authorizeAdminByUrl', TMessageType.CALL, self._seqid)
+        args = authorizeAdminByUrl_args()
+        args.admin_id = admin_id
+        args.check_url = check_url
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_authorizeAdminByUrl(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = authorizeAdminByUrl_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.systemException is not None:
+            raise result.systemException
+        if result.unauthorizedException is not None:
+            raise result.unauthorizedException
+        return
+
     def introspectToken(self, token):
         """
         Parameters:
@@ -319,6 +405,8 @@ class Processor(Iface, TProcessor):
         self._processMap["getAdminMenu"] = Processor.process_getAdminMenu
         self._processMap["authorize"] = Processor.process_authorize
         self._processMap["authorizeByTag"] = Processor.process_authorizeByTag
+        self._processMap["authorizeAdminByTag"] = Processor.process_authorizeAdminByTag
+        self._processMap["authorizeAdminByUrl"] = Processor.process_authorizeAdminByUrl
         self._processMap["introspectToken"] = Processor.process_introspectToken
 
     def process(self, iprot, oprot):
@@ -469,6 +557,56 @@ class Processor(Iface, TProcessor):
             logging.exception(ex)
             result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
         oprot.writeMessageBegin("authorizeByTag", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_authorizeAdminByTag(self, seqid, iprot, oprot):
+        args = authorizeAdminByTag_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = authorizeAdminByTag_result()
+        try:
+            self._handler.authorizeAdminByTag(args.admin_id, args.tags)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
+            msg_type = TMessageType.REPLY
+            result.systemException = systemException
+        except ridi.cms.thrift.Errors.ttypes.UnauthorizedException as unauthorizedException:
+            msg_type = TMessageType.REPLY
+            result.unauthorizedException = unauthorizedException
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("authorizeAdminByTag", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_authorizeAdminByUrl(self, seqid, iprot, oprot):
+        args = authorizeAdminByUrl_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = authorizeAdminByUrl_result()
+        try:
+            self._handler.authorizeAdminByUrl(args.admin_id, args.check_url)
+            msg_type = TMessageType.REPLY
+        except (TTransport.TTransportException, KeyboardInterrupt, SystemExit):
+            raise
+        except ridi.cms.thrift.Errors.ttypes.SystemException as systemException:
+            msg_type = TMessageType.REPLY
+            result.systemException = systemException
+        except ridi.cms.thrift.Errors.ttypes.UnauthorizedException as unauthorizedException:
+            msg_type = TMessageType.REPLY
+            result.unauthorizedException = unauthorizedException
+        except Exception as ex:
+            msg_type = TMessageType.EXCEPTION
+            logging.exception(ex)
+            result = TApplicationException(TApplicationException.INTERNAL_ERROR, 'Internal error')
+        oprot.writeMessageBegin("authorizeAdminByUrl", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1347,6 +1485,306 @@ class authorizeByTag_result(object):
             oprot.writeFieldEnd()
         if self.unauthorizedException is not None:
             oprot.writeFieldBegin('unauthorizedException', TType.STRUCT, 5)
+            self.unauthorizedException.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class authorizeAdminByTag_args(object):
+    """
+    Attributes:
+     - admin_id
+     - tags
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'admin_id', 'UTF8', None, ),  # 1
+        (2, TType.LIST, 'tags', (TType.STRING, 'UTF8', False), None, ),  # 2
+    )
+
+    def __init__(self, admin_id=None, tags=None,):
+        self.admin_id = admin_id
+        self.tags = tags
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.admin_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.LIST:
+                    self.tags = []
+                    (_etype31, _size28) = iprot.readListBegin()
+                    for _i32 in range(_size28):
+                        _elem33 = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                        self.tags.append(_elem33)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('authorizeAdminByTag_args')
+        if self.admin_id is not None:
+            oprot.writeFieldBegin('admin_id', TType.STRING, 1)
+            oprot.writeString(self.admin_id.encode('utf-8') if sys.version_info[0] == 2 else self.admin_id)
+            oprot.writeFieldEnd()
+        if self.tags is not None:
+            oprot.writeFieldBegin('tags', TType.LIST, 2)
+            oprot.writeListBegin(TType.STRING, len(self.tags))
+            for iter34 in self.tags:
+                oprot.writeString(iter34.encode('utf-8') if sys.version_info[0] == 2 else iter34)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class authorizeAdminByTag_result(object):
+    """
+    Attributes:
+     - systemException
+     - unauthorizedException
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'unauthorizedException', (ridi.cms.thrift.Errors.ttypes.UnauthorizedException, ridi.cms.thrift.Errors.ttypes.UnauthorizedException.thrift_spec), None, ),  # 2
+    )
+
+    def __init__(self, systemException=None, unauthorizedException=None,):
+        self.systemException = systemException
+        self.unauthorizedException = unauthorizedException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
+                    self.systemException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.unauthorizedException = ridi.cms.thrift.Errors.ttypes.UnauthorizedException()
+                    self.unauthorizedException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('authorizeAdminByTag_result')
+        if self.systemException is not None:
+            oprot.writeFieldBegin('systemException', TType.STRUCT, 1)
+            self.systemException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.unauthorizedException is not None:
+            oprot.writeFieldBegin('unauthorizedException', TType.STRUCT, 2)
+            self.unauthorizedException.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class authorizeAdminByUrl_args(object):
+    """
+    Attributes:
+     - admin_id
+     - check_url
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRING, 'admin_id', 'UTF8', None, ),  # 1
+        (2, TType.STRING, 'check_url', 'UTF8', None, ),  # 2
+    )
+
+    def __init__(self, admin_id=None, check_url=None,):
+        self.admin_id = admin_id
+        self.check_url = check_url
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRING:
+                    self.admin_id = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.check_url = iprot.readString().decode('utf-8') if sys.version_info[0] == 2 else iprot.readString()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('authorizeAdminByUrl_args')
+        if self.admin_id is not None:
+            oprot.writeFieldBegin('admin_id', TType.STRING, 1)
+            oprot.writeString(self.admin_id.encode('utf-8') if sys.version_info[0] == 2 else self.admin_id)
+            oprot.writeFieldEnd()
+        if self.check_url is not None:
+            oprot.writeFieldBegin('check_url', TType.STRING, 2)
+            oprot.writeString(self.check_url.encode('utf-8') if sys.version_info[0] == 2 else self.check_url)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ['%s=%r' % (key, value)
+             for key, value in self.__dict__.items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class authorizeAdminByUrl_result(object):
+    """
+    Attributes:
+     - systemException
+     - unauthorizedException
+    """
+
+    thrift_spec = (
+        None,  # 0
+        (1, TType.STRUCT, 'systemException', (ridi.cms.thrift.Errors.ttypes.SystemException, ridi.cms.thrift.Errors.ttypes.SystemException.thrift_spec), None, ),  # 1
+        (2, TType.STRUCT, 'unauthorizedException', (ridi.cms.thrift.Errors.ttypes.UnauthorizedException, ridi.cms.thrift.Errors.ttypes.UnauthorizedException.thrift_spec), None, ),  # 2
+    )
+
+    def __init__(self, systemException=None, unauthorizedException=None,):
+        self.systemException = systemException
+        self.unauthorizedException = unauthorizedException
+
+    def read(self, iprot):
+        if iprot._fast_decode is not None and isinstance(iprot.trans, TTransport.CReadableTransport) and self.thrift_spec is not None:
+            iprot._fast_decode(self, iprot, (self.__class__, self.thrift_spec))
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.systemException = ridi.cms.thrift.Errors.ttypes.SystemException()
+                    self.systemException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRUCT:
+                    self.unauthorizedException = ridi.cms.thrift.Errors.ttypes.UnauthorizedException()
+                    self.unauthorizedException.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(oprot._fast_encode(self, (self.__class__, self.thrift_spec)))
+            return
+        oprot.writeStructBegin('authorizeAdminByUrl_result')
+        if self.systemException is not None:
+            oprot.writeFieldBegin('systemException', TType.STRUCT, 1)
+            self.systemException.write(oprot)
+            oprot.writeFieldEnd()
+        if self.unauthorizedException is not None:
+            oprot.writeFieldBegin('unauthorizedException', TType.STRUCT, 2)
             self.unauthorizedException.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
