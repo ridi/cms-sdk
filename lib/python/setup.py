@@ -13,7 +13,7 @@ setup(
         'ridi.cms.thrift.AdminUser',
         'ridi.cms.thrift.Errors',
     ],
-    version='2.3.4',
+    version='3.0.0rc1',
     description='Ridi CMS SDK',
     url='https://github.com/ridi/cms-sdk',
     keywords=['cmssdk', 'ridi', 'ridibooks'],
