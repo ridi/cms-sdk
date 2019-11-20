@@ -3,6 +3,7 @@
 <head>
   <title>{% block title %}{{ title }}{% endblock %} - Ridibooks CMS</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   {% if BASE_HREF %}
     <base href="//{{ BASE_HREF }}"/>
   {% endif %}
@@ -61,6 +62,7 @@
     <link rel="stylesheet" href="{{ BOWER_PATH }}/bootstrap-fileinput/css/fileinput.min.css">
     <link rel="stylesheet" href="{{ BOWER_PATH }}/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/@ridi/cms-ui@^0.3/dist/cms-ui.var.js"></script>
     <script type="text/javascript" src="{{ BOWER_PATH }}/requirejs/require.js"></script>
     <script>
       requirejs.config({
@@ -183,9 +185,28 @@
       ga('create', 'UA-10567409-14', 'auto');
       ga('send', 'pageview');
     </script>
+    <style>
+      html {
+        font-size: 16px;
+      }
+    </style>
   {% endblock %}
 </head>
 <body>
+    <div id="menu_container"></div>
+
+    <script>
+      (function renderMenu() {
+        var menuComponent = CmsUi.Menu;
+        var menuProps = {
+          items: {{ menus|json_encode|raw }}
+        };
+        var menuElement = CmsUi.createElement(menuComponent, menuProps);
+        var menuContainer = document.getElementById('menu_container');
+
+        CmsUi.render(menuElement, menuContainer);
+      })();
+    </script>
 
 {% if ENV_NAME and ENV_NAME != 'REAL' %}
   <div class="{{ ENV_NAME }}_environment_ribbon">{{ ENV_NAME }}</div>
@@ -202,9 +223,6 @@
   </div>
 
   <div class="row">
-    <div class="col-xs-12 col-lg-2">
-      {% include '/comm/left_menu_new.twig' %}
-    </div>
     <div class="col-xs-12 col-lg-10">
       <ul>
         <li><h3>{{ block('title') }}</h3></li>
