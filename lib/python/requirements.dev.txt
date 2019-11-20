@@ -1,3 +1,7 @@
 .
 twine
 pylint
+thrift
+requests
+pyjwt
+cryptography
