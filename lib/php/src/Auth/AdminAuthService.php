@@ -47,12 +47,11 @@ class AdminAuthService
     public static function authorize($request)
     {
         try {
-            $token = LoginService::getAccessToken();
+            $admin_id = LoginService::authenticate();
 
             $client = ThriftService::getHttpClient('AdminAuth');
-            $client->authorize(
-                $token,
-                [$request->getMethod()],
+            $client->authorizeAdminByUrl(
+                $admin_id,
                 $request->getRequestUri()
             );
         } catch (NoTokenException $e) {
@@ -77,10 +76,10 @@ class AdminAuthService
         $request = Request::createFromGlobals();
 
         try {
-            $token = LoginService::getAccessToken();
+            $admin_id = LoginService::authenticate();
 
             $client = ThriftService::getHttpClient('AdminAuth');
-            $client->authorizeByTag($token, $tags);
+            $client->authorizeAdminByTag($admin_id, $tags);
         } catch (NoTokenException $e) {
             return self::createRedirectToAuthorize($request->getRequestUri());
         } catch (MalformedTokenException $e) {

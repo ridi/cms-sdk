@@ -2,6 +2,8 @@
 namespace Ridibooks\Cms;
 
 use Ridibooks\Cms\Auth\AdminAuthService;
+use Ridibooks\Cms\Auth\LoginService;
+use Ridibooks\Cms\Thrift\ThriftService;
 use Silex\Application;
 use Silex\Application\TwigTrait;
 use Silex\Provider\SessionServiceProvider;
@@ -14,13 +16,27 @@ class CmsApplication extends Application
 {
     use TwigTrait;
 
+    const DEFAULT_CONFIG = [
+        'debug' => false,
+        'twig.path' => [],
+        'twig.globals' => [],
+        'thrift.rpc_url' => '',
+        'auth.cf_access_domain' => '',
+        'auth.cf_audience_tag' => '',
+    ];
+
     public function __construct(array $values = [])
     {
-        parent::__construct($values);
+        parent::__construct(array_merge(
+            self::DEFAULT_CONFIG, 
+            $values
+        ));
 
         $this->setDefaultErrorHandler();
         $this->registerTwigServiceProvider();
         $this->registerSessionServiceProvider();
+        $this->initializeThriftService();
+        $this->initializeLoginService();
     }
 
     private function setDefaultErrorHandler()
@@ -83,6 +99,19 @@ class CmsApplication extends Application
         );
 
         $this['flashes'] = $this->getFlashBag()->all();
+    }
+
+    private function initializeThriftService()
+    {
+        ThriftService::setEndPoint($this['thrift.rpc_url'] ?? []); 
+    }
+
+    private function initializeLoginService()
+    {
+        LoginService::initialize(
+            $this['auth.cf_access_domain'],
+            $this['auth.cf_audience_tag']
+        );
     }
 
     public function addFlashInfo($message)
