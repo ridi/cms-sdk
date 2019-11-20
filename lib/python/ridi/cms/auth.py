@@ -17,8 +17,8 @@ def _introspectJwt(token: str, config: Config) -> dict:
     return payload
 
 def authenticate(token: str, config: Config) -> str:
-    if config.RPC_TEST_ID:
-        return config.RPC_TEST_ID
+    if config.TEST_ID:
+        return config.TEST_ID
 
     payload = _introspectJwt(token, config)
     id = payload['email'].split('@')[0]
