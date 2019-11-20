@@ -5,6 +5,7 @@
   "license": "MIT",
   "require": {
     "apache/thrift": "^0.10.0",
+    "firebase/php-jwt": "^4.0.0",
     "silex/silex": "^2.0",
     "twig/twig": "^2.0"
   },

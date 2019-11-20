@@ -23,6 +23,7 @@ class CmsApplication extends Application
         'thrift.rpc_url' => '',
         'auth.cf_access_domain' => '',
         'auth.cf_audience_tag' => '',
+        'auth.test_id' => '',
     ];
 
     public function __construct(array $values = [])
@@ -108,9 +109,13 @@ class CmsApplication extends Application
 
     private function initializeLoginService()
     {
+        if (!empty($this['debug'])) {
+            $test_id = $this['auth.test_id'];
+        }
         LoginService::initialize(
             $this['auth.cf_access_domain'],
-            $this['auth.cf_audience_tag']
+            $this['auth.cf_audience_tag'],
+            $test_id
         );
     }
 

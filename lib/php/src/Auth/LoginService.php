@@ -12,10 +12,11 @@ class LoginService
     private static $cf_access_domain = '';
     private static $cf_audience_tag = '';
 
-    public static function initialize(string $cf_access_domain, string $cf_audience_tag)
+    public static function initialize(string $cf_access_domain, string $cf_audience_tag, ?string $test_id)
     {
         self::$cf_access_domain = $cf_access_domain;
         self::$cf_audience_tag = $cf_audience_tag;
+        self::SetAdminIDForTest($test_id);
     }
 
     public static function GetAdminID()
@@ -35,6 +36,10 @@ class LoginService
 
     public static function authenticate(): string
     {
+        if (!empty(self::$admin_id)) {
+            return self::$admin_id;
+        }
+
         $token = self::getAccessToken();
         if (empty($token)) {
             throw new NoTokenException('No cloudflare token exists');
