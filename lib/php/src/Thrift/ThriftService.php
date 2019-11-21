@@ -15,8 +15,9 @@ class ThriftService
     private static $port = '80';
     private static $path = '/';
     private static $scheme = 'http';
+    private static $secret = '';
 
-    public static function setEndPoint($end_point)
+    public static function setEndPoint(string $end_point, ?string $secret)
     {
         $parsed = parse_url($end_point);
         $host = isset($parsed['host']) ? $parsed['host'] : 'localhost';
@@ -31,6 +32,7 @@ class ThriftService
         self::$port = $port;
         self::$path = $path;
         self::$scheme = $scheme;
+        self::$secret = $secret;
     }
 
     public static function getEndPoint()
@@ -42,10 +44,12 @@ class ThriftService
     {
         $transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
         $transport->setTimeoutSecs(self::HTTP_TIMEOUT_SECS);
+        $headers = [ 'Authorization' => self::$secret ];
         if (!empty($_ENV['XDEBUG_ENABLE'])) {
-            $transport->addHeaders(['Cookie' => 'XDEBUG_SESSION=1']);
+            $headers['Cookie'] = 'XDEBUG_SESSION=1';
         }
 
+        $transport->addHeaders($headers);
         $protocol = new TJSONProtocol($transport);
         $multiplexed_protocol = new TMultiplexedProtocol($protocol, $thrift_name);
         return self::getClient($thrift_name, $multiplexed_protocol);

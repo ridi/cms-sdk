@@ -21,6 +21,7 @@ class CmsApplication extends Application
         'twig.path' => [],
         'twig.globals' => [],
         'thrift.rpc_url' => '',
+        'thrift.rpc_secret' => '',
         'auth.cf_access_domain' => '',
         'auth.cf_audience_tag' => '',
         'auth.test_id' => '',
@@ -30,7 +31,7 @@ class CmsApplication extends Application
     {
         parent::__construct(array_merge(
             self::DEFAULT_CONFIG, 
-            $values
+            array_filter($values)
         ));
 
         $this->setDefaultErrorHandler();
@@ -104,7 +105,7 @@ class CmsApplication extends Application
 
     private function initializeThriftService()
     {
-        ThriftService::setEndPoint($this['thrift.rpc_url'] ?? []); 
+        ThriftService::setEndPoint($this['thrift.rpc_url'], $this['thrift.rpc_secret']); 
     }
 
     private function initializeLoginService()
