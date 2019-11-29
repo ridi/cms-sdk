@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.3] - 2019-11-29
+### Changed
+- [PHP] Fix getting test id from login service.
+
 ## [3.0.2] - 2019-11-27
 ### Changed
 - [PHP, Python] Pass Cloudflare Service Token over http header in thrift call.

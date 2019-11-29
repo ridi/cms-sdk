@@ -35,10 +35,10 @@ class CmsApplication extends Application
         ));
 
         $this->setDefaultErrorHandler();
-        $this->registerTwigServiceProvider();
-        $this->registerSessionServiceProvider();
         $this->initializeThriftService();
         $this->initializeLoginService();
+        $this->registerTwigServiceProvider();
+        $this->registerSessionServiceProvider();
     }
 
     private function setDefaultErrorHandler()
