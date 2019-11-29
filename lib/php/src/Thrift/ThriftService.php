@@ -15,7 +15,8 @@ class ThriftService
     private static $port = '80';
     private static $path = '/';
     private static $scheme = 'http';
-    private static $secret = '';
+    private static $cf_service_token_id = '';
+    private static $cf_service_token_secret = '';
 
     public static function setEndPoint(string $end_point, ?string $secret)
     {
@@ -32,7 +33,9 @@ class ThriftService
         self::$port = $port;
         self::$path = $path;
         self::$scheme = $scheme;
-        self::$secret = $secret;
+        $cf_token = explode($secret, ',');
+        self::$cf_service_token_id = $cf_token[0] ?? '';
+        self::$cf_service_token_secret = $cf_token[1] ?? '';
     }
 
     public static function getEndPoint()
@@ -44,7 +47,10 @@ class ThriftService
     {
         $transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
         $transport->setTimeoutSecs(self::HTTP_TIMEOUT_SECS);
-        $headers = [ 'Authorization' => self::$secret ];
+        $headers = [ 
+            'CF-Access-Client-Id' => self::$cf_service_token_id,
+            'CF-Access-Client-Secret' => self::$cf_service_token_secret,
+        ];
         if (!empty($_ENV['XDEBUG_ENABLE'])) {
             $headers['Cookie'] = 'XDEBUG_SESSION=1';
         }
