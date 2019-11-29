@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.0.1] - 2019-11-27
+### Changed
+- [PHP, Python] Pass Cloudflare Service Token over http header in thrift call.
+
+## [3.0.0] - 2019-11-25
+### Changed
+- [PHP, Python] Integrated with Cloudflare Access for authentication.
+
 ## [2.3.7] - 2018-07-25
 ### Fixed
 - [PHP] Add missing `email` field in the return of `getUser`.
