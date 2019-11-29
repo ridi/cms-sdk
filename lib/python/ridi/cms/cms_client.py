@@ -12,11 +12,12 @@ from ridi.cms.config import Config
 
 def _createProtocol(service_name, config: Config):
     client = THttpClient.THttpClient(config.RPC_URL)
-    (cf_id, cf_secret, *dummy) = config.RPC_SECRET.split(',') if config.RPC_SECRET else (None, None)
-    client.setCustomHeaders({
-        'CF-Access-Client-Id': cf_id,
-        'CF-Access-Client-Secret': cf_secret
-    })
+    if config.RPC_SECRET:
+        (cf_id, cf_secret, *dummy) = config.RPC_SECRET.split(',')
+        client.setCustomHeaders({
+            'CF-Access-Client-Id': cf_id,
+            'CF-Access-Client-Secret': cf_secret
+        })
     protocol = TJSONProtocol.TJSONProtocol(client)
     protocol = TMultiplexedProtocol.TMultiplexedProtocol(protocol, service_name)
     return protocol

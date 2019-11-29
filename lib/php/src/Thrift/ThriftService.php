@@ -47,10 +47,10 @@ class ThriftService
     {
         $transport = new THttpsClient(self::$host, self::$port, self::$path, self::$scheme);
         $transport->setTimeoutSecs(self::HTTP_TIMEOUT_SECS);
-        $headers = [ 
-            'CF-Access-Client-Id' => self::$cf_service_token_id,
-            'CF-Access-Client-Secret' => self::$cf_service_token_secret,
-        ];
+        if (!empty(self::$cf_service_token_id)) {
+            $headers['CF-Access-Client-Id'] = self::$cf_service_token_id;
+            $headers['CF-Access-Client-Secret'] = self::$cf_service_token_secret;
+        }
         if (!empty($_ENV['XDEBUG_ENABLE'])) {
             $headers['Cookie'] = 'XDEBUG_SESSION=1';
         }
