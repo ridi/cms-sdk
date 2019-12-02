@@ -33,9 +33,11 @@ class ThriftService
         self::$port = $port;
         self::$path = $path;
         self::$scheme = $scheme;
-        $cf_token = explode($secret, ',');
-        self::$cf_service_token_id = $cf_token[0] ?? '';
-        self::$cf_service_token_secret = $cf_token[1] ?? '';
+        if (!empty($secret)) {
+            $cf_token = explode($secret, ',');
+            self::$cf_service_token_id = $cf_token[0] ?? '';
+            self::$cf_service_token_secret = $cf_token[1] ?? '';
+        }
     }
 
     public static function getEndPoint()
