@@ -6,9 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [3.0.3] - 2019-11-29
+## [3.0.3] - 2019-12-02
 ### Changed
 - [PHP] Fix getting test id from login service.
+- [PHP] Re-order initialization of CmsApplication.
 
 ## [3.0.2] - 2019-11-27
 ### Changed
