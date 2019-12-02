@@ -116,7 +116,7 @@ class CmsApplication extends Application
         LoginService::initialize(
             $this['auth.cf_access_domain'],
             $this['auth.cf_audience_tag'],
-            $test_id
+            $test_id ?? ''
         );
     }
 
