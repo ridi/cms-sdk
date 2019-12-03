@@ -49,8 +49,8 @@ class CmsApplication extends Application
             $test_id = $cms_config['auth.test_id'];
         }
         LoginService::initialize(
-            $cms_config['auth.cf_access_domain'],
-            $cms_config['auth.cf_audience_tag'],
+            $cms_config['auth.cf_access_domain'] ?? '',
+            $cms_config['auth.cf_audience_tag'] ?? '',
             $test_id
         );
     }
