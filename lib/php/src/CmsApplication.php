@@ -35,7 +35,7 @@ class CmsApplication extends Application
         ));
 
         $this->setDefaultErrorHandler();
-        self::initializeServices($values);
+        self::initializeServices($this);
         $this->registerTwigServiceProvider();
         $this->registerSessionServiceProvider();
     }
