@@ -20,12 +20,9 @@ class MiniRouter
         $this->controller_dir = $controller_dir;
         $this->view_dir = $view_dir;
         $this->prefix_uri = self::getNormalizedUri($prefix_uri);
-        $this->app = new CmsApplication(array_merge(
-            $cms_config,
-            [
-                'twig.path' => [$this->view_dir],
-            ]
-        ));
+        $this->app = new CmsApplication(array_merge($cms_config, [
+            'twig.path' => [$this->view_dir],
+        ]));
     }
 
     /**
@@ -111,6 +108,7 @@ class MiniRouter
     {
         $view_file_name = $query . '.twig';
 
+        $this->app->updateTwigMenus();
         /** @var \Twig_Environment $twig_helper */
         $twig_helper = $this->app['twig'];
 

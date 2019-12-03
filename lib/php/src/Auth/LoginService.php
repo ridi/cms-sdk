@@ -16,7 +16,9 @@ class LoginService
     {
         self::$cf_access_domain = $cf_access_domain;
         self::$cf_audience_tag = $cf_audience_tag;
-        self::SetAdminIDForTest($test_id);
+        if (empty(self::$admin_id)) {
+            self::$admin_id = $test_id;
+        }
     }
 
     public static function GetAdminID()

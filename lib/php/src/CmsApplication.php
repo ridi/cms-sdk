@@ -85,7 +85,6 @@ class CmsApplication extends Application
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);
                 }
-
                 $twig->addFilter(new \Twig_SimpleFilter('strtotime', 'strtotime'));
                 return $twig;
             }
@@ -117,6 +116,17 @@ class CmsApplication extends Application
             $this['auth.cf_access_domain'],
             $this['auth.cf_audience_tag'],
             $test_id ?? ''
+        );
+    }
+
+    public function updateTwigMenus()
+    {
+        $this->extend(
+            'twig',
+            function (\Twig_Environment $twig) {
+                $twig->addGlobal('menus', (new AdminAuthService())->getAdminMenu());
+                return $twig;
+            }
         );
     }
 
