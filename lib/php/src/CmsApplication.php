@@ -35,10 +35,24 @@ class CmsApplication extends Application
         ));
 
         $this->setDefaultErrorHandler();
-        $this->initializeThriftService();
-        $this->initializeLoginService();
+        self::initializeServices($values);
         $this->registerTwigServiceProvider();
         $this->registerSessionServiceProvider();
+    }
+
+    static function initializeServices($cms_config)
+    {
+        ThriftService::setEndPoint($cms_config['thrift.rpc_url'], $cms_config['thrift.rpc_secret']); 
+
+        $test_id = '';
+        if (!empty($cms_config['debug'])) {
+            $test_id = $cms_config['auth.test_id'];
+        }
+        LoginService::initialize(
+            $cms_config['auth.cf_access_domain'],
+            $cms_config['auth.cf_audience_tag'],
+            $test_id
+        );
     }
 
     private function setDefaultErrorHandler()
@@ -100,34 +114,6 @@ class CmsApplication extends Application
         );
 
         $this['flashes'] = $this->getFlashBag()->all();
-    }
-
-    private function initializeThriftService()
-    {
-        ThriftService::setEndPoint($this['thrift.rpc_url'], $this['thrift.rpc_secret']); 
-    }
-
-    private function initializeLoginService()
-    {
-        if (!empty($this['debug'])) {
-            $test_id = $this['auth.test_id'];
-        }
-        LoginService::initialize(
-            $this['auth.cf_access_domain'],
-            $this['auth.cf_audience_tag'],
-            $test_id ?? ''
-        );
-    }
-
-    public function updateTwigMenus()
-    {
-        $this->extend(
-            'twig',
-            function (\Twig_Environment $twig) {
-                $twig->addGlobal('menus', (new AdminAuthService())->getAdminMenu());
-                return $twig;
-            }
-        );
     }
 
     public function addFlashInfo($message)

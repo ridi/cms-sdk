@@ -14,15 +14,15 @@ class MiniRouter
      * @var array
      */
     private $app;
+    private $cms_config;
 
     public function __construct($controller_dir, $view_dir, $prefix_uri = '', $cms_config = [])
     {
         $this->controller_dir = $controller_dir;
         $this->view_dir = $view_dir;
         $this->prefix_uri = self::getNormalizedUri($prefix_uri);
-        $this->app = new CmsApplication(array_merge($cms_config, [
-            'twig.path' => [$this->view_dir],
-        ]));
+        $this->cms_config = $cms_config;
+        CmsApplication::initializeServices($cms_config);
     }
 
     /**
@@ -108,9 +108,11 @@ class MiniRouter
     {
         $view_file_name = $query . '.twig';
 
-        $this->app->updateTwigMenus();
+        $app = new CmsApplication(array_merge($this->cms_config, [
+            'twig.path' => [$this->view_dir],
+        ]));
         /** @var \Twig_Environment $twig_helper */
-        $twig_helper = $this->app['twig'];
+        $twig_helper = $app['twig'];
 
         return Response::create($twig_helper->render($view_file_name, $args));
     }
