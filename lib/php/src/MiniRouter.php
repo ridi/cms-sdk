@@ -108,13 +108,19 @@ class MiniRouter
     {
         $view_file_name = $query . '.twig';
 
-        $app = new CmsApplication(array_merge($this->cms_config, [
-            'twig.path' => [$this->view_dir],
+        $twig = new TwigHelper(array_merge($this->cms_config, [
+            'view_root_path' => [$this->view_dir, __DIR__ . '/../views/'],
         ]));
-        /** @var \Twig_Environment $twig_helper */
-        $twig_helper = $app['twig'];
 
-        return Response::create($twig_helper->render($view_file_name, $args));
+        $globals = $this->cms_config['twig.globals'] ?? [];
+        $globals = array_merge($globals, [
+            'menus' => (new AdminAuthService())->getAdminMenu()
+        ]);
+        foreach ($globals as $k => $v) {
+            $twig->addGlobal($k, $v);
+        }
+
+        return Response::create($twig->render($view_file_name, $args));
     }
 
     private static function notFound()

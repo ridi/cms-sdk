@@ -40,7 +40,7 @@ class CmsApplication extends Application
         $this->registerSessionServiceProvider();
     }
 
-    static function initializeServices($cms_config)
+    public static function initializeServices($cms_config)
     {
         ThriftService::setEndPoint($cms_config['thrift.rpc_url'], $cms_config['thrift.rpc_secret']); 
 
