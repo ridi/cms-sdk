@@ -49,10 +49,8 @@ class TwigHelper
         return $this;
     }
 
-    public function render(string $view_file_path, $context): self
+    public function render(string $view_file_path, $context): string
     {
-        $this->twig->render($view_file_path, $context);
-
-        return $this;
+        return $this->twig->render($view_file_path, $context);
     }
 }
