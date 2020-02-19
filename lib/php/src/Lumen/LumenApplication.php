@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Ridibooks\Cms\Lumen;
 
+use Illuminate\View\FileViewFinder;
 use Laravel\Lumen\Application;
 use Laravel\Lumen\Bootstrap\LoadEnvironmentVariables;
 use Ridibooks\Cms\CmsApplication;
@@ -52,8 +53,13 @@ class LumenApplication
 
     private function setupView(): void
     {
+        // not use lumen view folder
         $view_paths = array_filter([$this->cms_config['twig.path'], __DIR__ . '/../../views/']);
-        config(['view.paths', $view_paths]); // not use lumen view folder
+        $this->app->extend('view.finder', function ($finder, $app) use ($view_paths) {
+            /** @var FileViewFinder $finder */
+            return $finder->setPaths($view_paths);
+        });
+        config(['view.paths', $view_paths]);
 
         TwigConfigure::buildConfigure($this->app, $this->cms_config);
         $this->app->middleware([CmsMenuMiddleware::class]);
