@@ -54,7 +54,7 @@ class LumenApplication
     private function setupView(): void
     {
         // not use lumen view folder
-        $view_paths = array_filter([$this->cms_config['twig.path'], __DIR__ . '/../../views/']);
+        $view_paths = array_filter(array_merge($this->cms_config['twig.path'], [__DIR__ . '/../../views/']));
         $this->app->extend('view.finder', function ($finder, $app) use ($view_paths) {
             /** @var FileViewFinder $finder */
             return $finder->setPaths($view_paths);
