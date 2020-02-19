@@ -74,4 +74,29 @@ class LumenApplication
     {
         $this->app->singleton(\Illuminate\Contracts\Console\Kernel::class, $class_name);
     }
+
+    public function addTwigFunction(string $function_name, \Closure $closure): void
+    {
+        $config_key = 'twigbridge.extensions.functions';
+
+        $functions = Config::get($config_key);
+        $functions[$function_name] = $closure;
+        Config::set($config_key, $functions);
+    }
+
+    public function addTwigFilter(string $function_name, \Closure $closure): void
+    {
+        $config_key = 'twigbridge.extensions.filters';
+
+        $filters = Config::get($config_key);
+        $filters[$function_name] = $closure;
+        Config::set($config_key, $filters);
+    }
+
+    public function run(): void
+    {
+        $this->app->register('TwigBridge\ServiceProvider');
+
+        $this->app->run();
+    }
 }
