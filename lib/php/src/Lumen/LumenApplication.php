@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Ridibooks\Cms\Lumen;
 
+use Illuminate\Support\Facades\Config;
 use Laravel\Lumen\Application;
 use Laravel\Lumen\Bootstrap\LoadEnvironmentVariables;
 use Ridibooks\Cms\CmsApplication;
@@ -39,12 +40,24 @@ class LumenApplication
         MiniRouter::shouldRedirectForLogin($request);
 
         $this->lumenBootstrap();
+        $this->setupView();
     }
 
     private function lumenBootstrap(): void
     {
         (new LoadEnvironmentVariables($this->cms_config['base.path']))->bootstrap();
         $this->app = new Application($this->cms_config['base.path']);
+
+        $this->app->withFacades();
+    }
+
+    private function setupView(): void
+    {
+        $view_paths = array_filter([$this->cms_config['twig.path'], __DIR__ . '/../../views/']);
+        Config::set('view.paths', $view_paths); // not use lumen view folder
+
+        TwigConfigure::buildConfigure($this->app, $this->cms_config);
+        $this->app->middleware([CmsMenuMiddleware::class]);
     }
 
     public function __call($name, $args)
