@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace Ridibooks\Cms\Lumen;
 
-use Illuminate\Support\Facades\Config;
 use Laravel\Lumen\Application;
 use Laravel\Lumen\Bootstrap\LoadEnvironmentVariables;
 use Ridibooks\Cms\CmsApplication;
@@ -54,7 +53,7 @@ class LumenApplication
     private function setupView(): void
     {
         $view_paths = array_filter([$this->cms_config['twig.path'], __DIR__ . '/../../views/']);
-        Config::set('view.paths', $view_paths); // not use lumen view folder
+        config(['view.paths', $view_paths]); // not use lumen view folder
 
         TwigConfigure::buildConfigure($this->app, $this->cms_config);
         $this->app->middleware([CmsMenuMiddleware::class]);
@@ -79,18 +78,18 @@ class LumenApplication
     {
         $config_key = 'twigbridge.extensions.functions';
 
-        $functions = Config::get($config_key);
+        $functions = config($config_key);
         $functions[$function_name] = $closure;
-        Config::set($config_key, $functions);
+        config([$config_key => $functions]);
     }
 
     public function addTwigFilter(string $function_name, \Closure $closure): void
     {
         $config_key = 'twigbridge.extensions.filters';
 
-        $filters = Config::get($config_key);
+        $filters = config($config_key);
         $filters[$function_name] = $closure;
-        Config::set($config_key, $filters);
+        config([$config_key => $filters]);
     }
 
     public function run(): void

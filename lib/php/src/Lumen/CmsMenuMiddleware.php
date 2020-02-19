@@ -14,9 +14,9 @@ class CmsMenuMiddleware
 
         $twig_global_config_key = 'twigbridge.twig.globals';
 
-        $twig_globals = Config::get($twig_global_config_key);
+        $twig_globals = config($twig_global_config_key);
         $twig_globals = array_merge($twig_globals, ['menus' => $cms_menus]);
-        Config::set($twig_global_config_key, $twig_globals);
+        config([$twig_global_config_key => $twig_globals]);
 
         return $next($request);
     }

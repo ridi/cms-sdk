@@ -228,6 +228,6 @@ class TwigConfigure
             ],
         ];
 
-        Config::set('twigbridge', $configure);
+        config(['twigbridge' => $configure]);
     }
 }
