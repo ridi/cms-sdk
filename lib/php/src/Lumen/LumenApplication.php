@@ -60,17 +60,18 @@ class LumenApplication
         $this->app->middleware([CmsMenuMiddleware::class]);
     }
 
-    public function __call($name, $args)
-    {
-        if (method_exists($this->app, $name)) {
-            return call_user_func_array([$this->app, $name], $args);
-        }
-
-        return call_user_func_array([$this, $name], $args);
-    }
-
     public function route(\Closure $closure): void
     {
         $this->app->router->group(['namespace' => $this->cms_config['base.controller_namespace']], $closure);
+    }
+
+    public function registerErrorHandler(string $class_name): void
+    {
+        $this->app->singleton(\Illuminate\Contracts\Debug\ExceptionHandler::class, $class_name);
+    }
+
+    public function registerConsoleKernel(string $class_name): void
+    {
+        $this->app->singleton(\Illuminate\Contracts\Console\Kernel::class, $class_name);
     }
 }
