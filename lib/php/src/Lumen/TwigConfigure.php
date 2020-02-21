@@ -117,10 +117,10 @@ class TwigConfigure
                     'TwigBridge\Extension\Laravel\Config',
                     'TwigBridge\Extension\Laravel\Dump',
                     'TwigBridge\Extension\Laravel\Input',
-                    'TwigBridge\Extension\Laravel\Session',
+                    // 'TwigBridge\Extension\Laravel\Session',
                     'TwigBridge\Extension\Laravel\Str',
-                    'TwigBridge\Extension\Laravel\Translator',
-                    'TwigBridge\Extension\Laravel\Url',
+                    // 'TwigBridge\Extension\Laravel\Translator',
+                    // 'TwigBridge\Extension\Laravel\Url',
                     // 'TwigBridge\Extension\Laravel\Model',
                     // 'TwigBridge\Extension\Laravel\Gate',
 
