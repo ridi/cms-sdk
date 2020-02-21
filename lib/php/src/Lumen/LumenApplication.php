@@ -60,7 +60,7 @@ class LumenApplication
             /** @var FileViewFinder $finder */
             return $finder->setPaths($view_paths);
         });
-        config(['view.paths', $view_paths]);
+        config(['view.paths' => $view_paths]);
 
         TwigConfigure::buildConfigure($this->app, $this->cms_config);
         $this->app->middleware([CmsMenuMiddleware::class]);
