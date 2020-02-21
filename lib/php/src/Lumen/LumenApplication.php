@@ -46,6 +46,7 @@ class LumenApplication
     private function lumenBootstrap(): void
     {
         (new LoadEnvironmentVariables($this->cms_config['base.path']))->bootstrap();
+        $_ENV['APP_DEBUG'] = $this->cms_config['debug']; // override debug mode
         $this->app = new Application($this->cms_config['base.path']);
 
         $this->app->withFacades();
