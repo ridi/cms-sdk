@@ -36,9 +36,6 @@ class LumenApplication
         $this->cms_config = array_merge(self::DEFAULT_CONFIG, $cms_config);
         CmsApplication::initializeServices($this->cms_config);
 
-        $request = Request::createFromGlobals();
-        MiniRouter::shouldRedirectForLogin($request);
-
         $this->lumenBootstrap();
         $this->setupView();
     }
@@ -97,6 +94,11 @@ class LumenApplication
         $filters = config($config_key);
         $filters[$function_name] = $closure;
         config([$config_key => $filters]);
+    }
+
+    public function enableCmsAuthorizationMiddleware(): void
+    {
+        $this->app->middleware([CmsAuthorizationMiddleware::class]);
     }
 
     public function run(): void
