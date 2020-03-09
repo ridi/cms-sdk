@@ -7,24 +7,10 @@ use Illuminate\View\FileViewFinder;
 use Laravel\Lumen\Application;
 use Laravel\Lumen\Bootstrap\LoadEnvironmentVariables;
 use Ridibooks\Cms\CmsApplication;
-use Ridibooks\Cms\MiniRouter;
-use Symfony\Component\HttpFoundation\Request;
+use Ridibooks\Cms\Constants\CmsConfigConst;
 
 class LumenApplication
 {
-    const DEFAULT_CONFIG = [
-        'debug' => false,
-        'base.path' => '',
-        'base.controller_namespace' => '',
-        'twig.path' => [],
-        'twig.globals' => [],
-        'thrift.rpc_url' => '',
-        'thrift.rpc_secret' => '',
-        'auth.cf_access_domain' => '',
-        'auth.cf_audience_tag' => '',
-        'auth.test_id' => '',
-    ];
-
     /** @var Application */
     public $app;
 
@@ -33,7 +19,7 @@ class LumenApplication
 
     public function __construct(array $cms_config)
     {
-        $this->cms_config = array_merge(self::DEFAULT_CONFIG, $cms_config);
+        $this->cms_config = array_merge(CmsConfigConst::DEFAULT_CONFIG, $cms_config);
         CmsApplication::initializeServices($this->cms_config);
 
         $this->lumenBootstrap();
@@ -42,9 +28,9 @@ class LumenApplication
 
     private function lumenBootstrap(): void
     {
-        (new LoadEnvironmentVariables($this->cms_config['base.path']))->bootstrap();
-        $_ENV['APP_DEBUG'] = $this->cms_config['debug']; // override debug mode
-        $this->app = new Application($this->cms_config['base.path']);
+        (new LoadEnvironmentVariables($this->cms_config[CmsConfigConst::BASE_PATH]))->bootstrap();
+        $_ENV['APP_DEBUG'] = $this->cms_config[CmsConfigConst::DEBUG]; // override debug mode
+        $this->app = new Application($this->cms_config[CmsConfigConst::BASE_PATH]);
 
         $this->app->withFacades();
     }
@@ -52,7 +38,7 @@ class LumenApplication
     private function setupView(): void
     {
         // not use lumen view folder
-        $view_paths = array_filter(array_merge($this->cms_config['twig.path'], [__DIR__ . '/../../views/']));
+        $view_paths = array_filter(array_merge($this->cms_config[CmsConfigConst::TWIG_PATH], [__DIR__ . '/../../views/']));
         $this->app->extend('view.finder', function ($finder, $app) use ($view_paths) {
             /** @var FileViewFinder $finder */
             return $finder->setPaths($view_paths);
@@ -65,7 +51,7 @@ class LumenApplication
 
     public function route(\Closure $closure): void
     {
-        $this->app->router->group(['namespace' => $this->cms_config['base.controller_namespace']], $closure);
+        $this->app->router->group(['namespace' => $this->cms_config[CmsConfigConst::BASE_CONTROLLER_NAMESPACE]], $closure);
     }
 
     public function registerErrorHandler(string $class_name): void

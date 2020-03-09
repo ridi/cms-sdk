@@ -2,6 +2,7 @@
 namespace Ridibooks\Cms;
 
 use Ridibooks\Cms\Auth\AdminAuthService;
+use Ridibooks\Cms\Constants\CmsConfigConst;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -104,7 +105,7 @@ class MiniRouter
             'view_root_path' => [$this->view_dir, __DIR__ . '/../views/'],
         ]));
 
-        $globals = $this->cms_config['twig.globals'] ?? [];
+        $globals = $this->cms_config[CmsConfigConst::TWIG_GLOBALS] ?? [];
         $globals = array_merge($globals, [
             'menus' => (new AdminAuthService())->getAdminMenu()
         ]);
