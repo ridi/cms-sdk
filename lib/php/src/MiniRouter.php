@@ -2,6 +2,7 @@
 namespace Ridibooks\Cms;
 
 use Ridibooks\Cms\Auth\AdminAuthService;
+use Ridibooks\Cms\Constants\CmsConfigConst;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,28 +11,20 @@ class MiniRouter
     private $prefix_uri;
     private $controller_dir;
     private $view_dir;
-    /**
-     * @var array
-     */
-    private $app;
     private $cms_config;
 
     public function __construct($controller_dir, $view_dir, $prefix_uri = '', $cms_config = [])
     {
         $this->controller_dir = $controller_dir;
         $this->view_dir = $view_dir;
-        $this->prefix_uri = self::getNormalizedUri($prefix_uri);
+        $this->prefix_uri = $this->getNormalizedUri($prefix_uri);
         $this->cms_config = $cms_config;
         CmsApplication::initializeServices($cms_config);
     }
 
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function route(Request $request)
+    public function route(Request $request): Response
     {
-        $request_uri_wo_qs = self::getNormalizedUri($request->getRequestUri());
+        $request_uri_wo_qs = $this->getNormalizedUri($request->getRequestUri());
 
         // 기존 Router에서는 PHP_SELF와 Query String제외된 REQUEST_URI가 서로 같았으나
         // Routing 방식이 변경되면서 PHP_SELF는 이제 mini_router.php가 들어감
@@ -41,14 +34,14 @@ class MiniRouter
 
         // 보안상 URL에 .나 ..가 있으면 무조건 404 표시
         if (preg_match('/\/\.+/', $request_uri_wo_qs) > 0) {
-            return self::notFound();
+            return $this->notFound();
         }
 
         if (empty($this->prefix_uri)) {
             $controller_path = $request_uri_wo_qs;
         } else {
             if (substr($request_uri_wo_qs, 0, strlen($this->prefix_uri)) !== $this->prefix_uri) {
-                return self::notFound();
+                return $this->notFound();
             }
 
             $controller_path = substr($request_uri_wo_qs, strlen($this->prefix_uri));
@@ -68,7 +61,7 @@ class MiniRouter
         } elseif ($return_value instanceof Response) {
             return $return_value;
         } elseif ($return_value === false) {
-            return self::notFound();
+            return $this->notFound();
         } else {
             // 리턴값이 아예 없는 페이지도 있어서 호환성 유지 위해
             return Response::create('', http_response_code());
@@ -93,7 +86,7 @@ class MiniRouter
     {
         $controller_file_path = $this->controller_dir . '/' . $query . ".php";
         if (!is_file($controller_file_path)) {
-            return self::notFound();
+            return $this->notFound();
         }
 
         return include $controller_file_path;
@@ -104,20 +97,26 @@ class MiniRouter
      * @param array $args
      * @return Response
      */
-    private function callView($query, $args)
+    private function callView($query, $args): Response
     {
         $view_file_name = $query . '.twig';
 
-        $app = new CmsApplication(array_merge($this->cms_config, [
-            'twig.path' => [$this->view_dir],
+        $twig = new TwigHelper(array_merge($this->cms_config, [
+            'view_root_path' => [$this->view_dir, __DIR__ . '/../views/'],
         ]));
-        /** @var \Twig_Environment $twig_helper */
-        $twig_helper = $app['twig'];
 
-        return Response::create($twig_helper->render($view_file_name, $args));
+        $globals = $this->cms_config[CmsConfigConst::TWIG_GLOBALS] ?? [];
+        $globals = array_merge($globals, [
+            'menus' => (new AdminAuthService())->getAdminMenu()
+        ]);
+        foreach ($globals as $k => $v) {
+            $twig->addGlobal($k, $v);
+        }
+
+        return Response::create($twig->render($view_file_name, $args));
     }
 
-    private static function notFound()
+    private function notFound(): Response
     {
         return Response::create('<meta http-equiv="refresh" content="5;url=' . htmlspecialchars('http://' . $_SERVER['HTTP_HOST']) .
             '"> 페이지를 찾을 수 없습니다. URL이 변경되었을 수 있습니다. 오류라고 생각되시면 담당자에게 문의해 주세요.<br />' .
@@ -128,7 +127,7 @@ class MiniRouter
      * @param $uri
      * @return string trailing /, 중복 /, query string이 제거된 uri
      */
-    private static function getNormalizedUri($uri)
+    private function getNormalizedUri($uri): string
     {
         $normalized_uri = preg_replace('#/+#', '/', strtok($uri, '?'));
         if (substr($normalized_uri, 0, 1) !== '/') {

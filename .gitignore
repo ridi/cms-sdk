@@ -6,6 +6,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# IDE
+.idea
+
 # php
 composer.lock
 vendor
