@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- [PHP] Remove `silex/silex` package dependency
+- [PHP] Support `laravel/lumen-framework`  package
+  - Add `LumenApplication` class for Lumen framework
+
 ## [3.0.4] - 2020-03-02
 - [PHP] Fix incorrect parsing of cms secret
 
