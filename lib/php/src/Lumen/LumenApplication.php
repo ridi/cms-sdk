@@ -24,6 +24,7 @@ class LumenApplication
 
         $this->lumenBootstrap();
         $this->setupView();
+        $this->enableMiddleware();
     }
 
     private function lumenBootstrap(): void
@@ -46,7 +47,6 @@ class LumenApplication
         config(['view.paths' => $view_paths]);
 
         TwigConfigure::buildConfigure($this->app, $this->cms_config);
-        $this->app->middleware([CmsMenuMiddleware::class]);
     }
 
     public function route(\Closure $closure): void
@@ -82,9 +82,10 @@ class LumenApplication
         config([$config_key => $filters]);
     }
 
-    public function enableCmsAuthorizationMiddleware(): void
+    private function enableMiddleware(): void
     {
         $this->app->middleware([CmsAuthorizationMiddleware::class]);
+        $this->app->middleware([CmsMenuMiddleware::class]);
     }
 
     public function run(): void
