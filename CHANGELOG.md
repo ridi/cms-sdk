@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.1.0] - 2020-03-31
+- [PHP] Change `symfony/http-foundation` package version
+  - Support Lumen Framework 7.x
+
 ## [4.0.1] - 2020-03-18
 - [PHP] Move middleware enable code
 

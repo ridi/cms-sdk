@@ -7,7 +7,7 @@
     "apache/thrift": "^0.10.0",
     "firebase/php-jwt": "^4.0.0",
     "twig/twig": "^2.0",
-    "symfony/http-foundation": "^4.3"
+    "symfony/http-foundation": "^4.3|^5.0.7"
   },
   "suggest": {
     "laravel/lumen-framework": "Needed to use LumenApplication",
