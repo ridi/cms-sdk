@@ -48,8 +48,8 @@ class LoginService
         }
 
         $validator = new CFJwtValidator();
-        $key = $validator->getPublicKey(self::$cf_access_domain);
-        $decoded = $validator->decodeJwt($token, $key, self::$cf_audience_tag);
+        $keys = $validator->getPublicKeys(self::$cf_access_domain);
+        $decoded = $validator->decodeJwt($token, $keys, self::$cf_audience_tag);
         self::$admin_id = explode('@', $decoded->email)[0];
 
         return self::$admin_id;
