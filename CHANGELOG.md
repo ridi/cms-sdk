@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.1.4] - 2020-07-10
+- [JS] Fix a problem that occurred when CMS rpc endpoint has HTTPS protocol  
+
 ## [4.1.3] - 2020-07-10
 - [JS] Support Cloudflare authorization 
 
