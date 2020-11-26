@@ -95,14 +95,11 @@ class CmsApplication extends Application
             'twig',
             function (\Twig_Environment $twig) {
                 $cache = new ApcuAdapter();
-                $key = 'menu';
-
-                $menu = $cache->get($key, function (ItemInterface $item) {
+                $menu = $cache->get('menu', function (ItemInterface $item) {
                     $ttl = empty($this['debug']) ? 1*60 : 24*3600;
                     $item->expiresAfter($ttl);
 
-                    $result = (new AdminAuthService())->getAdminMenu();
-                    return $result;
+                    return (new AdminAuthService())->getAdminMenu();
                 });
                 $globals = $this['twig.globals'] ?? [];
                 $globals = array_merge($globals, [
