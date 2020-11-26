@@ -8,9 +8,11 @@ use Silex\Application;
 use Silex\Application\TwigTrait;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class CmsApplication extends Application
 {
@@ -92,9 +94,19 @@ class CmsApplication extends Application
         $this->extend(
             'twig',
             function (\Twig_Environment $twig) {
+                $cache = new ApcuAdapter();
+                $key = 'menu';
+
+                $menu = $cache->get($key, function (ItemInterface $item) {
+                    $ttl = empty($this['debug']) ? 1*60 : 24*3600;
+                    $item->expiresAfter($ttl);
+
+                    $result = (new AdminAuthService())->getAdminMenu();
+                    return $result;
+                });
                 $globals = $this['twig.globals'] ?? [];
                 $globals = array_merge($globals, [
-                    'menus' => (new AdminAuthService())->getAdminMenu()
+                    'menus' => $menu
                 ]);
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);
