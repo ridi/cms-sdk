@@ -1,6 +1,7 @@
 <?php
 namespace Ridibooks\Cms;
 
+use Psr\Cache\CacheItemPoolInterface;
 use Ridibooks\Cms\Auth\AdminAuthService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,13 +16,20 @@ class MiniRouter
      */
     private $app;
     private $cms_config;
+    private $cache;
 
-    public function __construct($controller_dir, $view_dir, $prefix_uri = '', $cms_config = [])
-    {
+    public function __construct(
+        $controller_dir,
+        $view_dir,
+        $prefix_uri = '',
+        $cms_config = [],
+        CacheItemPoolInterface $cache
+    ) {
         $this->controller_dir = $controller_dir;
         $this->view_dir = $view_dir;
         $this->prefix_uri = self::getNormalizedUri($prefix_uri);
         $this->cms_config = $cms_config;
+        $this->cache = $cache;
         CmsApplication::initializeServices($cms_config);
     }
 
@@ -110,7 +118,7 @@ class MiniRouter
 
         $app = new CmsApplication(array_merge($this->cms_config, [
             'twig.path' => [$this->view_dir],
-        ]));
+        ]), $this->cache);
         /** @var \Twig_Environment $twig_helper */
         $twig_helper = $app['twig'];
 

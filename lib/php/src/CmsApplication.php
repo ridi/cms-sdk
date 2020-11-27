@@ -1,6 +1,7 @@
 <?php
 namespace Ridibooks\Cms;
 
+use Psr\Cache\CacheItemPoolInterface;
 use Ridibooks\Cms\Auth\AdminAuthService;
 use Ridibooks\Cms\Auth\LoginService;
 use Ridibooks\Cms\Thrift\ThriftService;
@@ -8,11 +9,9 @@ use Silex\Application;
 use Silex\Application\TwigTrait;
 use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
-use Symfony\Component\Cache\Adapter\ApcuAdapter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBag;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Contracts\Cache\ItemInterface;
 
 class CmsApplication extends Application
 {
@@ -29,7 +28,7 @@ class CmsApplication extends Application
         'auth.test_id' => '',
     ];
 
-    public function __construct(array $values = [])
+    public function __construct(array $values = [], CacheItemPoolInterface $cache)
     {
         parent::__construct(array_merge(
             self::DEFAULT_CONFIG, 
@@ -38,7 +37,7 @@ class CmsApplication extends Application
 
         $this->setDefaultErrorHandler();
         self::initializeServices($this);
-        $this->registerTwigServiceProvider();
+        $this->registerTwigServiceProvider($cache);
         $this->registerSessionServiceProvider();
     }
 
@@ -72,7 +71,7 @@ class CmsApplication extends Application
         });
     }
 
-    private function registerTwigServiceProvider()
+    private function registerTwigServiceProvider(CacheItemPoolInterface $cache)
     {
         $this->register(
             new TwigServiceProvider(), [
@@ -93,8 +92,7 @@ class CmsApplication extends Application
         // see http://silex.sensiolabs.org/doc/providers/twig.html#customization
         $this->extend(
             'twig',
-            function (\Twig_Environment $twig) {
-                $cache = new ApcuAdapter('menu');
+            function (\Twig_Environment $twig) use ($cache) {
                 $cached_menu = $cache->getItem('menu');
                 if (!$cached_menu->isHit()) {
                     $menu = (new AdminAuthService())->getAdminMenu();
