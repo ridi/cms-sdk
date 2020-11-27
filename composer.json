@@ -8,7 +8,7 @@
     "firebase/php-jwt": "^4.0.0",
     "silex/silex": "^2.0",
     "twig/twig": "^2.0",
-    "symfony/cache": "~3.4"
+    "symfony/cache": "^3.4"
   },
   "autoload": {
     "psr-4": {

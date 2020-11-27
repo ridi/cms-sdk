@@ -106,7 +106,7 @@ class CmsApplication extends Application
 
                 $globals = $this['twig.globals'] ?? [];
                 $globals = array_merge($globals, [
-                    'menus' => $cached_menu
+                    'menus' => $cached_menu->get()
                 ]);
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);
