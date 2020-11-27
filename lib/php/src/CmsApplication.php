@@ -1,6 +1,7 @@
 <?php
 namespace Ridibooks\Cms;
 
+use Psr\Cache\CacheItemPoolInterface;
 use Ridibooks\Cms\Auth\AdminAuthService;
 use Ridibooks\Cms\Auth\LoginService;
 use Ridibooks\Cms\Thrift\ThriftService;
@@ -27,7 +28,7 @@ class CmsApplication extends Application
         'auth.test_id' => '',
     ];
 
-    public function __construct(array $values = [])
+    public function __construct(array $values = [], CacheItemPoolInterface $cache)
     {
         parent::__construct(array_merge(
             self::DEFAULT_CONFIG, 
@@ -36,7 +37,7 @@ class CmsApplication extends Application
 
         $this->setDefaultErrorHandler();
         self::initializeServices($this);
-        $this->registerTwigServiceProvider();
+        $this->registerTwigServiceProvider($cache);
         $this->registerSessionServiceProvider();
     }
 
@@ -70,7 +71,7 @@ class CmsApplication extends Application
         });
     }
 
-    private function registerTwigServiceProvider()
+    private function registerTwigServiceProvider(CacheItemPoolInterface $cache)
     {
         $this->register(
             new TwigServiceProvider(), [
@@ -91,10 +92,20 @@ class CmsApplication extends Application
         // see http://silex.sensiolabs.org/doc/providers/twig.html#customization
         $this->extend(
             'twig',
-            function (\Twig_Environment $twig) {
+            function (\Twig_Environment $twig) use ($cache) {
+                $cached_menu = $cache->getItem('menu');
+                if (!$cached_menu->isHit()) {
+                    $menu = (new AdminAuthService())->getAdminMenu();
+                    $cached_menu->set($menu);
+
+                    $under_dev = $this['debug'] ?? false;
+                    $cached_menu->expiresAfter($under_dev ? 24*3600 : 1*60);
+                    $cache->save($cached_menu);
+                }
+
                 $globals = $this['twig.globals'] ?? [];
                 $globals = array_merge($globals, [
-                    'menus' => (new AdminAuthService())->getAdminMenu()
+                    'menus' => $cached_menu->get()
                 ]);
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);
