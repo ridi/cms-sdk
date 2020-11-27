@@ -99,9 +99,7 @@ class CmsApplication extends Application
                     $cached_menu->set($menu);
 
                     $under_dev = $this['debug'] ?? false;
-                    if ($under_dev) {
-                        $cached_menu->expiresAfter(24*3600);
-                    }
+                    $cached_menu->expiresAfter($under_dev ? 24*3600 : 1*60);
                     $cache->save($cached_menu);
                 }
 
