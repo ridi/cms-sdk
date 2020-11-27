@@ -93,19 +93,26 @@ class CmsApplication extends Application
         $this->extend(
             'twig',
             function (\Twig_Environment $twig) use ($cache) {
-                $cached_menu = $cache->getItem('menu');
-                if (!$cached_menu->isHit()) {
-                    $menu = (new AdminAuthService())->getAdminMenu();
-                    $cached_menu->set($menu);
+                $under_dev = $this['debug'] ?? false;
+                if ($under_dev) {
+                    $cached_menu = $cache->getItem('menu');
 
-                    $under_dev = $this['debug'] ?? false;
-                    $cached_menu->expiresAfter($under_dev ? 24*3600 : 1*60);
-                    $cache->save($cached_menu);
+                    if (!$cached_menu->isHit()) {
+                        $menu = (new AdminAuthService())->getAdminMenu();
+                        $cached_menu->set($menu);
+
+                        $cached_menu->expiresAfter($under_dev ? 24*3600 : 1*60);
+                        $cache->save($cached_menu);
+
+                        $menu = $cached_menu->get();
+                    }
+                } else {
+                    $menu = (new AdminAuthService())->getAdminMenu();
                 }
 
                 $globals = $this['twig.globals'] ?? [];
                 $globals = array_merge($globals, [
-                    'menus' => $cached_menu->get()
+                    'menus' => $menu
                 ]);
                 foreach ($globals as $k => $v) {
                     $twig->addGlobal($k, $v);
