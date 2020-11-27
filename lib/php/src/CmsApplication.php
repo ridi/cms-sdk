@@ -97,8 +97,9 @@ class CmsApplication extends Application
                 if (!$cached_menu->isHit()) {
                     $menu = (new AdminAuthService())->getAdminMenu();
                     $cached_menu->set($menu);
-
-                    $cached_menu->expiresAfter($this['debug'] ? 1*60 : 24*3600);
+                    
+                    $under_dev = $this['debug'] ?? false;
+                    $cached_menu->expiresAfter($under_dev ? 1*60 : 24*3600);
                     $cache->save($cached_menu);
                 }
 
