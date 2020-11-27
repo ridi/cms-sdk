@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ## [3.1] - 2020-11-27
+### Changed
 - [BC BREAK] [PHP] Add cache for getting cms menu 
 (you must inject PSR-6 implementation to CmsApplication)
 
