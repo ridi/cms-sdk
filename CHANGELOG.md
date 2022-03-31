@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [4.1.5] - 2020-07-10
+- [JS] Fix cms-ui version to 0.3.12 
+
 ## [4.1.4] - 2020-07-10
 - [JS] Fix a problem that occurred when CMS rpc endpoint has HTTPS protocol  
 
