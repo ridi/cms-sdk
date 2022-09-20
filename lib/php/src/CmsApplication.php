@@ -23,9 +23,7 @@ class CmsApplication extends Application
         'twig.globals' => [],
         'thrift.rpc_url' => '',
         'thrift.rpc_secret' => '',
-        'auth.cf_access_domain' => '',
-        'auth.cf_audience_tag' => '',
-        'auth.test_id' => '',
+        'auth.admin_id' => '',
     ];
 
     public function __construct(array $values = [], CacheItemPoolInterface $cache)
@@ -45,15 +43,8 @@ class CmsApplication extends Application
     {
         ThriftService::setEndPoint($cms_config['thrift.rpc_url'], $cms_config['thrift.rpc_secret']); 
 
-        $test_id = '';
-        if (!empty($cms_config['debug'])) {
-            $test_id = $cms_config['auth.test_id'];
-        }
-        LoginService::initialize(
-            $cms_config['auth.cf_access_domain'] ?? '',
-            $cms_config['auth.cf_audience_tag'] ?? '',
-            $test_id
-        );
+        $admin_id = $cms_config['auth.admin_id'];
+        LoginService::initialize($admin_id);
     }
 
     private function setDefaultErrorHandler()
