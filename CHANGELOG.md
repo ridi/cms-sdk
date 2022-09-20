@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [3.2.0] - 2022-09-20
+### Removed
+- [BC BREAK] [PHP] Remove cloudflare access
+
 ## [3.1.1] - 2020-11-27
 ### Changed
 - [PHP] Disable cache on non-debug mode
