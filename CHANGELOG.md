@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [5.0.0] - 2023-05-09
+- [PHP] Authenticate using x-auth-* headers instead of Cloudflare
+
+## [4.1.5] - 2022-03-31
+- [PHP] Change title and update cms-ui version
+
 ## [4.1.4] - 2020-07-10
 - [JS] Fix a problem that occurred when CMS rpc endpoint has HTTPS protocol  
 

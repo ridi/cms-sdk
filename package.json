@@ -1,6 +1,6 @@
 {
   "name": "@ridi/cms-sdk",
-  "version": "4.1.5",
+  "version": "5.0.0",
   "description": "Ridibooks CMS SDK",
   "main": "./lib/js/dist/index.js",
   "dependencies": {

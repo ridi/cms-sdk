@@ -6,16 +6,13 @@ use Ridibooks\Cms\Thrift\Errors\NoTokenException;
 
 class LoginService
 {
-    const TOKEN_COOKIE_NAME = 'CF_Authorization';
+    const X_AUTH_REQUEST_EMAIL = 'x-auth-request-email';
+    const X_AUTH_REQUEST_ACCESS_TOKEN = 'x-auth-request-access-token';
 
-    private static $admin_id = '';
-    private static $cf_access_domain = '';
-    private static $cf_audience_tag = '';
+    private static string $admin_id = '';
 
-    public static function initialize(string $cf_access_domain, string $cf_audience_tag, ?string $test_id)
+    public static function initialize(?string $test_id)
     {
-        self::$cf_access_domain = $cf_access_domain;
-        self::$cf_audience_tag = $cf_audience_tag;
         if (empty(self::$admin_id)) {
             self::$admin_id = $test_id;
         }
@@ -31,9 +28,16 @@ class LoginService
         self::$admin_id = $admin_id;
     }
 
+    public static function getEmail()
+    {
+        $headers = getallheaders();
+        return $headers[self::X_AUTH_REQUEST_EMAIL] ?? '';
+    }
+
     public static function getAccessToken()
     {
-        return $_COOKIE[self::TOKEN_COOKIE_NAME] ?? '';
+        $headers = getallheaders();
+        return $headers[self::X_AUTH_REQUEST_ACCESS_TOKEN] ?? '';
     }
 
     public static function authenticate(): string
@@ -42,15 +46,13 @@ class LoginService
             return self::$admin_id;
         }
 
+        $email = self::getEmail();
         $token = self::getAccessToken();
-        if (empty($token)) {
-            throw new NoTokenException('No cloudflare token exists');
+        if (empty($token) || empty($email)) {
+            throw new NoTokenException('No token in request header');
         }
 
-        $validator = new CFJwtValidator();
-        $keys = $validator->getPublicKeys(self::$cf_access_domain);
-        $decoded = $validator->decodeJwt($token, $keys, self::$cf_audience_tag);
-        self::$admin_id = explode('@', $decoded->email)[0];
+        self::$admin_id = explode('@', $email);
 
         return self::$admin_id;
     }
